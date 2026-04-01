@@ -1,0 +1,304 @@
+title: 'Page Content'
+fields:
+  -
+    handle: page_content
+    field:
+      type: bard
+      display: 'Page Content'
+      instructions: 'Build the page by adding content blocks below.'
+      buttons:
+        - bold
+        - italic
+        - unorderedlist
+        - orderedlist
+        - anchor
+      enable_input_rules: true
+      enable_paste_rules: true
+      remove_empty_nodes: false
+      save_html: false
+      toolbar_mode: fixed
+      reading_time: false
+      fullscreen: true
+      allow_source: false
+      sets:
+        main:
+          display: 'Content Blocks'
+          instructions: null
+          icon: null
+          sets:
+            hero:
+              display: 'Hero Banner'
+              icon: media-image-pictures-stack
+              instructions: 'Full-width hero section with heading, image, and call-to-action.'
+              fields:
+                -
+                  handle: heading
+                  field:
+                    type: text
+                    display: Heading
+                    instructions: 'Main hero heading text.'
+                    validate:
+                      - required
+                      - 'max:120'
+                -
+                  handle: subheading
+                  field:
+                    type: text
+                    display: Subheading
+                    instructions: 'Supporting text beneath the heading.'
+                    validate:
+                      - 'max:200'
+                -
+                  handle: background_image
+                  field:
+                    type: assets
+                    display: 'Background Image'
+                    instructions: 'Hero background image. Recommended size: 1920x800px.'
+                    max_files: 1
+                    validate:
+                      - required
+                -
+                  handle: cta_text
+                  field:
+                    type: text
+                    display: 'CTA Button Text'
+                    instructions: 'Text for the call-to-action button.'
+                    validate:
+                      - 'max:60'
+                -
+                  handle: cta_link
+                  field:
+                    type: link
+                    display: 'CTA Link'
+                    instructions: 'Where the CTA button links to.'
+            text_block:
+              display: 'Text Block'
+              icon: text-formatting-left-align
+              instructions: 'A rich text content block.'
+              fields:
+                -
+                  handle: body
+                  field:
+                    type: bard
+                    display: Body
+                    instructions: 'Rich text content - bold, italic, links, and lists are available.'
+                    buttons:
+                      - bold
+                      - italic
+                      - unorderedlist
+                      - orderedlist
+                      - anchor
+                    allow_source: false
+                    save_html: false
+                    validate:
+                      - required
+            image:
+              display: Image
+              icon: media-image-picture-landscape
+              instructions: 'A single image with optional alt text and caption.'
+              fields:
+                -
+                  handle: image
+                  field:
+                    type: assets
+                    display: Image
+                    instructions: 'Select or upload an image.'
+                    max_files: 1
+                    validate:
+                      - required
+                -
+                  handle: alt_text
+                  field:
+                    type: text
+                    display: 'Alt Text'
+                    instructions: 'Describe the image for accessibility and SEO.'
+                    validate:
+                      - required
+                      - 'max:200'
+                -
+                  handle: caption
+                  field:
+                    type: text
+                    display: Caption
+                    instructions: 'Optional caption displayed below the image.'
+                    validate:
+                      - 'max:300'
+            image_text:
+              display: 'Image + Text'
+              icon: content-image-inline-text
+              instructions: 'Side-by-side image and text block.'
+              fields:
+                -
+                  handle: image
+                  field:
+                    type: assets
+                    display: Image
+                    instructions: 'Select or upload an image.'
+                    max_files: 1
+                    validate:
+                      - required
+                -
+                  handle: alt_text
+                  field:
+                    type: text
+                    display: 'Alt Text'
+                    instructions: 'Describe the image for accessibility and SEO.'
+                    validate:
+                      - required
+                      - 'max:200'
+                -
+                  handle: body
+                  field:
+                    type: bard
+                    display: Body
+                    instructions: 'Text content displayed alongside the image.'
+                    buttons:
+                      - bold
+                      - italic
+                      - unorderedlist
+                      - orderedlist
+                      - anchor
+                    allow_source: false
+                    save_html: false
+                    validate:
+                      - required
+                -
+                  handle: image_position
+                  field:
+                    type: button_group
+                    display: 'Image Position'
+                    instructions: 'Which side should the image appear on?'
+                    options:
+                      left: Left
+                      right: Right
+                    default: left
+                    validate:
+                      - required
+            cta_banner:
+              display: 'Call to Action'
+              icon: alert-megaphone
+              instructions: 'A prominent banner with heading, text, and a button.'
+              fields:
+                -
+                  handle: heading
+                  field:
+                    type: text
+                    display: Heading
+                    instructions: 'Banner heading text.'
+                    validate:
+                      - required
+                      - 'max:120'
+                -
+                  handle: body
+                  field:
+                    type: text
+                    display: Body
+                    instructions: 'Short supporting text for the banner.'
+                    validate:
+                      - 'max:300'
+                -
+                  handle: button_text
+                  field:
+                    type: text
+                    display: 'Button Text'
+                    instructions: 'Label for the CTA button.'
+                    validate:
+                      - required
+                      - 'max:60'
+                -
+                  handle: button_link
+                  field:
+                    type: link
+                    display: 'Button Link'
+                    instructions: 'Where the button links to.'
+                    validate:
+                      - required
+                -
+                  handle: style
+                  field:
+                    type: button_group
+                    display: Style
+                    instructions: 'Visual style for the banner.'
+                    options:
+                      primary: Primary
+                      secondary: Secondary
+                    default: primary
+                    validate:
+                      - required
+            product_highlight:
+              display: 'Product Highlight'
+              icon: shopping-bag
+              instructions: 'Showcase up to 4 products from the shop.'
+              fields:
+                -
+                  handle: products
+                  field:
+                    type: entries
+                    display: Products
+                    instructions: 'Select up to 4 products to feature.'
+                    collections:
+                      - products
+                    max_items: 4
+                    validate:
+                      - required
+            faq_group:
+              display: 'FAQ Group'
+              icon: information-chat-bubble
+              instructions: 'A group of frequently asked questions with answers.'
+              fields:
+                -
+                  handle: items
+                  field:
+                    type: replicator
+                    display: 'FAQ Items'
+                    instructions: 'Add question and answer pairs.'
+                    sets:
+                      faq_item:
+                        display: 'FAQ Item'
+                        fields:
+                          -
+                            handle: question
+                            field:
+                              type: text
+                              display: Question
+                              instructions: 'The question being answered.'
+                              validate:
+                                - required
+                                - 'max:200'
+                          -
+                            handle: answer
+                            field:
+                              type: textarea
+                              display: Answer
+                              instructions: 'The answer to the question.'
+                              validate:
+                                - required
+                    validate:
+                      - required
+            gallery:
+              display: Gallery
+              icon: media-image-pictures-stack
+              instructions: 'A grid of images - great for showcasing products or spaces.'
+              fields:
+                -
+                  handle: images
+                  field:
+                    type: assets
+                    display: Images
+                    instructions: 'Select up to 12 images for the gallery.'
+                    max_files: 12
+                    validate:
+                      - required
+                -
+                  handle: columns
+                  field:
+                    type: button_group
+                    display: Columns
+                    instructions: 'How many columns to display the images in.'
+                    options:
+                      '2': '2'
+                      '3': '3'
+                      '4': '4'
+                    default: '3'
+                    validate:
+                      - required

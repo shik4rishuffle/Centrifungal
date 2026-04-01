@@ -1,0 +1,119 @@
+[
+  {
+    "id": "prod_001",
+    "name": "Pink Oyster Grow Log",
+    "slug": "pink-oyster-grow-log",
+    "category": "Grow Logs",
+    "description": "Beautiful clusters of vibrant pink oyster mushrooms. Fast-fruiting and perfect for beginners.",
+    "base_price_pence": 2495,
+    "images": [
+      {
+        "url": "/images/products/pink-oyster.jpg",
+        "alt": "Pink oyster mushroom grow log with vibrant pink clusters"
+      }
+    ],
+    "variants": [
+      {
+        "id": "var_001a",
+        "name": "Standard Log",
+        "price_pence": 2495,
+        "sku": "PO-STD-001",
+        "in_stock": true
+      },
+      {
+        "id": "var_001b",
+        "name": "Large Log",
+        "price_pence": 3495,
+        "sku": "PO-LRG-001",
+        "in_stock": true
+      }
+    ],
+    "badge": "popular"
+  },
+  {
+    "id": "prod_002",
+    "name": "Shiitake Grow Log",
+    "slug": "shiitake-grow-log",
+    "category": "Grow Logs",
+    "description": "Rich, umami-packed shiitake mushrooms grown on premium hardwood. A kitchen staple.",
+    "base_price_pence": 2995,
+    "images": [
+      {
+        "url": "/images/products/shiitake.jpg",
+        "alt": "Shiitake mushroom grow log with brown caps"
+      }
+    ],
+    "variants": [
+      {
+        "id": "var_002a",
+        "name": "Standard Log",
+        "price_pence": 2995,
+        "sku": "SH-STD-001",
+        "in_stock": true
+      },
+      {
+        "id": "var_002b",
+        "name": "Large Log",
+        "price_pence": 3995,
+        "sku": "SH-LRG-001",
+        "in_stock": false
+      }
+    ],
+    "badge": null
+  },
+  {
+    "id": "prod_003",
+    "name": "Lion's Mane Grow Log",
+    "slug": "lions-mane-grow-log",
+    "category": "Grow Logs",
+    "description": "Spectacular cascading white tendrils. Prized for flavour and known for cognitive benefits.",
+    "base_price_pence": 3495,
+    "images": [
+      {
+        "url": "/images/products/lions-mane.jpg",
+        "alt": "Lion's mane mushroom grow log with white cascading tendrils"
+      }
+    ],
+    "variants": [
+      {
+        "id": "var_003a",
+        "name": "Standard Log",
+        "price_pence": 3495,
+        "sku": "LM-STD-001",
+        "in_stock": true
+      }
+    ],
+    "badge": "new"
+  },
+  {
+    "id": "prod_004",
+    "name": "Blue Oyster Grow Log",
+    "slug": "blue-oyster-grow-log",
+    "category": "Grow Logs",
+    "description": "Gorgeous steel-blue caps with a delicate, mild flavour. Prolific fruiter in cooler conditions.",
+    "base_price_pence": 2495,
+    "images": [
+      {
+        "url": "/images/products/blue-oyster.jpg",
+        "alt": "Blue oyster mushroom grow log with steel-blue caps"
+      }
+    ],
+    "variants": [
+      {
+        "id": "var_004a",
+        "name": "Standard Log",
+        "price_pence": 2495,
+        "sku": "BO-STD-001",
+        "in_stock": true
+      },
+      {
+        "id": "var_004b",
+        "name": "Large Log",
+        "price_pence": 3495,
+        "sku": "BO-LRG-001",
+        "in_stock": true
+      }
+    ],
+    "badge": null
+  }
+]

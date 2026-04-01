@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Centrifungal - Component Library</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=DM+Serif+Display&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/reset.css">
+  <link rel="stylesheet" href="css/design-tokens.css">
+  <link rel="stylesheet" href="css/components.css">
+  <style>
+    body {
+      font-family: var(--font-body);
+      color: var(--color-text);
+      background: var(--color-surface);
+    }
+    .page-hero {
+      background: linear-gradient(135deg, var(--green-900), var(--green-700));
+      color: var(--color-text-on-dark);
+      padding: var(--space-3xl) var(--space-md);
+      text-align: center;
+    }
+    .page-hero h1 {
+      font-family: var(--font-heading);
+      font-size: var(--text-4xl);
+      margin-bottom: var(--space-sm);
+    }
+    .page-hero p {
+      font-size: var(--text-lg);
+      color: var(--neutral-300);
+      max-width: 600px;
+      margin: 0 auto;
+    }
+    /* Placeholder images for product cards */
+    .img-placeholder {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(135deg, var(--green-100), var(--gold-100));
+      color: var(--color-text-muted);
+      font-size: var(--text-3xl);
+    }
+    /* SVG icons inline */
+    .icon-svg {
+      width: 24px;
+      height: 24px;
+      fill: none;
+      stroke: currentColor;
+      stroke-width: 2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ================================================================
+       HEADER
+       ================================================================ -->
+  <header class="site-header" id="site-header">
+    <div class="site-header__inner">
+      <a href="#" class="site-header__logo">
+        <svg class="site-header__logo-icon" viewBox="0 0 36 36" fill="none">
+          <circle cx="18" cy="18" r="17" fill="var(--gold-500)" stroke="var(--gold-700)" stroke-width="2"/>
+          <path d="M18 8c-2 0-6 3-6 10 0 4 2 8 6 10 4-2 6-6 6-10 0-7-4-10-6-10z" fill="var(--green-700)" stroke="var(--green-900)" stroke-width="1"/>
+          <ellipse cx="18" cy="26" rx="8" ry="2" fill="var(--green-900)" opacity="0.3"/>
+        </svg>
+        Centrifungal
+      </a>
+      <nav class="site-header__nav" id="main-nav" aria-label="Main navigation">
+        <a href="#" class="site-header__nav-link site-header__nav-link--active">Home</a>
+        <a href="#" class="site-header__nav-link">Shop</a>
+        <a href="#" class="site-header__nav-link">About</a>
+        <a href="#" class="site-header__nav-link">Care Instructions</a>
+        <a href="#" class="site-header__nav-link">FAQ</a>
+        <a href="#" class="site-header__nav-link">Contact</a>
+      </nav>
+      <div class="site-header__actions">
+        <button class="site-header__cart" aria-label="Cart, 3 items">
+          <svg class="icon-svg" viewBox="0 0 24 24"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
+          <span class="site-header__cart-count">3</span>
+        </button>
+        <button class="site-header__hamburger" id="hamburger-btn" aria-expanded="false" aria-controls="main-nav" aria-label="Toggle menu">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Page Hero -->
+  <div class="page-hero">
+    <h1>Component Library</h1>
+    <p>All reusable UI components for the Centrifungal design system, shown in every state.</p>
+  </div>
+
+  <!-- Toast container (fixed) -->
+  <div class="toast-container" id="toast-container"></div>
+
+  <!-- ================================================================
+       BUTTONS
+       ================================================================ -->
+  <section class="demo-section">
+    <h2 class="demo-section__title">Buttons</h2>
+    <p class="demo-section__subtitle">Primary, secondary, outline, and ghost variants with three sizes and all interaction states.</p>
+
+    <div class="demo-label">Primary</div>
+    <div class="demo-row demo-row--align-center">
+      <button class="btn btn-primary btn-sm">Small</button>
+      <button class="btn btn-primary">Default</button>
+      <button class="btn btn-primary btn-lg">Large</button>
+      <button class="btn btn-primary" disabled>Disabled</button>
+    </div>
+
+    <div class="demo-label">Secondary</div>
+    <div class="demo-row demo-row--align-center">
+      <button class="btn btn-secondary btn-sm">Small</button>
+      <button class="btn btn-secondary">Default</button>
+      <button class="btn btn-secondary btn-lg">Large</button>
+      <button class="btn btn-secondary" disabled>Disabled</button>
+    </div>
+
+    <div class="demo-label">Outline</div>
+    <div class="demo-row demo-row--align-center">
+      <button class="btn btn-outline btn-sm">Small</button>
+      <button class="btn btn-outline">Default</button>
+      <button class="btn btn-outline btn-lg">Large</button>
+      <button class="btn btn-outline" disabled>Disabled</button>
+    </div>
+
+    <div class="demo-label">Ghost</div>
+    <div class="demo-row demo-row--align-center">
+      <button class="btn btn-ghost btn-sm">Small</button>
+      <button class="btn btn-ghost">Default</button>
+      <button class="btn btn-ghost btn-lg">Large</button>
+      <button class="btn btn-ghost" disabled>Disabled</button>
+    </div>
+  </section>
+
+  <!-- ================================================================
+       BADGES
+       ================================================================ -->
+  <section class="demo-section">
+    <h2 class="demo-section__title">Badges &amp; Tags</h2>
+    <p class="demo-section__subtitle">Small labels for product states and categories.</p>
+    <div class="demo-row demo-row--align-center">
+      <span class="badge badge--new">New</span>
+      <span class="badge badge--popular">Popular</span>
+      <span class="badge badge--out-of-stock">Out of Stock</span>
+      <span class="badge badge--default">Oyster</span>
+      <span class="badge badge--default">Indoor</span>
+    </div>
+  </section>
+
+  <!-- ================================================================
+       PRODUCT CARDS
+       ================================================================ -->
+  <section class="demo-section">
+    <h2 class="demo-section__title">Product Cards</h2>
+    <p class="demo-section__subtitle">Hover for the lift effect. Cards should feel like you want to pick them up.</p>
+    <div class="demo-card-grid">
+
+      <article class="product-card">
+        <div class="product-card__image">
+          <div class="img-placeholder">&#127812;</div>
+          <div class="product-card__badge">
+            <span class="badge badge--new">New</span>
+          </div>
+        </div>
+        <div class="product-card__body">
+          <span class="product-card__category">Oyster Mushroom</span>
+          <h3 class="product-card__title">Blue Oyster Grow Log</h3>
+          <div class="product-card__price">$34.99</div>
+        </div>
+        <div class="product-card__footer">
+          <button class="btn btn-primary">Add to Cart</button>
+        </div>
+      </article>
+
+      <article class="product-card">
+        <div class="product-card__image">
+          <div class="img-placeholder">&#127812;</div>
+          <div class="product-card__badge">
+            <span class="badge badge--popular">Popular</span>
+          </div>
+        </div>
+        <div class="product-card__body">
+          <span class="product-card__category">Shiitake</span>
+          <h3 class="product-card__title">Shiitake Oak Log - Large</h3>
+          <div class="product-card__price">$49.99 <span class="product-card__price-original">$59.99</span></div>
+        </div>
+        <div class="product-card__footer">
+          <button class="btn btn-primary">Add to Cart</button>
+        </div>
+      </article>
+
+      <article class="product-card">
+        <div class="product-card__image">
+          <div class="img-placeholder">&#127812;</div>
+          <div class="product-card__badge">
+            <span class="badge badge--out-of-stock">Out of Stock</span>
+          </div>
+        </div>
+        <div class="product-card__body">
+          <span class="product-card__category">Lion's Mane</span>
+          <h3 class="product-card__title">Lion's Mane Starter Kit</h3>
+          <div class="product-card__price">$39.99</div>
+        </div>
+        <div class="product-card__footer">
+          <button class="btn btn-primary" disabled>Out of Stock</button>
+        </div>
+      </article>
+
+    </div>
+  </section>
+
+  <!-- ================================================================
+       CONTENT CARDS
+       ================================================================ -->
+  <section class="demo-section">
+    <h2 class="demo-section__title">Content Cards</h2>
+    <p class="demo-section__subtitle">Informational cards with icon, title, and descriptive text.</p>
+    <div class="demo-card-grid">
+      <div class="content-card">
+        <div class="content-card__icon">&#127793;</div>
+        <h3 class="content-card__title">Easy to Grow</h3>
+        <p class="content-card__text">Our grow logs are pre-inoculated and ready to fruit. Just soak, place, and wait for your harvest.</p>
+      </div>
+      <div class="content-card">
+        <div class="content-card__icon">&#9749;</div>
+        <h3 class="content-card__title">Fresh &amp; Local</h3>
+        <p class="content-card__text">Harvested logs from sustainable woodland. Supporting local forests and small-scale growers.</p>
+      </div>
+      <div class="content-card">
+        <div class="content-card__icon">&#128218;</div>
+        <h3 class="content-card__title">Care Guides</h3>
+        <p class="content-card__text">Detailed instructions included with every order. Plus our online library of growing tips and troubleshooting.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================================================================
+       FORM INPUTS
+       ================================================================ -->
+  <section class="demo-section">
+    <h2 class="demo-section__title">Form Inputs</h2>
+    <p class="demo-section__subtitle">Text inputs, textareas, selects, and checkboxes in all states.</p>
+
+    <div class="demo-form-grid">
+      <div class="form-group">
+        <label class="form-label form-label--required" for="input-default">Full Name</label>
+        <input class="form-input" type="text" id="input-default" placeholder="Jane Appleseed">
+      </div>
+
+      <div class="form-group">
+        <label class="form-label form-label--required" for="input-email">Email Address</label>
+        <input class="form-input" type="email" id="input-email" placeholder="jane@example.com" value="jane@example">
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="input-error">Phone Number</label>
+        <input class="form-input form-input--error" type="tel" id="input-error" value="abc-not-a-number" aria-describedby="error-phone" aria-invalid="true">
+        <span class="form-error" id="error-phone">Please enter a valid phone number.</span>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="input-disabled">Discount Code</label>
+        <input class="form-input" type="text" id="input-disabled" value="FUNGI2026" disabled>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="select-default">Mushroom Type</label>
+        <select class="form-select" id="select-default">
+          <option value="">Choose a variety...</option>
+          <option>Blue Oyster</option>
+          <option>Shiitake</option>
+          <option>Lion's Mane</option>
+          <option>Maitake</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="select-disabled">Region (locked)</label>
+        <select class="form-select" id="select-disabled" disabled>
+          <option>United Kingdom</option>
+        </select>
+      </div>
+
+      <div class="form-group" style="grid-column: 1 / -1;">
+        <label class="form-label" for="textarea-default">Order Notes</label>
+        <textarea class="form-textarea" id="textarea-default" rows="4" placeholder="Any special instructions for your order..."></textarea>
+      </div>
+
+      <div class="form-group">
+        <label class="form-checkbox">
+          <input type="checkbox" checked>
+          <span>Subscribe to growing tips newsletter</span>
+        </label>
+      </div>
+
+      <div class="form-group">
+        <label class="form-checkbox">
+          <input type="checkbox">
+          <span>I agree to the terms and conditions</span>
+        </label>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================================================================
+       QUANTITY SELECTOR
+       ================================================================ -->
+  <section class="demo-section">
+    <h2 class="demo-section__title">Quantity Selector</h2>
+    <p class="demo-section__subtitle">Stepper input for adjusting cart quantities. Minimum value of 1.</p>
+    <div class="demo-row demo-row--align-center">
+      <div class="qty-selector" data-qty-selector>
+        <button class="qty-selector__btn" data-qty-dec aria-label="Decrease quantity" disabled>-</button>
+        <input class="qty-selector__input" type="number" value="1" min="1" max="99" aria-label="Quantity" data-qty-input>
+        <button class="qty-selector__btn" data-qty-inc aria-label="Increase quantity">+</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================================================================
+       TOASTS / ALERTS
+       ================================================================ -->
+  <section class="demo-section">
+    <h2 class="demo-section__title">Toast Notifications</h2>
+    <p class="demo-section__subtitle">Success and error notifications that slide in from the top-right corner.</p>
+    <div class="demo-row">
+      <button class="btn btn-primary" id="trigger-success-toast">Show Success Toast</button>
+      <button class="btn btn-outline" style="border-color: var(--color-error); color: var(--color-error);" id="trigger-error-toast">Show Error Toast</button>
+    </div>
+
+    <div class="demo-label" style="margin-top: var(--space-lg);">Static examples</div>
+    <div style="display: flex; flex-direction: column; gap: var(--space-md); max-width: 420px;">
+      <div class="toast toast--success" style="animation: none; position: static; pointer-events: auto;">
+        <span class="toast__icon">&#10003;</span>
+        <div class="toast__content">
+          <div class="toast__title">Added to cart</div>
+          Blue Oyster Grow Log has been added to your cart.
+        </div>
+        <button class="toast__close" aria-label="Dismiss">&times;</button>
+      </div>
+      <div class="toast toast--error" style="animation: none; position: static; pointer-events: auto;">
+        <span class="toast__icon">&#10007;</span>
+        <div class="toast__content">
+          <div class="toast__title">Out of stock</div>
+          Sorry, this item is currently unavailable.
+        </div>
+        <button class="toast__close" aria-label="Dismiss">&times;</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================================================================
+       FOOTER
+       ================================================================ -->
+  <footer class="site-footer">
+    <div class="site-footer__inner">
+      <div class="site-footer__grid">
+        <div class="site-footer__brand">
+          <div class="site-footer__logo">&#127812; Centrifungal</div>
+          <p class="site-footer__tagline">Artisan mushroom grow logs, cultivated with care. Bringing the forest floor to your front door.</p>
+          <div class="site-footer__social">
+            <a href="#" class="site-footer__social-link" aria-label="Instagram">
+              <svg class="icon-svg" viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+            </a>
+            <a href="#" class="site-footer__social-link" aria-label="Facebook">
+              <svg class="icon-svg" viewBox="0 0 24 24"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/></svg>
+            </a>
+            <a href="#" class="site-footer__social-link" aria-label="Twitter">
+              <svg class="icon-svg" viewBox="0 0 24 24"><path d="M23 3a10.9 10.9 0 01-3.14 1.53 4.48 4.48 0 00-7.86 3v1A10.66 10.66 0 013 4s-4 9 5 13a11.64 11.64 0 01-7 2c9 5 20 0 20-11.5a4.5 4.5 0 00-.08-.83A7.72 7.72 0 0023 3z"/></svg>
+            </a>
+          </div>
+        </div>
+        <div>
+          <h4 class="site-footer__column-title">Shop</h4>
+          <ul class="site-footer__links" role="list">
+            <li><a href="#" class="site-footer__link">All Products</a></li>
+            <li><a href="#" class="site-footer__link">Oyster Mushrooms</a></li>
+            <li><a href="#" class="site-footer__link">Shiitake</a></li>
+            <li><a href="#" class="site-footer__link">Lion's Mane</a></li>
+            <li><a href="#" class="site-footer__link">Gift Sets</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="site-footer__column-title">Help</h4>
+          <ul class="site-footer__links" role="list">
+            <li><a href="#" class="site-footer__link">Care Instructions</a></li>
+            <li><a href="#" class="site-footer__link">FAQ</a></li>
+            <li><a href="#" class="site-footer__link">Shipping</a></li>
+            <li><a href="#" class="site-footer__link">Returns</a></li>
+            <li><a href="#" class="site-footer__link">Contact</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="site-footer__column-title">Company</h4>
+          <ul class="site-footer__links" role="list">
+            <li><a href="#" class="site-footer__link">About Us</a></li>
+            <li><a href="#" class="site-footer__link">Our Story</a></li>
+            <li><a href="#" class="site-footer__link">Sustainability</a></li>
+            <li><a href="#" class="site-footer__link">Privacy Policy</a></li>
+            <li><a href="#" class="site-footer__link">Terms of Service</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="site-footer__bottom">
+        <p class="site-footer__copyright">&copy; 2026 Centrifungal. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ================================================================
+       JAVASCRIPT - Interactive demos
+       ================================================================ -->
+  <script>
+    /* Hamburger toggle */
+    const hamburger = document.getElementById('hamburger-btn');
+    const nav = document.getElementById('main-nav');
+
+    hamburger.addEventListener('click', () => {
+      const expanded = hamburger.getAttribute('aria-expanded') === 'true';
+      hamburger.setAttribute('aria-expanded', !expanded);
+      nav.classList.toggle('site-header__nav--open');
+    });
+
+    /* Header scroll shadow */
+    const header = document.getElementById('site-header');
+    window.addEventListener('scroll', () => {
+      header.classList.toggle('site-header--scrolled', window.scrollY > 10);
+    }, { passive: true });
+
+    /* Quantity selector */
+    document.querySelectorAll('[data-qty-selector]').forEach(selector => {
+      const input = selector.querySelector('[data-qty-input]');
+      const decBtn = selector.querySelector('[data-qty-dec]');
+      const incBtn = selector.querySelector('[data-qty-inc]');
+      const min = parseInt(input.min) || 1;
+      const max = parseInt(input.max) || 99;
+
+      function updateButtons() {
+        const val = parseInt(input.value) || min;
+        decBtn.disabled = val <= min;
+        incBtn.disabled = val >= max;
+      }
+
+      decBtn.addEventListener('click', () => {
+        const val = parseInt(input.value) || min;
+        if (val > min) {
+          input.value = val - 1;
+          updateButtons();
+        }
+      });
+
+      incBtn.addEventListener('click', () => {
+        const val = parseInt(input.value) || min;
+        if (val < max) {
+          input.value = val + 1;
+          updateButtons();
+        }
+      });
+
+      input.addEventListener('change', () => {
+        let val = parseInt(input.value);
+        if (isNaN(val) || val < min) val = min;
+        if (val > max) val = max;
+        input.value = val;
+        updateButtons();
+      });
+
+      updateButtons();
+    });
+
+    /* Toast system */
+    const toastContainer = document.getElementById('toast-container');
+
+    function showToast(type, title, message) {
+      const toast = document.createElement('div');
+      toast.className = `toast toast--${type}`;
+      toast.setAttribute('role', 'alert');
+      toast.innerHTML = `
+        <span class="toast__icon">${type === 'success' ? '&#10003;' : '&#10007;'}</span>
+        <div class="toast__content">
+          <div class="toast__title">${title}</div>
+          ${message}
+        </div>
+        <button class="toast__close" aria-label="Dismiss">&times;</button>
+      `;
+
+      toastContainer.appendChild(toast);
+
+      const closeBtn = toast.querySelector('.toast__close');
+      function dismiss() {
+        toast.classList.add('toast--exiting');
+        toast.addEventListener('animationend', () => toast.remove());
+      }
+
+      closeBtn.addEventListener('click', dismiss);
+      setTimeout(dismiss, 4000);
+    }
+
+    document.getElementById('trigger-success-toast').addEventListener('click', () => {
+      showToast('success', 'Added to cart', 'Blue Oyster Grow Log has been added to your cart.');
+    });
+
+    document.getElementById('trigger-error-toast').addEventListener('click', () => {
+      showToast('error', 'Something went wrong', 'Unable to update your cart. Please try again.');
+    });
+  </script>
+
+</body>
+</html>

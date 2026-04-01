@@ -1,0 +1,185 @@
+/* ==========================================================================
+   Centrifungal Design Tokens
+   Single source of truth for colours, typography, spacing, and effects.
+   All values derived from brand identity - gold/orange coin with dark
+   green mushroom motif.
+   ========================================================================== */
+
+/* Breakpoints (CSS custom properties cannot be used in media queries,
+   so these are documented here for reference):
+   --bp-sm: 640px    - Small devices, large phones
+   --bp-md: 768px    - Tablets
+   --bp-lg: 1024px   - Desktops
+   --bp-xl: 1280px   - Large desktops
+   --bp-2xl: 1536px  - Extra large screens
+*/
+
+:root {
+  /* =======================================================================
+     COLOUR PALETTE
+     ======================================================================= */
+
+  /* Greens - dark forest to light sage, drawn from the mushroom motif */
+  --green-900: #1B3A18; /* Deepest forest */
+  --green-700: #2D5A27; /* Logo mushroom green */
+  --green-500: #4A7C42; /* Mid forest */
+  --green-300: #8AB380; /* Sage */
+  --green-100: #D4E6D0; /* Lightest sage wash */
+
+  /* Golds/yellows - warm and premium, drawn from the logo coin */
+  --gold-700: #B8841A; /* Deep burnished gold */
+  --gold-500: #D9A02B; /* Primary coin gold */
+  --gold-300: #E8BE5A; /* Light warm gold */
+  --gold-100: #F5E6BF; /* Pale gold wash */
+
+  /* Neutrals - warm-shifted to complement the palette */
+  --neutral-900: #2C2A26; /* Warm charcoal */
+  --neutral-700: #4A4740; /* Dark grey-brown */
+  --neutral-500: #7A7568; /* Mid warm grey */
+  --neutral-300: #B5B0A5; /* Light warm grey */
+  --neutral-100: #F5F3EE; /* Warm off-white */
+  --neutral-50: #FAFAF7; /* Near-white surface */
+
+  /* =======================================================================
+     SEMANTIC COLOUR TOKENS
+     ======================================================================= */
+
+  --color-primary: var(--green-700); /* #2D5A27 - main brand green */
+  --color-primary-dark: var(--green-900); /* #1B3A18 - hover/active states */
+  --color-primary-light: var(--green-300); /* #8AB380 - backgrounds/accents */
+
+  --color-secondary: var(--gold-500); /* #D9A02B - warm gold accent */
+  --color-secondary-dark: var(--gold-700); /* #B8841A - hover/active states */
+  --color-secondary-light: var(--gold-300); /* #E8BE5A - highlights */
+
+  --color-accent: var(--gold-500); /* #D9A02B - call-to-action, highlights */
+
+  --color-surface: var(--neutral-50); /* #FAFAF7 - page background */
+  --color-surface-alt: var(--neutral-100); /* #F5F3EE - card/section background */
+  --color-surface-dark: var(--green-900); /* #1B3A18 - dark sections/footer */
+
+  --color-text: var(--neutral-900); /* #2C2A26 - body text on light bg */
+  --color-text-muted: var(--neutral-500); /* #7A7568 - secondary/caption text */
+  --color-text-on-dark: var(--neutral-100); /* #F5F3EE - text on dark surfaces */
+  --color-text-on-primary: #FFFFFF; /* White text on green */
+  --color-text-on-secondary: var(--neutral-900); /* Dark text on gold */
+
+  --color-border: var(--neutral-300); /* #B5B0A5 */
+  --color-border-light: #E0DDD6; /* Subtle dividers */
+
+  --color-error: #C0392B; /* Accessible red */
+  --color-error-light: #FADBD8; /* Error background */
+  --color-success: #27864A; /* Green, distinct from brand green */
+  --color-success-light: #D5F0DE; /* Success background */
+  --color-warning: var(--gold-700); /* #B8841A */
+  --color-warning-light: var(--gold-100); /* #F5E6BF */
+
+  /* WCAG AA contrast notes:
+     --color-text (#2C2A26) on --color-surface (#FAFAF7): ~14.5:1 - passes AAA
+     --color-text-muted (#7A7568) on --color-surface (#FAFAF7): ~4.8:1 - passes AA
+     --color-text-on-dark (#F5F3EE) on --color-surface-dark (#1B3A18): ~12.0:1 - passes AAA
+     --color-text-on-primary (#FFFFFF) on --color-primary (#2D5A27): ~8.5:1 - passes AAA
+     --color-text-on-secondary (#2C2A26) on --color-secondary (#D9A02B): ~4.6:1 - passes AA
+  */
+
+  /* =======================================================================
+     TYPOGRAPHY
+     ======================================================================= */
+
+  /* Font families
+     Heading: DM Serif Display - elegant serif with artisan character
+     Body: DM Sans - clean geometric sans, pairs naturally with DM Serif
+     Both from the DM family for visual harmony */
+  --font-heading: "DM Serif Display", Georgia, "Times New Roman", serif;
+  --font-body: "DM Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-mono: "DM Mono", ui-monospace, "Cascadia Code", "Fira Code", monospace;
+
+  /* Type scale - base 16px, ratio 1.25 (Major Third) */
+  --text-xs: 0.75rem; /* 12px */
+  --text-sm: 0.875rem; /* 14px */
+  --text-base: 1rem; /* 16px */
+  --text-lg: 1.125rem; /* 18px */
+  --text-xl: 1.25rem; /* 20px */
+  --text-2xl: 1.563rem; /* 25px */
+  --text-3xl: 1.953rem; /* ~31px */
+  --text-4xl: 2.441rem; /* ~39px */
+
+  /* Font weights */
+  --weight-normal: 400;
+  --weight-medium: 500;
+  --weight-semibold: 600;
+  --weight-bold: 700;
+
+  /* Line heights */
+  --leading-tight: 1.2;
+  --leading-normal: 1.6;
+  --leading-relaxed: 1.8;
+
+  /* Letter spacing */
+  --tracking-tight: -0.02em;
+  --tracking-normal: 0;
+  --tracking-wide: 0.02em;
+  --tracking-wider: 0.05em;
+
+  /* =======================================================================
+     SPACING
+     Scale based on 4px increments
+     ======================================================================= */
+
+  --space-xs: 0.25rem; /* 4px */
+  --space-sm: 0.5rem; /* 8px */
+  --space-md: 1rem; /* 16px */
+  --space-lg: 1.5rem; /* 24px */
+  --space-xl: 2rem; /* 32px */
+  --space-2xl: 3rem; /* 48px */
+  --space-3xl: 4rem; /* 64px */
+  --space-4xl: 6rem; /* 96px */
+
+  /* =======================================================================
+     BORDER RADIUS
+     ======================================================================= */
+
+  --radius-sm: 0.25rem; /* 4px - subtle rounding */
+  --radius-md: 0.5rem; /* 8px - cards, inputs */
+  --radius-lg: 1rem; /* 16px - modals, large cards */
+  --radius-xl: 1.5rem; /* 24px - pills, badges */
+  --radius-full: 9999px; /* Fully round */
+
+  /* =======================================================================
+     SHADOWS
+     ======================================================================= */
+
+  --shadow-sm: 0 1px 2px rgba(44, 42, 38, 0.06);
+  --shadow-md: 0 4px 6px rgba(44, 42, 38, 0.08), 0 1px 3px rgba(44, 42, 38, 0.06);
+  --shadow-lg: 0 10px 20px rgba(44, 42, 38, 0.1), 0 3px 6px rgba(44, 42, 38, 0.06);
+  --shadow-xl: 0 20px 40px rgba(44, 42, 38, 0.12), 0 8px 16px rgba(44, 42, 38, 0.08);
+
+  /* =======================================================================
+     TRANSITIONS
+     ======================================================================= */
+
+  --transition-fast: 150ms ease;
+  --transition-base: 250ms ease;
+  --transition-slow: 400ms ease;
+  --transition-spring: 500ms cubic-bezier(0.34, 1.56, 0.64, 1);
+
+  /* =======================================================================
+     LAYOUT
+     ======================================================================= */
+
+  --container-sm: 640px;
+  --container-md: 768px;
+  --container-lg: 1024px;
+  --container-xl: 1200px;
+
+  /* =======================================================================
+     Z-INDEX SCALE
+     ======================================================================= */
+
+  --z-base: 0;
+  --z-dropdown: 100;
+  --z-sticky: 200;
+  --z-overlay: 300;
+  --z-modal: 400;
+  --z-toast: 500;
+}

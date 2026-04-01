@@ -1,0 +1,26 @@
+# PHP
+vendor/
+.env
+storage/framework/
+bootstrap/cache/
+
+# Node
+node_modules/
+dist/
+
+# SQLite
+*.sqlite
+*.sqlite-journal
+*.sqlite-wal
+*.sqlite-shm
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.idea/
+.vscode/
+
+# Claude Code local config
+.claude/

@@ -1,0 +1,758 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Centrifungal Design System</title>
+  <link rel="stylesheet" href="css/reset.css">
+  <link rel="stylesheet" href="css/design-tokens.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=DM+Serif+Display&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: var(--font-body);
+      font-size: var(--text-base);
+      line-height: var(--leading-normal);
+      color: var(--color-text);
+      background-color: var(--color-surface);
+    }
+
+    .ds-container {
+      max-width: var(--container-xl);
+      margin: 0 auto;
+      padding: var(--space-xl) var(--space-lg);
+    }
+
+    .ds-header {
+      text-align: center;
+      padding: var(--space-3xl) 0 var(--space-2xl);
+      border-bottom: 2px solid var(--color-border-light);
+      margin-bottom: var(--space-3xl);
+    }
+
+    .ds-header h1 {
+      font-family: var(--font-heading);
+      font-size: var(--text-4xl);
+      color: var(--color-primary);
+      margin-bottom: var(--space-sm);
+    }
+
+    .ds-header p {
+      font-size: var(--text-lg);
+      color: var(--color-text-muted);
+    }
+
+    .ds-section {
+      margin-bottom: var(--space-3xl);
+    }
+
+    .ds-section h2 {
+      font-family: var(--font-heading);
+      font-size: var(--text-2xl);
+      color: var(--color-primary-dark);
+      margin-bottom: var(--space-lg);
+      padding-bottom: var(--space-xs);
+      border-bottom: 2px solid var(--color-secondary);
+      display: inline-block;
+    }
+
+    .ds-subsection {
+      margin-bottom: var(--space-xl);
+    }
+
+    .ds-subsection h3 {
+      font-family: var(--font-body);
+      font-size: var(--text-lg);
+      font-weight: var(--weight-semibold);
+      color: var(--color-text);
+      margin-bottom: var(--space-md);
+      text-transform: uppercase;
+      letter-spacing: var(--tracking-wider);
+      font-size: var(--text-sm);
+    }
+
+    /* Colour swatches */
+    .ds-swatches {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+      gap: var(--space-md);
+    }
+
+    .ds-swatch {
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      box-shadow: var(--shadow-sm);
+      background: white;
+    }
+
+    .ds-swatch__color {
+      height: 80px;
+      display: flex;
+      align-items: flex-end;
+      padding: var(--space-xs) var(--space-sm);
+    }
+
+    .ds-swatch__info {
+      padding: var(--space-sm);
+    }
+
+    .ds-swatch__name {
+      font-size: var(--text-sm);
+      font-weight: var(--weight-semibold);
+      display: block;
+      margin-bottom: 2px;
+    }
+
+    .ds-swatch__value {
+      font-family: var(--font-mono);
+      font-size: var(--text-xs);
+      color: var(--color-text-muted);
+    }
+
+    /* Semantic colour cards */
+    .ds-semantic-colors {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: var(--space-md);
+    }
+
+    .ds-semantic-card {
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      box-shadow: var(--shadow-sm);
+      background: white;
+    }
+
+    .ds-semantic-card__preview {
+      height: 60px;
+    }
+
+    .ds-semantic-card__info {
+      padding: var(--space-sm);
+    }
+
+    .ds-semantic-card__token {
+      font-family: var(--font-mono);
+      font-size: var(--text-xs);
+      color: var(--color-text-muted);
+      display: block;
+    }
+
+    .ds-semantic-card__label {
+      font-size: var(--text-sm);
+      font-weight: var(--weight-medium);
+      display: block;
+      margin-bottom: 2px;
+    }
+
+    /* Contrast demo */
+    .ds-contrast-demos {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: var(--space-md);
+    }
+
+    .ds-contrast-demo {
+      padding: var(--space-lg);
+      border-radius: var(--radius-md);
+    }
+
+    .ds-contrast-demo p {
+      font-size: var(--text-sm);
+      margin-top: var(--space-xs);
+      opacity: 0.85;
+    }
+
+    /* Typography samples */
+    .ds-type-sample {
+      margin-bottom: var(--space-lg);
+      padding-bottom: var(--space-lg);
+      border-bottom: 1px solid var(--color-border-light);
+    }
+
+    .ds-type-sample:last-child {
+      border-bottom: none;
+    }
+
+    .ds-type-sample__meta {
+      font-family: var(--font-mono);
+      font-size: var(--text-xs);
+      color: var(--color-text-muted);
+      margin-bottom: var(--space-xs);
+    }
+
+    /* Spacing blocks */
+    .ds-spacing-row {
+      display: flex;
+      align-items: center;
+      gap: var(--space-md);
+      margin-bottom: var(--space-sm);
+    }
+
+    .ds-spacing-row__label {
+      font-family: var(--font-mono);
+      font-size: var(--text-sm);
+      color: var(--color-text-muted);
+      min-width: 140px;
+      text-align: right;
+    }
+
+    .ds-spacing-row__block {
+      height: 24px;
+      background: var(--color-primary-light);
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--color-primary);
+      opacity: 0.7;
+    }
+
+    .ds-spacing-row__value {
+      font-family: var(--font-mono);
+      font-size: var(--text-xs);
+      color: var(--color-text-muted);
+      min-width: 60px;
+    }
+
+    /* Radius demos */
+    .ds-radius-demos {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-lg);
+      align-items: flex-end;
+    }
+
+    .ds-radius-demo {
+      text-align: center;
+    }
+
+    .ds-radius-demo__box {
+      width: 80px;
+      height: 80px;
+      background: var(--color-surface-alt);
+      border: 2px solid var(--color-primary);
+      margin-bottom: var(--space-xs);
+    }
+
+    .ds-radius-demo__label {
+      font-family: var(--font-mono);
+      font-size: var(--text-xs);
+      color: var(--color-text-muted);
+    }
+
+    /* Shadow demos */
+    .ds-shadow-demos {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-xl);
+      align-items: flex-end;
+    }
+
+    .ds-shadow-demo {
+      text-align: center;
+    }
+
+    .ds-shadow-demo__box {
+      width: 100px;
+      height: 100px;
+      background: white;
+      border-radius: var(--radius-md);
+      margin-bottom: var(--space-sm);
+    }
+
+    .ds-shadow-demo__label {
+      font-family: var(--font-mono);
+      font-size: var(--text-xs);
+      color: var(--color-text-muted);
+    }
+
+    /* Font pairing demo */
+    .ds-font-demo {
+      padding: var(--space-xl);
+      background: var(--color-surface-alt);
+      border-radius: var(--radius-lg);
+      margin-bottom: var(--space-xl);
+    }
+
+    .ds-font-demo h4 {
+      font-family: var(--font-heading);
+      font-size: var(--text-2xl);
+      color: var(--color-primary-dark);
+      margin-bottom: var(--space-sm);
+    }
+
+    .ds-font-demo p {
+      font-family: var(--font-body);
+      color: var(--color-text);
+      max-width: 60ch;
+    }
+
+    .ds-font-demo__meta {
+      font-family: var(--font-mono);
+      font-size: var(--text-xs);
+      color: var(--color-text-muted);
+      margin-top: var(--space-md);
+      padding-top: var(--space-sm);
+      border-top: 1px solid var(--color-border-light);
+    }
+  </style>
+</head>
+<body>
+  <div class="ds-container">
+
+    <!-- Header -->
+    <header class="ds-header">
+      <h1>Centrifungal</h1>
+      <p>Design System - Colour Palette, Typography, and Spacing Tokens</p>
+    </header>
+
+    <!-- =================================================================
+         COLOURS
+         ================================================================= -->
+    <section class="ds-section">
+      <h2>Colour Palette</h2>
+
+      <div class="ds-subsection">
+        <h3>Greens</h3>
+        <div class="ds-swatches">
+          <div class="ds-swatch">
+            <div class="ds-swatch__color" style="background: var(--green-900);"></div>
+            <div class="ds-swatch__info">
+              <span class="ds-swatch__name">Green 900</span>
+              <span class="ds-swatch__value">#1B3A18</span>
+            </div>
+          </div>
+          <div class="ds-swatch">
+            <div class="ds-swatch__color" style="background: var(--green-700);"></div>
+            <div class="ds-swatch__info">
+              <span class="ds-swatch__name">Green 700</span>
+              <span class="ds-swatch__value">#2D5A27</span>
+            </div>
+          </div>
+          <div class="ds-swatch">
+            <div class="ds-swatch__color" style="background: var(--green-500);"></div>
+            <div class="ds-swatch__info">
+              <span class="ds-swatch__name">Green 500</span>
+              <span class="ds-swatch__value">#4A7C42</span>
+            </div>
+          </div>
+          <div class="ds-swatch">
+            <div class="ds-swatch__color" style="background: var(--green-300);"></div>
+            <div class="ds-swatch__info">
+              <span class="ds-swatch__name">Green 300</span>
+              <span class="ds-swatch__value">#8AB380</span>
+            </div>
+          </div>
+          <div class="ds-swatch">
+            <div class="ds-swatch__color" style="background: var(--green-100);"></div>
+            <div class="ds-swatch__info">
+              <span class="ds-swatch__name">Green 100</span>
+              <span class="ds-swatch__value">#D4E6D0</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="ds-subsection">
+        <h3>Golds</h3>
+        <div class="ds-swatches">
+          <div class="ds-swatch">
+            <div class="ds-swatch__color" style="background: var(--gold-700);"></div>
+            <div class="ds-swatch__info">
+              <span class="ds-swatch__name">Gold 700</span>
+              <span class="ds-swatch__value">#B8841A</span>
+            </div>
+          </div>
+          <div class="ds-swatch">
+            <div class="ds-swatch__color" style="background: var(--gold-500);"></div>
+            <div class="ds-swatch__info">
+              <span class="ds-swatch__name">Gold 500</span>
+              <span class="ds-swatch__value">#D9A02B</span>
+            </div>
+          </div>
+          <div class="ds-swatch">
+            <div class="ds-swatch__color" style="background: var(--gold-300);"></div>
+            <div class="ds-swatch__info">
+              <span class="ds-swatch__name">Gold 300</span>
+              <span class="ds-swatch__value">#E8BE5A</span>
+            </div>
+          </div>
+          <div class="ds-swatch">
+            <div class="ds-swatch__color" style="background: var(--gold-100);"></div>
+            <div class="ds-swatch__info">
+              <span class="ds-swatch__name">Gold 100</span>
+              <span class="ds-swatch__value">#F5E6BF</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="ds-subsection">
+        <h3>Neutrals</h3>
+        <div class="ds-swatches">
+          <div class="ds-swatch">
+            <div class="ds-swatch__color" style="background: var(--neutral-900);"></div>
+            <div class="ds-swatch__info">
+              <span class="ds-swatch__name">Neutral 900</span>
+              <span class="ds-swatch__value">#2C2A26</span>
+            </div>
+          </div>
+          <div class="ds-swatch">
+            <div class="ds-swatch__color" style="background: var(--neutral-700);"></div>
+            <div class="ds-swatch__info">
+              <span class="ds-swatch__name">Neutral 700</span>
+              <span class="ds-swatch__value">#4A4740</span>
+            </div>
+          </div>
+          <div class="ds-swatch">
+            <div class="ds-swatch__color" style="background: var(--neutral-500);"></div>
+            <div class="ds-swatch__info">
+              <span class="ds-swatch__name">Neutral 500</span>
+              <span class="ds-swatch__value">#7A7568</span>
+            </div>
+          </div>
+          <div class="ds-swatch">
+            <div class="ds-swatch__color" style="background: var(--neutral-300);"></div>
+            <div class="ds-swatch__info">
+              <span class="ds-swatch__name">Neutral 300</span>
+              <span class="ds-swatch__value">#B5B0A5</span>
+            </div>
+          </div>
+          <div class="ds-swatch">
+            <div class="ds-swatch__color" style="background: var(--neutral-100);"></div>
+            <div class="ds-swatch__info">
+              <span class="ds-swatch__name">Neutral 100</span>
+              <span class="ds-swatch__value">#F5F3EE</span>
+            </div>
+          </div>
+          <div class="ds-swatch">
+            <div class="ds-swatch__color" style="background: var(--neutral-50); border: 1px solid var(--color-border-light);"></div>
+            <div class="ds-swatch__info">
+              <span class="ds-swatch__name">Neutral 50</span>
+              <span class="ds-swatch__value">#FAFAF7</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="ds-subsection">
+        <h3>Semantic Colours</h3>
+        <div class="ds-semantic-colors">
+          <div class="ds-semantic-card">
+            <div class="ds-semantic-card__preview" style="background: var(--color-primary);"></div>
+            <div class="ds-semantic-card__info">
+              <span class="ds-semantic-card__label">Primary</span>
+              <span class="ds-semantic-card__token">--color-primary</span>
+            </div>
+          </div>
+          <div class="ds-semantic-card">
+            <div class="ds-semantic-card__preview" style="background: var(--color-secondary);"></div>
+            <div class="ds-semantic-card__info">
+              <span class="ds-semantic-card__label">Secondary</span>
+              <span class="ds-semantic-card__token">--color-secondary</span>
+            </div>
+          </div>
+          <div class="ds-semantic-card">
+            <div class="ds-semantic-card__preview" style="background: var(--color-accent);"></div>
+            <div class="ds-semantic-card__info">
+              <span class="ds-semantic-card__label">Accent</span>
+              <span class="ds-semantic-card__token">--color-accent</span>
+            </div>
+          </div>
+          <div class="ds-semantic-card">
+            <div class="ds-semantic-card__preview" style="background: var(--color-surface); border: 1px solid var(--color-border-light);"></div>
+            <div class="ds-semantic-card__info">
+              <span class="ds-semantic-card__label">Surface</span>
+              <span class="ds-semantic-card__token">--color-surface</span>
+            </div>
+          </div>
+          <div class="ds-semantic-card">
+            <div class="ds-semantic-card__preview" style="background: var(--color-text);"></div>
+            <div class="ds-semantic-card__info">
+              <span class="ds-semantic-card__label">Text</span>
+              <span class="ds-semantic-card__token">--color-text</span>
+            </div>
+          </div>
+          <div class="ds-semantic-card">
+            <div class="ds-semantic-card__preview" style="background: var(--color-text-muted);"></div>
+            <div class="ds-semantic-card__info">
+              <span class="ds-semantic-card__label">Text Muted</span>
+              <span class="ds-semantic-card__token">--color-text-muted</span>
+            </div>
+          </div>
+          <div class="ds-semantic-card">
+            <div class="ds-semantic-card__preview" style="background: var(--color-error);"></div>
+            <div class="ds-semantic-card__info">
+              <span class="ds-semantic-card__label">Error</span>
+              <span class="ds-semantic-card__token">--color-error</span>
+            </div>
+          </div>
+          <div class="ds-semantic-card">
+            <div class="ds-semantic-card__preview" style="background: var(--color-success);"></div>
+            <div class="ds-semantic-card__info">
+              <span class="ds-semantic-card__label">Success</span>
+              <span class="ds-semantic-card__token">--color-success</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="ds-subsection">
+        <h3>Contrast Demos (WCAG AA)</h3>
+        <div class="ds-contrast-demos">
+          <div class="ds-contrast-demo" style="background: var(--color-surface); color: var(--color-text); border: 1px solid var(--color-border-light);">
+            <strong>Body text on surface</strong>
+            <p>--color-text on --color-surface - ratio ~14.5:1 (AAA)</p>
+          </div>
+          <div class="ds-contrast-demo" style="background: var(--color-surface); color: var(--color-text-muted); border: 1px solid var(--color-border-light);">
+            <strong>Muted text on surface</strong>
+            <p>--color-text-muted on --color-surface - ratio ~4.8:1 (AA)</p>
+          </div>
+          <div class="ds-contrast-demo" style="background: var(--color-primary); color: var(--color-text-on-primary);">
+            <strong>White on primary green</strong>
+            <p>--color-text-on-primary on --color-primary - ratio ~8.5:1 (AAA)</p>
+          </div>
+          <div class="ds-contrast-demo" style="background: var(--color-surface-dark); color: var(--color-text-on-dark);">
+            <strong>Light text on dark surface</strong>
+            <p>--color-text-on-dark on --color-surface-dark - ratio ~12.0:1 (AAA)</p>
+          </div>
+          <div class="ds-contrast-demo" style="background: var(--color-secondary); color: var(--color-text-on-secondary);">
+            <strong>Dark text on gold</strong>
+            <p>--color-text-on-secondary on --color-secondary - ratio ~4.6:1 (AA)</p>
+          </div>
+          <div class="ds-contrast-demo" style="background: var(--color-primary); color: var(--color-secondary);">
+            <strong>Gold on primary green</strong>
+            <p>--color-secondary on --color-primary - decorative/large text use</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- =================================================================
+         TYPOGRAPHY
+         ================================================================= -->
+    <section class="ds-section">
+      <h2>Typography</h2>
+
+      <div class="ds-subsection">
+        <h3>Font Pairing</h3>
+        <div class="ds-font-demo">
+          <h4>DM Serif Display - Heading Font</h4>
+          <p>DM Sans pairs naturally with DM Serif Display. Both belong to the DM type family by Colophon Foundry, sharing proportions and design DNA. The serif brings artisan warmth for headings while the sans keeps body text clean and readable.</p>
+          <div class="ds-font-demo__meta">
+            Heading: --font-heading: "DM Serif Display", Georgia, serif<br>
+            Body: --font-body: "DM Sans", system-ui, sans-serif<br>
+            Mono: --font-mono: "DM Mono", ui-monospace, monospace
+          </div>
+        </div>
+      </div>
+
+      <div class="ds-subsection">
+        <h3>Type Scale (base 16px, ratio 1.25)</h3>
+
+        <div class="ds-type-sample">
+          <div class="ds-type-sample__meta">--text-4xl: 2.441rem (39px)</div>
+          <div style="font-family: var(--font-heading); font-size: var(--text-4xl); line-height: var(--leading-tight); color: var(--color-primary-dark);">
+            Grow something extraordinary
+          </div>
+        </div>
+
+        <div class="ds-type-sample">
+          <div class="ds-type-sample__meta">--text-3xl: 1.953rem (31px)</div>
+          <div style="font-family: var(--font-heading); font-size: var(--text-3xl); line-height: var(--leading-tight); color: var(--color-primary-dark);">
+            Premium mushroom grow logs
+          </div>
+        </div>
+
+        <div class="ds-type-sample">
+          <div class="ds-type-sample__meta">--text-2xl: 1.563rem (25px)</div>
+          <div style="font-family: var(--font-heading); font-size: var(--text-2xl); line-height: var(--leading-tight); color: var(--color-primary-dark);">
+            Hand-crafted with care in the UK
+          </div>
+        </div>
+
+        <div class="ds-type-sample">
+          <div class="ds-type-sample__meta">--text-xl: 1.25rem (20px)</div>
+          <div style="font-size: var(--text-xl); font-weight: var(--weight-semibold);">
+            Shiitake, oyster, and lion's mane varieties
+          </div>
+        </div>
+
+        <div class="ds-type-sample">
+          <div class="ds-type-sample__meta">--text-lg: 1.125rem (18px)</div>
+          <div style="font-size: var(--text-lg);">
+            Each log is inoculated by hand and allowed to colonise naturally over several months, producing flushes of fresh mushrooms for up to two years.
+          </div>
+        </div>
+
+        <div class="ds-type-sample">
+          <div class="ds-type-sample__meta">--text-base: 1rem (16px)</div>
+          <div style="font-size: var(--text-base);">
+            Our grow logs arrive ready to fruit. Simply soak in cold water for 24 hours, then place in a cool, shaded spot. Within 7-14 days you should see the first pins emerging from the bark.
+          </div>
+        </div>
+
+        <div class="ds-type-sample">
+          <div class="ds-type-sample__meta">--text-sm: 0.875rem (14px)</div>
+          <div style="font-size: var(--text-sm); color: var(--color-text-muted);">
+            Free shipping on orders over GBP 40. All logs dispatched Monday to Wednesday to ensure freshness.
+          </div>
+        </div>
+
+        <div class="ds-type-sample">
+          <div class="ds-type-sample__meta">--text-xs: 0.75rem (12px)</div>
+          <div style="font-size: var(--text-xs); color: var(--color-text-muted);">
+            Results may vary depending on climate and care conditions. See our growing guide for best results.
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- =================================================================
+         SPACING
+         ================================================================= -->
+    <section class="ds-section">
+      <h2>Spacing Scale</h2>
+
+      <div class="ds-subsection">
+        <h3>Based on 4px increments</h3>
+
+        <div class="ds-spacing-row">
+          <span class="ds-spacing-row__label">--space-xs</span>
+          <div class="ds-spacing-row__block" style="width: var(--space-xs);"></div>
+          <span class="ds-spacing-row__value">4px</span>
+        </div>
+
+        <div class="ds-spacing-row">
+          <span class="ds-spacing-row__label">--space-sm</span>
+          <div class="ds-spacing-row__block" style="width: var(--space-sm);"></div>
+          <span class="ds-spacing-row__value">8px</span>
+        </div>
+
+        <div class="ds-spacing-row">
+          <span class="ds-spacing-row__label">--space-md</span>
+          <div class="ds-spacing-row__block" style="width: var(--space-md);"></div>
+          <span class="ds-spacing-row__value">16px</span>
+        </div>
+
+        <div class="ds-spacing-row">
+          <span class="ds-spacing-row__label">--space-lg</span>
+          <div class="ds-spacing-row__block" style="width: var(--space-lg);"></div>
+          <span class="ds-spacing-row__value">24px</span>
+        </div>
+
+        <div class="ds-spacing-row">
+          <span class="ds-spacing-row__label">--space-xl</span>
+          <div class="ds-spacing-row__block" style="width: var(--space-xl);"></div>
+          <span class="ds-spacing-row__value">32px</span>
+        </div>
+
+        <div class="ds-spacing-row">
+          <span class="ds-spacing-row__label">--space-2xl</span>
+          <div class="ds-spacing-row__block" style="width: var(--space-2xl);"></div>
+          <span class="ds-spacing-row__value">48px</span>
+        </div>
+
+        <div class="ds-spacing-row">
+          <span class="ds-spacing-row__label">--space-3xl</span>
+          <div class="ds-spacing-row__block" style="width: var(--space-3xl);"></div>
+          <span class="ds-spacing-row__value">64px</span>
+        </div>
+
+        <div class="ds-spacing-row">
+          <span class="ds-spacing-row__label">--space-4xl</span>
+          <div class="ds-spacing-row__block" style="width: var(--space-4xl);"></div>
+          <span class="ds-spacing-row__value">96px</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- =================================================================
+         BORDER RADIUS
+         ================================================================= -->
+    <section class="ds-section">
+      <h2>Border Radius</h2>
+
+      <div class="ds-radius-demos">
+        <div class="ds-radius-demo">
+          <div class="ds-radius-demo__box" style="border-radius: var(--radius-sm);"></div>
+          <div class="ds-radius-demo__label">--radius-sm<br>4px</div>
+        </div>
+        <div class="ds-radius-demo">
+          <div class="ds-radius-demo__box" style="border-radius: var(--radius-md);"></div>
+          <div class="ds-radius-demo__label">--radius-md<br>8px</div>
+        </div>
+        <div class="ds-radius-demo">
+          <div class="ds-radius-demo__box" style="border-radius: var(--radius-lg);"></div>
+          <div class="ds-radius-demo__label">--radius-lg<br>16px</div>
+        </div>
+        <div class="ds-radius-demo">
+          <div class="ds-radius-demo__box" style="border-radius: var(--radius-xl);"></div>
+          <div class="ds-radius-demo__label">--radius-xl<br>24px</div>
+        </div>
+        <div class="ds-radius-demo">
+          <div class="ds-radius-demo__box" style="border-radius: var(--radius-full);"></div>
+          <div class="ds-radius-demo__label">--radius-full<br>9999px</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- =================================================================
+         SHADOWS
+         ================================================================= -->
+    <section class="ds-section">
+      <h2>Shadows</h2>
+
+      <div class="ds-shadow-demos">
+        <div class="ds-shadow-demo">
+          <div class="ds-shadow-demo__box" style="box-shadow: var(--shadow-sm);"></div>
+          <div class="ds-shadow-demo__label">--shadow-sm</div>
+        </div>
+        <div class="ds-shadow-demo">
+          <div class="ds-shadow-demo__box" style="box-shadow: var(--shadow-md);"></div>
+          <div class="ds-shadow-demo__label">--shadow-md</div>
+        </div>
+        <div class="ds-shadow-demo">
+          <div class="ds-shadow-demo__box" style="box-shadow: var(--shadow-lg);"></div>
+          <div class="ds-shadow-demo__label">--shadow-lg</div>
+        </div>
+        <div class="ds-shadow-demo">
+          <div class="ds-shadow-demo__box" style="box-shadow: var(--shadow-xl);"></div>
+          <div class="ds-shadow-demo__label">--shadow-xl</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- =================================================================
+         TRANSITIONS
+         ================================================================= -->
+    <section class="ds-section">
+      <h2>Transitions</h2>
+
+      <div style="display: flex; flex-wrap: wrap; gap: var(--space-lg);">
+        <div style="text-align: center;">
+          <div style="width: 80px; height: 80px; background: var(--color-primary); border-radius: var(--radius-md); transition: transform var(--transition-fast), background var(--transition-fast); cursor: pointer; display: flex; align-items: center; justify-content: center; color: white; font-size: var(--text-xs);" onmouseover="this.style.transform='scale(1.1)'; this.style.background='var(--color-primary-dark)'" onmouseout="this.style.transform='scale(1)'; this.style.background='var(--color-primary)'">Hover</div>
+          <div style="font-family: var(--font-mono); font-size: var(--text-xs); color: var(--color-text-muted); margin-top: var(--space-xs);">--transition-fast<br>150ms</div>
+        </div>
+        <div style="text-align: center;">
+          <div style="width: 80px; height: 80px; background: var(--color-secondary); border-radius: var(--radius-md); transition: transform var(--transition-base), background var(--transition-base); cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: var(--text-xs);" onmouseover="this.style.transform='scale(1.1)'; this.style.background='var(--color-secondary-dark)'" onmouseout="this.style.transform='scale(1)'; this.style.background='var(--color-secondary)'">Hover</div>
+          <div style="font-family: var(--font-mono); font-size: var(--text-xs); color: var(--color-text-muted); margin-top: var(--space-xs);">--transition-base<br>250ms</div>
+        </div>
+        <div style="text-align: center;">
+          <div style="width: 80px; height: 80px; background: var(--green-500); border-radius: var(--radius-md); transition: transform var(--transition-slow), background var(--transition-slow); cursor: pointer; display: flex; align-items: center; justify-content: center; color: white; font-size: var(--text-xs);" onmouseover="this.style.transform='scale(1.1)'; this.style.background='var(--green-700)'" onmouseout="this.style.transform='scale(1)'; this.style.background='var(--green-500)'">Hover</div>
+          <div style="font-family: var(--font-mono); font-size: var(--text-xs); color: var(--color-text-muted); margin-top: var(--space-xs);">--transition-slow<br>400ms</div>
+        </div>
+        <div style="text-align: center;">
+          <div style="width: 80px; height: 80px; background: var(--gold-700); border-radius: var(--radius-md); transition: transform var(--transition-spring); cursor: pointer; display: flex; align-items: center; justify-content: center; color: white; font-size: var(--text-xs);" onmouseover="this.style.transform='scale(1.15)'" onmouseout="this.style.transform='scale(1)'">Hover</div>
+          <div style="font-family: var(--font-mono); font-size: var(--text-xs); color: var(--color-text-muted); margin-top: var(--space-xs);">--transition-spring<br>500ms bounce</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer style="text-align: center; padding: var(--space-2xl) 0 var(--space-xl); border-top: 1px solid var(--color-border-light); color: var(--color-text-muted); font-size: var(--text-sm);">
+      Centrifungal Design System - v1.0
+    </footer>
+
+  </div>
+</body>
+</html>

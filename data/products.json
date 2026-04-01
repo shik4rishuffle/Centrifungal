@@ -1,0 +1,166 @@
+{
+  "products": [
+    {
+      "id": "prod_001",
+      "slug": "blue-oyster-grow-log",
+      "name": "Blue Oyster Grow Log",
+      "category": "Grow Logs",
+      "description": "Ready-to-fruit hardwood log colonised with blue oyster mycelium. Produces multiple harvests over 2-3 months.",
+      "image": null,
+      "variants": [
+        { "id": "var_001a", "name": "Small (1kg)", "price": 24.99, "inStock": true },
+        { "id": "var_001b", "name": "Large (2.5kg)", "price": 39.99, "inStock": true }
+      ],
+      "inStock": true,
+      "badge": "popular"
+    },
+    {
+      "id": "prod_002",
+      "slug": "pink-oyster-grow-log",
+      "name": "Pink Oyster Grow Log",
+      "category": "Grow Logs",
+      "description": "Vibrant pink oyster mushrooms from a ready-to-fruit hardwood log. A showstopper in any kitchen.",
+      "image": null,
+      "variants": [
+        { "id": "var_002a", "name": "Small (1kg)", "price": 26.99, "inStock": true },
+        { "id": "var_002b", "name": "Large (2.5kg)", "price": 42.99, "inStock": true }
+      ],
+      "inStock": true,
+      "badge": "new"
+    },
+    {
+      "id": "prod_003",
+      "slug": "shiitake-grow-log",
+      "name": "Shiitake Grow Log",
+      "category": "Grow Logs",
+      "description": "Premium shiitake grow log with rich umami flavour. Fruits repeatedly when soaked and shocked.",
+      "image": null,
+      "variants": [
+        { "id": "var_003a", "name": "Standard (1.5kg)", "price": 29.99, "inStock": true }
+      ],
+      "inStock": true,
+      "badge": null
+    },
+    {
+      "id": "prod_004",
+      "slug": "lions-mane-grow-log",
+      "name": "Lion's Mane Grow Log",
+      "category": "Grow Logs",
+      "description": "The gourmet's favourite - cascading white tendrils with a lobster-like flavour. Limited seasonal availability.",
+      "image": null,
+      "variants": [
+        { "id": "var_004a", "name": "Standard (1.5kg)", "price": 34.99, "inStock": false }
+      ],
+      "inStock": false,
+      "badge": null
+    },
+    {
+      "id": "prod_005",
+      "slug": "oyster-colonised-dowels",
+      "name": "Oyster Mushroom Dowels",
+      "category": "Colonised Dowels",
+      "description": "100 oak dowels colonised with oyster mycelium. Plug into your own logs for years of harvests.",
+      "image": null,
+      "variants": [
+        { "id": "var_005a", "name": "100 Dowels", "price": 14.99, "inStock": true },
+        { "id": "var_005b", "name": "250 Dowels", "price": 29.99, "inStock": true }
+      ],
+      "inStock": true,
+      "badge": null
+    },
+    {
+      "id": "prod_006",
+      "slug": "shiitake-colonised-dowels",
+      "name": "Shiitake Mushroom Dowels",
+      "category": "Colonised Dowels",
+      "description": "Premium shiitake dowels for inoculating hardwood logs. Start your own shiitake garden.",
+      "image": null,
+      "variants": [
+        { "id": "var_006a", "name": "100 Dowels", "price": 16.99, "inStock": true }
+      ],
+      "inStock": true,
+      "badge": null
+    },
+    {
+      "id": "prod_007",
+      "slug": "beginners-grow-kit",
+      "name": "Beginner's Grow Kit",
+      "category": "DIY Kits",
+      "description": "Everything you need to start growing mushrooms at home. Includes substrate, spawn, humidity tent, and guide.",
+      "image": null,
+      "variants": [
+        { "id": "var_007a", "name": "Oyster Kit", "price": 34.99, "inStock": true },
+        { "id": "var_007b", "name": "Shiitake Kit", "price": 36.99, "inStock": true }
+      ],
+      "inStock": true,
+      "badge": "popular"
+    },
+    {
+      "id": "prod_008",
+      "slug": "advanced-cultivation-kit",
+      "name": "Advanced Cultivation Kit",
+      "category": "DIY Kits",
+      "description": "For the serious grower - sterile grain spawn, bulk substrate, and monotub setup with detailed instructions.",
+      "image": null,
+      "variants": [
+        { "id": "var_008a", "name": "Standard", "price": 59.99, "inStock": true }
+      ],
+      "inStock": true,
+      "badge": null
+    },
+    {
+      "id": "prod_009",
+      "slug": "gift-grow-kit",
+      "name": "Gift Grow Kit",
+      "category": "DIY Kits",
+      "description": "Beautifully packaged grow kit - the perfect gift for curious gardeners and food lovers.",
+      "image": null,
+      "variants": [
+        { "id": "var_009a", "name": "Pink Oyster Gift Kit", "price": 32.99, "inStock": false }
+      ],
+      "inStock": false,
+      "badge": null
+    },
+    {
+      "id": "prod_010",
+      "slug": "lions-mane-tincture",
+      "name": "Lion's Mane Tincture",
+      "category": "Tinctures",
+      "description": "Double-extracted lion's mane tincture for focus and cognitive support. 60ml dropper bottle.",
+      "image": null,
+      "variants": [
+        { "id": "var_010a", "name": "60ml", "price": 28.99, "inStock": true },
+        { "id": "var_010b", "name": "120ml", "price": 49.99, "inStock": true }
+      ],
+      "inStock": true,
+      "badge": "new"
+    },
+    {
+      "id": "prod_011",
+      "slug": "reishi-tincture",
+      "name": "Reishi Tincture",
+      "category": "Tinctures",
+      "description": "Double-extracted reishi mushroom tincture for immune support and relaxation. 60ml dropper bottle.",
+      "image": null,
+      "variants": [
+        { "id": "var_011a", "name": "60ml", "price": 28.99, "inStock": true }
+      ],
+      "inStock": true,
+      "badge": null
+    },
+    {
+      "id": "prod_012",
+      "slug": "daily-blend-tincture",
+      "name": "Daily Mushroom Blend",
+      "category": "Tinctures",
+      "description": "A balanced blend of lion's mane, reishi, and chaga for everyday wellness. 60ml dropper bottle.",
+      "image": null,
+      "variants": [
+        { "id": "var_012a", "name": "60ml", "price": 32.99, "inStock": true },
+        { "id": "var_012b", "name": "120ml", "price": 54.99, "inStock": true }
+      ],
+      "inStock": true,
+      "badge": "popular"
+    }
+  ]
+}

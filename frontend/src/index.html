@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Centrifungal - Premium Mushroom Grow Logs</title>
+  <meta name="description" content="Grow gourmet mushrooms at home with Centrifungal's premium hardwood grow logs. Locally grown, expertly crafted, shipped to your door.">
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=DM+Serif+Display&display=swap" rel="stylesheet">
+
+  <!-- Stylesheets -->
+  <link rel="stylesheet" href="/css/reset.css">
+  <link rel="stylesheet" href="/css/design-tokens.css">
+  <link rel="stylesheet" href="/css/components.css">
+  <link rel="stylesheet" href="/css/homepage.css">
+</head>
+<body>
+
+  <!-- ================================================================
+       HEADER
+       ================================================================ -->
+  <header class="site-header">
+    <div class="site-header__inner">
+      <a href="/" class="site-header__logo" aria-label="Centrifungal home">
+        Centrifungal
+      </a>
+
+      <button class="site-header__hamburger" aria-expanded="false" aria-controls="main-nav" aria-label="Toggle navigation">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+
+      <nav class="site-header__nav" id="main-nav" aria-label="Main navigation">
+        <a href="/shop" class="site-header__nav-link">Shop</a>
+        <a href="/about" class="site-header__nav-link">About</a>
+        <a href="/care" class="site-header__nav-link">Care Guides</a>
+        <a href="/contact" class="site-header__nav-link">Contact</a>
+      </nav>
+
+      <div class="site-header__actions">
+        <button class="site-header__cart" aria-label="Shopping cart (0 items)">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <circle cx="9" cy="21" r="1"/>
+            <circle cx="20" cy="21" r="1"/>
+            <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/>
+          </svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <!-- ================================================================
+         HERO
+         ================================================================ -->
+    <section class="hero">
+      <div class="hero__inner">
+        <div class="hero__content">
+          <span class="hero__eyebrow">Premium Mushroom Grow Logs</span>
+          <h1 class="hero__title">Grow Gourmet Mushrooms at Home</h1>
+          <p class="hero__text">Hand-inoculated hardwood logs that fruit again and again. No experience needed - just mist, wait, and harvest fresh mushrooms from your kitchen counter.</p>
+          <div class="hero__actions">
+            <a href="/shop" class="btn btn-secondary btn-lg">Shop Grow Logs</a>
+            <a href="/care" class="btn btn-outline btn-lg" style="border-color: rgba(255,255,255,0.3); color: var(--color-text-on-dark);">Care Guides</a>
+          </div>
+        </div>
+        <div class="hero__visual">
+          <div class="hero__image-placeholder" aria-label="Mushroom grow log hero image placeholder">&#127812;</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================================================================
+         FEATURED PRODUCTS
+         ================================================================ -->
+    <section class="section" aria-labelledby="featured-heading">
+      <div class="container">
+        <div class="section__header">
+          <h2 class="section__title" id="featured-heading">Our Grow Logs</h2>
+          <p class="section__subtitle">Each log is hand-inoculated with premium spawn and grown on sustainably sourced British hardwood.</p>
+        </div>
+        <div class="products-grid" id="featured-products-grid">
+          <!-- Product cards rendered by homepage.js -->
+        </div>
+        <div class="section__cta">
+          <a href="/shop" class="btn btn-outline">View All Products</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================================================================
+         BRAND STORY
+         ================================================================ -->
+    <section class="section section--alt" aria-labelledby="story-heading">
+      <div class="container">
+        <div class="brand-story">
+          <div class="brand-story__image-placeholder" aria-label="Brand story image placeholder">&#127808;</div>
+          <div class="brand-story__content">
+            <h2 class="brand-story__title" id="story-heading">Rooted in the Forest, Made for Your Home</h2>
+            <p class="brand-story__text">Centrifungal started with a simple idea - that anyone should be able to grow fresh, gourmet mushrooms without a garden or any special equipment. Our logs are inoculated by hand in small batches using spawn we cultivate ourselves, then slowly colonised in controlled conditions before reaching you.</p>
+            <p class="brand-story__text">The result? Mushrooms that taste like they were foraged minutes ago.</p>
+            <a href="/about" class="btn btn-primary">Our Story</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================================================================
+         HOW IT WORKS
+         ================================================================ -->
+    <section class="section" aria-labelledby="how-heading">
+      <div class="container">
+        <div class="section__header">
+          <h2 class="section__title" id="how-heading">Why Centrifungal?</h2>
+          <p class="section__subtitle">From our woodland to your doorstep - here's what makes us different.</p>
+        </div>
+        <div class="how-it-works-grid">
+          <article class="content-card">
+            <div class="content-card__icon" aria-hidden="true">&#127793;</div>
+            <h3 class="content-card__title">Grown Locally</h3>
+            <p class="content-card__text">Every log is produced in our woodland workshop using sustainably sourced British hardwood and spawn we cultivate in-house.</p>
+          </article>
+          <article class="content-card">
+            <div class="content-card__icon" aria-hidden="true">&#128230;</div>
+            <h3 class="content-card__title">Shipped Fast</h3>
+            <p class="content-card__text">Orders are dispatched within 48 hours in plastic-free, compostable packaging designed to keep your log happy in transit.</p>
+          </article>
+          <article class="content-card">
+            <div class="content-card__icon" aria-hidden="true">&#128218;</div>
+            <h3 class="content-card__title">Expert Care Guides</h3>
+            <p class="content-card__text">Every order includes access to our detailed care guides, video tutorials, and direct support from our growing team.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================================================================
+         CTA BANNER
+         ================================================================ -->
+    <section class="cta-banner" aria-labelledby="cta-heading">
+      <div class="cta-banner__inner">
+        <h2 class="cta-banner__title" id="cta-heading">New to Mushroom Growing?</h2>
+        <p class="cta-banner__text">Our free care guides cover everything from first misting to your fifth harvest. Written by growers, for growers.</p>
+        <a href="/care" class="btn btn-secondary btn-lg">Explore Care Guides</a>
+      </div>
+    </section>
+  </main>
+
+  <!-- ================================================================
+       FOOTER
+       ================================================================ -->
+  <footer class="site-footer">
+    <div class="site-footer__inner">
+      <div class="site-footer__grid">
+        <div class="site-footer__brand">
+          <span class="site-footer__logo">Centrifungal</span>
+          <p class="site-footer__tagline">Premium mushroom grow logs, hand-inoculated and shipped from our woodland workshop in the heart of Britain.</p>
+          <div class="site-footer__social">
+            <a href="#" class="site-footer__social-link" aria-label="Instagram">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
+                <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/>
+                <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/>
+              </svg>
+            </a>
+            <a href="#" class="site-footer__social-link" aria-label="Facebook">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/>
+              </svg>
+            </a>
+          </div>
+        </div>
+
+        <div>
+          <h3 class="site-footer__column-title">Shop</h3>
+          <ul class="site-footer__links" role="list">
+            <li><a href="/shop" class="site-footer__link">All Products</a></li>
+            <li><a href="/shop/grow-logs" class="site-footer__link">Grow Logs</a></li>
+            <li><a href="/shop/gift-sets" class="site-footer__link">Gift Sets</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h3 class="site-footer__column-title">Learn</h3>
+          <ul class="site-footer__links" role="list">
+            <li><a href="/care" class="site-footer__link">Care Guides</a></li>
+            <li><a href="/about" class="site-footer__link">Our Story</a></li>
+            <li><a href="/faq" class="site-footer__link">FAQ</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h3 class="site-footer__column-title">Support</h3>
+          <ul class="site-footer__links" role="list">
+            <li><a href="/contact" class="site-footer__link">Contact Us</a></li>
+            <li><a href="/shipping" class="site-footer__link">Shipping Info</a></li>
+            <li><a href="/returns" class="site-footer__link">Returns</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="site-footer__bottom">
+        <p class="site-footer__copyright">&copy; 2026 Centrifungal. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="/js/homepage.js"></script>
+</body>
+</html>

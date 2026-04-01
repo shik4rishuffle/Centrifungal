@@ -1,0 +1,19 @@
+title: Products
+template: products/show
+layout: layout
+route: '/products/{slug}'
+sort_dir: asc
+orderable: true
+date: false
+search: true
+revisions: false
+default_status: draft
+structure: false
+listing:
+  columns:
+    - name
+    - category
+    - price
+    - in_stock
+  sort: title
+  sort_dir: asc

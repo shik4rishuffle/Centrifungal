@@ -1,0 +1,25 @@
+# =============================================================================
+# Netlify Configuration - Centrifungal Frontend
+# =============================================================================
+#
+# Required environment variables (set in Netlify UI > Site settings > Environment):
+#
+#   RAILWAY_BACKEND_URL - The Railway backend service URL
+#     Example: https://centrifungal-api.up.railway.app
+#     Used by the /api/* proxy redirect below.
+#
+
+[build]
+  publish = "src"
+  command = "echo 'No build step - static site'"
+
+# Proxy API requests to the Railway backend so the browser never hits CORS issues.
+[[redirects]]
+  from = "/api/*"
+  to = "https://:RAILWAY_BACKEND_URL/api/:splat"
+  status = 200
+  force = true
+
+# [[headers]]
+# Headers configuration is handled by TASK-008.
+# Add security headers, CORS rules, and cache-control directives there.

@@ -1,0 +1,79 @@
+# Centrifungal - Railway Deployment Container
+# PHP 8.4 with FPM + Nginx on Alpine
+#
+# NOTE: Using php:8.4-fpm-alpine as php:8.5-fpm-alpine is not yet available
+# on Docker Hub. Upgrade to 8.5-fpm-alpine when the official image is published.
+# Track availability at: https://hub.docker.com/_/php/tags?name=8.5-fpm-alpine
+
+FROM php:8.4-fpm-alpine
+
+# Install system dependencies
+RUN apk add --no-cache \
+    nginx \
+    supervisor \
+    sqlite \
+    sqlite-dev \
+    libpng-dev \
+    libjpeg-turbo-dev \
+    freetype-dev \
+    libxml2-dev \
+    curl-dev \
+    libzip-dev \
+    oniguruma-dev \
+    icu-dev \
+    && rm -rf /var/cache/apk/*
+
+# Ensure SQLite 3.52.0+ is installed (WAL-reset bug fix - see risk register).
+# Alpine 3.21+ ships SQLite 3.47+; if your base image is older, you may need
+# to compile SQLite from source to get 3.52.0+. Verify at build time:
+RUN sqlite3 --version
+
+# Install PHP extensions
+RUN docker-php-ext-configure gd --with-freetype --with-jpeg \
+    && docker-php-ext-install -j$(nproc) \
+    pdo_sqlite \
+    gd \
+    bcmath \
+    mbstring \
+    xml \
+    curl \
+    zip \
+    intl
+
+# Install Composer
+COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
+
+# Install Litestream binary
+# Placeholder - will be fully configured in TASK-005 (Litestream backup setup).
+# Litestream wraps the main process and continuously replicates the SQLite DB.
+ARG LITESTREAM_VERSION=0.3.13
+ADD https://github.com/benbjohnson/litestream/releases/download/v${LITESTREAM_VERSION}/litestream-v${LITESTREAM_VERSION}-linux-amd64.tar.gz /tmp/litestream.tar.gz
+RUN tar -C /usr/local/bin -xzf /tmp/litestream.tar.gz \
+    && rm /tmp/litestream.tar.gz \
+    && chmod +x /usr/local/bin/litestream
+
+# Set working directory
+WORKDIR /app
+
+# Copy application code from backend/ directory
+COPY backend/ .
+
+# Install PHP dependencies (production only)
+RUN composer install --no-dev --optimize-autoloader --no-interaction --no-progress
+
+# Create the /data directory for SQLite persistent volume
+RUN mkdir -p /data
+
+# Copy infrastructure config files
+COPY infrastructure/nginx.conf /etc/nginx/http.d/default.conf
+COPY infrastructure/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
+COPY infrastructure/entrypoint.sh /usr/local/bin/entrypoint.sh
+RUN chmod +x /usr/local/bin/entrypoint.sh
+
+# Set correct permissions
+RUN chown -R www-data:www-data /app/storage /app/bootstrap/cache /data
+
+# Expose Railway's expected port
+EXPOSE 8080
+
+ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]

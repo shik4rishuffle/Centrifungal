@@ -1,0 +1,3 @@
+# Netlify _redirects fallback
+# Primary redirect rules live in netlify.toml. This file exists as a fallback.
+/api/* https://:RAILWAY_BACKEND_URL/api/:splat 200!
