@@ -48,18 +48,18 @@
 .product-detail {
   max-width: var(--container-xl);
   margin: 0 auto;
-  padding: var(--space-xl) var(--space-md) var(--space-3xl);
+  padding: var(--space-lg) var(--space-md) var(--space-2xl);
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: var(--space-2xl);
+  grid-template-columns: 1fr;
+  gap: var(--space-xl);
   align-items: start;
 }
 
-@media (max-width: 768px) {
+@media (min-width: 769px) {
   .product-detail {
-    grid-template-columns: 1fr;
-    gap: var(--space-xl);
-    padding: var(--space-lg) var(--space-md) var(--space-2xl);
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-2xl);
+    padding: var(--space-xl) var(--space-md) var(--space-3xl);
   }
 }
 
@@ -71,13 +71,13 @@
   display: flex;
   flex-direction: column;
   gap: var(--space-md);
-  position: sticky;
-  top: calc(80px + var(--space-md));
+  position: static;
 }
 
-@media (max-width: 768px) {
+@media (min-width: 769px) {
   .product-gallery {
-    position: static;
+    position: sticky;
+    top: calc(80px + var(--space-md));
   }
 }
 
@@ -178,14 +178,14 @@
 
 .product-info__title {
   font-family: var(--font-heading);
-  font-size: var(--text-4xl);
+  font-size: var(--text-3xl);
   line-height: var(--leading-tight);
   color: var(--color-text);
 }
 
-@media (max-width: 640px) {
+@media (min-width: 641px) {
   .product-info__title {
-    font-size: var(--text-3xl);
+    font-size: var(--text-4xl);
   }
 }
 
@@ -286,32 +286,34 @@
 
 .product-add-to-cart {
   display: flex;
-  align-items: center;
+  flex-direction: column;
+  align-items: stretch;
   gap: var(--space-md);
-  flex-wrap: wrap;
 }
 
 .product-add-to-cart .qty-selector {
   flex-shrink: 0;
+  align-self: flex-start;
 }
 
 .product-add-to-cart__btn {
   flex: 1;
-  min-width: 180px;
+  min-width: unset;
 }
 
-@media (max-width: 480px) {
+@media (min-width: 481px) {
   .product-add-to-cart {
-    flex-direction: column;
-    align-items: stretch;
+    flex-direction: row;
+    align-items: center;
+    flex-wrap: wrap;
   }
 
   .product-add-to-cart .qty-selector {
-    align-self: flex-start;
+    align-self: auto;
   }
 
   .product-add-to-cart__btn {
-    min-width: unset;
+    min-width: 180px;
   }
 }
 

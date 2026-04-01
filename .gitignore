@@ -1,12 +1,20 @@
-# PHP
+# =============================================================================
+# Centrifungal - Repository .gitignore
+# =============================================================================
+
+# PHP / Composer
 vendor/
 .env
+.env.backup
+.env.production
 storage/framework/
 bootstrap/cache/
 
 # Node
 node_modules/
 dist/
+.npm
+.pnp.*
 
 # SQLite
 *.sqlite
@@ -17,10 +25,43 @@ dist/
 # OS
 .DS_Store
 Thumbs.db
+ehthumbs.db
+Desktop.ini
 
 # IDE
 .idea/
 .vscode/
+*.swp
+*.swo
+*~
+.project
+.settings/
+.classpath
+nbproject/
 
 # Claude Code local config
 .claude/
+
+# Laravel / Statamic
+storage/*.key
+.phpunit.result.cache
+Homestead.json
+Homestead.yaml
+auth.json
+npm-debug.log
+yarn-error.log
+
+# Build artifacts
+*.map
+
+# Litestream
+litestream.db
+*.litestream
+
+# Backups (local only - remote backups stored in R2/S3)
+*.sql
+*.sql.gz
+*.sqlite.bak
+
+# Infrastructure secrets
+infrastructure/.env

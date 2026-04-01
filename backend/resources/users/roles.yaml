@@ -24,3 +24,5 @@ editor:
     - 'delete images assets'
     - 'access cp'
     - 'view orders'
+    - 'view contact submissions'
+    - 'edit main_nav nav'

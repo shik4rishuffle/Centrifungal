@@ -119,12 +119,18 @@
   box-shadow: none;
 }
 
-/* Size: small */
+/* Size: small - 44px min on mobile for touch targets, relaxed on desktop */
 .btn-sm {
   font-size: var(--text-sm);
   padding: var(--space-xs) var(--space-md);
-  min-height: 36px;
+  min-height: 44px;
   border-radius: var(--radius-sm);
+}
+
+@media (min-width: 1024px) {
+  .btn-sm {
+    min-height: 36px;
+  }
 }
 
 /* Size: large */
@@ -471,19 +477,12 @@
   height: 36px;
 }
 
-.site-header__nav {
-  display: flex;
-  align-items: center;
-  gap: var(--space-xs);
-}
-
 .site-header__nav-link {
   font-family: var(--font-body);
   font-size: var(--text-sm);
   font-weight: var(--weight-medium);
   color: var(--color-text);
   text-decoration: none;
-  padding: var(--space-sm) var(--space-sm);
   border-radius: var(--radius-sm);
   transition: color var(--transition-fast), background var(--transition-fast);
   white-space: nowrap;
@@ -542,9 +541,9 @@
   padding: 0 4px;
 }
 
-/* Hamburger */
+/* Hamburger - visible on mobile, hidden on desktop */
 .site-header__hamburger {
-  display: none;
+  display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
@@ -584,34 +583,51 @@
   transform: rotate(-45deg) translate(5px, -5px);
 }
 
-/* Mobile nav */
-@media (max-width: 768px) {
+/* Mobile nav - hidden by default, dropdown when open */
+.site-header__nav {
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background: var(--color-surface);
+  border-bottom: 1px solid var(--color-border-light);
+  box-shadow: var(--shadow-lg);
+  flex-direction: column;
+  padding: var(--space-sm);
+  gap: 0;
+}
+
+.site-header__nav--open {
+  display: flex;
+}
+
+.site-header__nav-link {
+  padding: var(--space-md);
+  width: 100%;
+  border-radius: var(--radius-sm);
+}
+
+/* Desktop nav - inline, hamburger hidden */
+@media (min-width: 769px) {
   .site-header__hamburger {
-    display: flex;
+    display: none;
   }
 
   .site-header__nav {
-    display: none;
-    position: absolute;
-    top: 100%;
-    left: 0;
-    right: 0;
-    background: var(--color-surface);
-    border-bottom: 1px solid var(--color-border-light);
-    box-shadow: var(--shadow-lg);
-    flex-direction: column;
-    padding: var(--space-sm);
-    gap: 0;
-  }
-
-  .site-header__nav--open {
     display: flex;
+    position: static;
+    background: none;
+    border-bottom: none;
+    box-shadow: none;
+    flex-direction: row;
+    padding: 0;
+    gap: var(--space-xs);
   }
 
   .site-header__nav-link {
-    padding: var(--space-md);
-    width: 100%;
-    border-radius: var(--radius-sm);
+    padding: var(--space-sm) var(--space-sm);
+    width: auto;
   }
 }
 
@@ -632,20 +648,20 @@
 
 .site-footer__grid {
   display: grid;
-  grid-template-columns: 2fr 1fr 1fr 1fr;
-  gap: var(--space-xl);
+  grid-template-columns: 1fr;
+  gap: var(--space-lg);
 }
 
-@media (max-width: 768px) {
+@media (min-width: 481px) {
   .site-footer__grid {
     grid-template-columns: 1fr 1fr;
-    gap: var(--space-lg);
   }
 }
 
-@media (max-width: 480px) {
+@media (min-width: 769px) {
   .site-footer__grid {
-    grid-template-columns: 1fr;
+    grid-template-columns: 2fr 1fr 1fr 1fr;
+    gap: var(--space-xl);
   }
 }
 
@@ -691,6 +707,16 @@
   color: var(--neutral-300);
   text-decoration: none;
   transition: color var(--transition-fast);
+  display: inline-block;
+  min-height: 44px;
+  line-height: 44px;
+}
+
+@media (min-width: 769px) {
+  .site-footer__link {
+    min-height: unset;
+    line-height: var(--leading-normal);
+  }
 }
 
 .site-footer__link:hover {
@@ -704,8 +730,8 @@
 }
 
 .site-footer__social-link {
-  width: 40px;
-  height: 40px;
+  width: 44px;
+  height: 44px;
   border-radius: var(--radius-full);
   background: rgba(255, 255, 255, 0.08);
   color: var(--neutral-300);
@@ -870,11 +896,18 @@
   font-family: var(--font-body);
   font-size: var(--text-sm);
   line-height: var(--leading-normal);
-  min-width: 300px;
-  max-width: 420px;
+  min-width: 0;
+  max-width: calc(100vw - var(--space-xl));
   pointer-events: auto;
   animation: toast-slide-in var(--transition-spring) forwards;
   border-left: 4px solid transparent;
+}
+
+@media (min-width: 481px) {
+  .toast {
+    min-width: 300px;
+    max-width: 420px;
+  }
 }
 
 .toast--exiting {
@@ -1012,12 +1045,12 @@
 
 .demo-form-grid {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 1fr;
   gap: var(--space-lg);
 }
 
-@media (max-width: 640px) {
+@media (min-width: 641px) {
   .demo-form-grid {
-    grid-template-columns: 1fr;
+    grid-template-columns: 1fr 1fr;
   }
 }

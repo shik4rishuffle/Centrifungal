@@ -1,0 +1,30 @@
+title: 'Main Nav'
+max_depth: 2
+collections:
+  - pages
+  - products
+tree:
+  -
+    id: nav-home
+    title: Home
+    url: /
+  -
+    id: nav-shop
+    title: Shop
+    url: /shop
+  -
+    id: nav-about
+    title: About
+    entry: about
+  -
+    id: nav-care-instructions
+    title: 'Care Instructions'
+    entry: care-instructions
+  -
+    id: nav-contact
+    title: Contact
+    entry: contact
+  -
+    id: nav-faq
+    title: FAQ
+    entry: faq

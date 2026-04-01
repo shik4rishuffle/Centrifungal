@@ -43,9 +43,9 @@ RUN docker-php-ext-configure gd --with-freetype --with-jpeg \
 # Install Composer
 COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 
-# Install Litestream binary
-# Placeholder - will be fully configured in TASK-005 (Litestream backup setup).
-# Litestream wraps the main process and continuously replicates the SQLite DB.
+# Install Litestream binary (TASK-005)
+# Litestream wraps the Supervisor process and continuously replicates the SQLite
+# WAL to Cloudflare R2. Config: /etc/litestream.yml. Env vars control activation.
 ARG LITESTREAM_VERSION=0.3.13
 ADD https://github.com/benbjohnson/litestream/releases/download/v${LITESTREAM_VERSION}/litestream-v${LITESTREAM_VERSION}-linux-amd64.tar.gz /tmp/litestream.tar.gz
 RUN tar -C /usr/local/bin -xzf /tmp/litestream.tar.gz \
@@ -68,7 +68,9 @@ RUN mkdir -p /data
 COPY infrastructure/nginx.conf /etc/nginx/http.d/default.conf
 COPY infrastructure/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 COPY infrastructure/entrypoint.sh /usr/local/bin/entrypoint.sh
-RUN chmod +x /usr/local/bin/entrypoint.sh
+COPY infrastructure/litestream.yml /etc/litestream.yml
+COPY infrastructure/check-volume.sh /usr/local/bin/check-volume.sh
+RUN chmod +x /usr/local/bin/entrypoint.sh /usr/local/bin/check-volume.sh
 
 # Set correct permissions
 RUN chown -R www-data:www-data /app/storage /app/bootstrap/cache /data

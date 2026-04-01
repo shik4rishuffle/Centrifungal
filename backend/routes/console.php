@@ -10,3 +10,4 @@ Artisan::command('inspire', function () {
 
 Schedule::command('app:poll-royal-mail-tracking')->everyFifteenMinutes();
 Schedule::command('app:reconcile-stripe-payments')->hourly();
+Schedule::command('db:backup')->daily()->at('03:00')->onOneServer();

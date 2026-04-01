@@ -38,9 +38,13 @@
   }
   </script>
 
-  <!-- Google Fonts -->
+  <!-- Resource hints -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="dns-prefetch" href="https://fonts.googleapis.com">
+  <link rel="dns-prefetch" href="https://fonts.gstatic.com">
+
+  <!-- Google Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=DM+Serif+Display&display=swap" rel="stylesheet">
 
   <!-- Stylesheets -->
@@ -242,6 +246,30 @@
   </footer>
 
   <!-- Scripts -->
-  <script src="/js/homepage.js"></script>
+  <script>
+    /* Hamburger toggle */
+    (function() {
+      var hamburger = document.querySelector('.site-header__hamburger');
+      var nav = document.getElementById('main-nav');
+      if (hamburger && nav) {
+        hamburger.addEventListener('click', function() {
+          var expanded = hamburger.getAttribute('aria-expanded') === 'true';
+          hamburger.setAttribute('aria-expanded', !expanded);
+          nav.classList.toggle('site-header__nav--open');
+        });
+      }
+    })();
+
+    /* Header scroll shadow */
+    (function() {
+      var header = document.querySelector('.site-header');
+      if (header) {
+        window.addEventListener('scroll', function() {
+          header.classList.toggle('site-header--scrolled', window.scrollY > 10);
+        }, { passive: true });
+      }
+    })();
+  </script>
+  <script src="/js/homepage.js" defer></script>
 </body>
 </html>

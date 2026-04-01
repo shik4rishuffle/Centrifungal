@@ -4,7 +4,7 @@
 #
 # Required environment variables (set in Netlify UI > Site settings > Environment):
 #
-#   RAILWAY_BACKEND_URL - The Railway backend service URL
+#   RAILWAY_BACKEND_URL - The Railway backend service URL (no trailing slash)
 #     Example: https://centrifungal-api.up.railway.app
 #     Used by the /api/* proxy redirect below.
 #
@@ -13,13 +13,80 @@
   publish = "src"
   command = "echo 'No build step - static site'"
 
-# Proxy API requests to the Railway backend so the browser never hits CORS issues.
+# ---------------------------------------------------------------------------
+# Redirects
+# ---------------------------------------------------------------------------
+
+# Proxy API requests to the Railway backend so the browser never hits CORS.
+# The 200 status makes this a rewrite (transparent proxy), not a redirect.
 [[redirects]]
   from = "/api/*"
   to = "https://:RAILWAY_BACKEND_URL/api/:splat"
   status = 200
   force = true
 
-# [[headers]]
-# Headers configuration is handled by TASK-008.
-# Add security headers, CORS rules, and cache-control directives there.
+# Pretty URLs - serve .html files without the extension.
+# /about -> /about.html, /contact -> /contact.html, etc.
+[[redirects]]
+  from = "/*"
+  to = "/:splat.html"
+  status = 200
+
+# If no .html match, fall back to the 404 page.
+[[redirects]]
+  from = "/*"
+  to = "/404.html"
+  status = 404
+
+# ---------------------------------------------------------------------------
+# Security Headers (TASK-008)
+# ---------------------------------------------------------------------------
+
+# Global headers applied to every response.
+[[headers]]
+  for = "/*"
+  [headers.values]
+    # HTTPS only - include subdomains, 1 year max-age
+    Strict-Transport-Security = "max-age=31536000; includeSubDomains; preload"
+    # Prevent clickjacking
+    X-Frame-Options = "DENY"
+    # Prevent MIME-type sniffing
+    X-Content-Type-Options = "nosniff"
+    # Referrer policy - send origin only to cross-origin requests
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    # Permissions policy - disable unused browser features
+    Permissions-Policy = "camera=(), microphone=(), geolocation=(), payment=(self)"
+    # Content Security Policy
+    # - self for scripts/styles/images/fonts
+    # - Stripe for payment integration
+    # - unsafe-inline for styles (many static sites need this)
+    Content-Security-Policy = "default-src 'self'; script-src 'self' 'unsafe-inline' https://js.stripe.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; img-src 'self' data: https:; font-src 'self' https://fonts.gstatic.com; connect-src 'self' https://api.stripe.com; frame-src https://js.stripe.com; base-uri 'self'; form-action 'self'"
+    # Prevent the site from being embedded in other sites
+    X-XSS-Protection = "0"
+
+# Cache static assets aggressively.
+[[headers]]
+  for = "/*.css"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "/*.js"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "/*.{png,jpg,jpeg,gif,svg,webp,avif,ico}"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "/*.{woff,woff2,ttf,eot}"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+# HTML pages should not be cached aggressively.
+[[headers]]
+  for = "/*.html"
+  [headers.values]
+    Cache-Control = "public, max-age=0, must-revalidate"

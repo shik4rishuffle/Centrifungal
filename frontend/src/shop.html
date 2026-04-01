@@ -34,9 +34,16 @@
   }
   </script>
 
+  <!-- Resource hints -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="dns-prefetch" href="https://fonts.googleapis.com">
+  <link rel="dns-prefetch" href="https://fonts.gstatic.com">
+
+  <!-- Google Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=DM+Serif+Display&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+  <!-- Stylesheets -->
   <link rel="stylesheet" href="css/reset.css">
   <link rel="stylesheet" href="css/design-tokens.css">
   <link rel="stylesheet" href="css/components.css">
@@ -57,8 +64,14 @@
 
     .shop-hero__title {
       font-family: var(--font-heading);
-      font-size: var(--text-4xl);
+      font-size: var(--text-3xl);
       margin-bottom: var(--space-sm);
+    }
+
+    @media (min-width: 641px) {
+      .shop-hero__title {
+        font-size: var(--text-4xl);
+      }
     }
 
     .shop-hero__subtitle {
@@ -104,26 +117,22 @@
       line-height: var(--leading-normal);
     }
 
-    /* Product grid */
+    /* Product grid - mobile-first */
     .shop-grid {
       display: grid;
-      grid-template-columns: repeat(3, 1fr);
+      grid-template-columns: 1fr;
       gap: var(--space-lg);
     }
 
-    @media (max-width: 1024px) {
+    @media (min-width: 641px) {
       .shop-grid {
         grid-template-columns: repeat(2, 1fr);
       }
     }
 
-    @media (max-width: 640px) {
+    @media (min-width: 1025px) {
       .shop-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .shop-hero__title {
-        font-size: var(--text-3xl);
+        grid-template-columns: repeat(3, 1fr);
       }
     }
 
@@ -285,7 +294,7 @@
           </div>
         </div>
         <div>
-          <h4 class="site-footer__column-title">Shop</h4>
+          <h3 class="site-footer__column-title">Shop</h4>
           <ul class="site-footer__links" role="list">
             <li><a href="/shop.html" class="site-footer__link">All Products</a></li>
             <li><a href="/shop.html#category-grow-logs" class="site-footer__link">Grow Logs</a></li>
@@ -295,7 +304,7 @@
           </ul>
         </div>
         <div>
-          <h4 class="site-footer__column-title">Help</h4>
+          <h3 class="site-footer__column-title">Help</h4>
           <ul class="site-footer__links" role="list">
             <li><a href="/care.html" class="site-footer__link">Care Instructions</a></li>
             <li><a href="/faq.html" class="site-footer__link">FAQ</a></li>
@@ -305,7 +314,7 @@
           </ul>
         </div>
         <div>
-          <h4 class="site-footer__column-title">Company</h4>
+          <h3 class="site-footer__column-title">Company</h4>
           <ul class="site-footer__links" role="list">
             <li><a href="/about.html" class="site-footer__link">About Us</a></li>
             <li><a href="#" class="site-footer__link">Our Story</a></li>
@@ -354,7 +363,7 @@
     updateHeaderCartCount();
     window.addEventListener('cart-updated', updateHeaderCartCount);
   </script>
-  <script src="js/shop.js"></script>
+  <script src="js/shop.js" defer></script>
 
 </body>
 </html>

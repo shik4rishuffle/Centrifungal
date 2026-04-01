@@ -119,7 +119,7 @@ function renderGallery(product) {
 
   const mainImage = images[0];
   const mainContent = mainImage.url
-    ? `<img src="${mainImage.url}" alt="${mainImage.alt}" id="gallery-main-img">`
+    ? `<img src="${mainImage.url}" alt="${mainImage.alt}" id="gallery-main-img" width="600" height="600" decoding="async">`
     : `<div class="img-placeholder" aria-hidden="true" id="gallery-main-img">${icon}</div>`;
 
   let thumbsHtml = '';
@@ -129,7 +129,7 @@ function renderGallery(product) {
         ${images.map((img, i) => {
           const activeClass = i === 0 ? ' product-gallery__thumb--active' : '';
           const thumbContent = img.url
-            ? `<img src="${img.url}" alt="${img.alt}">`
+            ? `<img src="${img.url}" alt="${img.alt}" width="100" height="100" loading="lazy" decoding="async">`
             : `<div class="img-placeholder" aria-hidden="true">${icon}</div>`;
           return `
             <button class="product-gallery__thumb${activeClass}"
@@ -355,7 +355,7 @@ function swapMainImage(index) {
   const icon = CATEGORY_ICONS[currentProduct.category] || '\u{1F344}';
 
   if (image.url) {
-    mainContainer.innerHTML = `<img src="${image.url}" alt="${image.alt}" id="gallery-main-img">`;
+    mainContainer.innerHTML = `<img src="${image.url}" alt="${image.alt}" id="gallery-main-img" width="600" height="600" decoding="async">`;
   } else {
     mainContainer.innerHTML = `<div class="img-placeholder" aria-hidden="true" id="gallery-main-img">${icon}</div>`;
   }

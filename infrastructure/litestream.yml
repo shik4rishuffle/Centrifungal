@@ -1,0 +1,34 @@
+# =============================================================================
+# Litestream Configuration - SQLite Replication to Cloudflare R2
+# =============================================================================
+#
+# Litestream continuously replicates the SQLite WAL to an S3-compatible store.
+# This config targets Cloudflare R2 but works with any S3-compatible service
+# (Backblaze B2, AWS S3, MinIO, etc.) - just change the endpoint URL.
+#
+# Required environment variables (set in Railway):
+#   LITESTREAM_REPLICA_URL - S3 bucket path, e.g. s3://centrifungal-db-backups/production
+#   R2_ACCESS_KEY_ID - Cloudflare R2 access key
+#   R2_SECRET_ACCESS_KEY - Cloudflare R2 secret key
+#   R2_ENDPOINT_URL - Cloudflare R2 endpoint, e.g. https://<account-id>.r2.cloudflarestorage.com
+
+dbs:
+  - path: /data/database.sqlite
+    replicas:
+      - name: r2
+        type: s3
+        bucket: centrifungal-db-backups
+        path: production
+        endpoint: ${R2_ENDPOINT_URL}
+        access-key-id: ${R2_ACCESS_KEY_ID}
+        secret-access-key: ${R2_SECRET_ACCESS_KEY}
+        # Force path-style addressing (required for R2 and B2)
+        force-path-style: true
+        # Retention period for WAL snapshots
+        retention: 168h
+        # How often to create a full snapshot
+        snapshot-interval: 24h
+        # How often to sync WAL changes
+        sync-interval: 1s
+        # Validate replicas on startup
+        validation-interval: 12h
