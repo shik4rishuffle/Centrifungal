@@ -9,3 +9,4 @@ Artisan::command('inspire', function () {
 })->purpose('Display an inspiring quote');
 
 Schedule::command('app:poll-royal-mail-tracking')->everyFifteenMinutes();
+Schedule::command('app:reconcile-stripe-payments')->hourly();

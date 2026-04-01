@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Order Confirmed - Centrifungal</title>
+  <meta name="description" content="Thank you for your order from Centrifungal.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=DM+Serif+Display&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/reset.css">
+  <link rel="stylesheet" href="css/design-tokens.css">
+  <link rel="stylesheet" href="css/components.css">
+  <style>
+    body {
+      font-family: var(--font-body);
+      color: var(--color-text);
+      background: var(--color-surface);
+    }
+
+    .confirmation-hero {
+      background: linear-gradient(135deg, var(--green-900), var(--green-700));
+      color: var(--color-text-on-dark);
+      padding: var(--space-2xl) var(--space-md);
+      text-align: center;
+    }
+
+    .confirmation-hero__title {
+      font-family: var(--font-heading);
+      font-size: var(--text-3xl);
+    }
+
+    .confirmation-content {
+      max-width: var(--container-md);
+      margin: 0 auto;
+      padding: var(--space-3xl) var(--space-md) var(--space-4xl);
+      text-align: center;
+    }
+
+    .confirmation__icon {
+      width: 80px;
+      height: 80px;
+      border-radius: var(--radius-full);
+      background: var(--color-success-light);
+      color: var(--color-success);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: var(--text-4xl);
+      margin-bottom: var(--space-xl);
+    }
+
+    .confirmation__title {
+      font-family: var(--font-heading);
+      font-size: var(--text-3xl);
+      color: var(--color-text);
+      margin-bottom: var(--space-md);
+    }
+
+    .confirmation__text {
+      font-size: var(--text-lg);
+      color: var(--color-text-muted);
+      line-height: var(--leading-relaxed);
+      max-width: 520px;
+      margin: 0 auto var(--space-xl);
+    }
+
+    .confirmation__actions {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: var(--space-sm);
+    }
+
+    .icon-svg {
+      width: 24px;
+      height: 24px;
+      fill: none;
+      stroke: currentColor;
+      stroke-width: 2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Header -->
+  <header class="site-header" id="site-header">
+    <div class="site-header__inner">
+      <a href="/" class="site-header__logo">
+        <svg class="site-header__logo-icon" viewBox="0 0 36 36" fill="none">
+          <circle cx="18" cy="18" r="17" fill="var(--gold-500)" stroke="var(--gold-700)" stroke-width="2"/>
+          <path d="M18 8c-2 0-6 3-6 10 0 4 2 8 6 10 4-2 6-6 6-10 0-7-4-10-6-10z" fill="var(--green-700)" stroke="var(--green-900)" stroke-width="1"/>
+          <ellipse cx="18" cy="26" rx="8" ry="2" fill="var(--green-900)" opacity="0.3"/>
+        </svg>
+        Centrifungal
+      </a>
+      <nav class="site-header__nav" id="main-nav" aria-label="Main navigation">
+        <a href="/" class="site-header__nav-link">Home</a>
+        <a href="/shop.html" class="site-header__nav-link">Shop</a>
+        <a href="/about.html" class="site-header__nav-link">About</a>
+        <a href="/care.html" class="site-header__nav-link">Care Instructions</a>
+        <a href="/faq.html" class="site-header__nav-link">FAQ</a>
+        <a href="/contact.html" class="site-header__nav-link">Contact</a>
+      </nav>
+      <div class="site-header__actions">
+        <a href="/cart.html" class="site-header__cart" aria-label="Cart">
+          <svg class="icon-svg" viewBox="0 0 24 24"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
+          <span class="site-header__cart-count" id="header-cart-count" style="display: none;">0</span>
+        </a>
+        <button class="site-header__hamburger" id="hamburger-btn" aria-expanded="false" aria-controls="main-nav" aria-label="Toggle menu">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Confirmation Hero -->
+  <div class="confirmation-hero">
+    <h1 class="confirmation-hero__title">Order Confirmed</h1>
+  </div>
+
+  <!-- Confirmation Content -->
+  <main class="confirmation-content">
+    <div class="confirmation__icon" aria-hidden="true">&#10003;</div>
+    <h2 class="confirmation__title">Thank you for your order!</h2>
+    <p class="confirmation__text">Your order has been placed successfully. You'll receive a confirmation email shortly with your order details and tracking information.</p>
+    <div class="confirmation__actions">
+      <a href="/shop.html" class="btn btn-primary btn-lg">Continue Shopping</a>
+      <a href="/" class="btn btn-ghost">Back to Home</a>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="site-footer">
+    <div class="site-footer__inner">
+      <div class="site-footer__grid">
+        <div class="site-footer__brand">
+          <div class="site-footer__logo">&#127812; Centrifungal</div>
+          <p class="site-footer__tagline">Artisan mushroom grow logs, cultivated with care. Bringing the forest floor to your front door.</p>
+          <div class="site-footer__social">
+            <a href="#" class="site-footer__social-link" aria-label="Instagram">
+              <svg class="icon-svg" viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+            </a>
+            <a href="#" class="site-footer__social-link" aria-label="Facebook">
+              <svg class="icon-svg" viewBox="0 0 24 24"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/></svg>
+            </a>
+            <a href="#" class="site-footer__social-link" aria-label="Twitter">
+              <svg class="icon-svg" viewBox="0 0 24 24"><path d="M23 3a10.9 10.9 0 01-3.14 1.53 4.48 4.48 0 00-7.86 3v1A10.66 10.66 0 013 4s-4 9 5 13a11.64 11.64 0 01-7 2c9 5 20 0 20-11.5a4.5 4.5 0 00-.08-.83A7.72 7.72 0 0023 3z"/></svg>
+            </a>
+          </div>
+        </div>
+        <div>
+          <h4 class="site-footer__column-title">Shop</h4>
+          <ul class="site-footer__links" role="list">
+            <li><a href="/shop.html" class="site-footer__link">All Products</a></li>
+            <li><a href="/shop.html#category-grow-logs" class="site-footer__link">Grow Logs</a></li>
+            <li><a href="/shop.html#category-colonised-dowels" class="site-footer__link">Colonised Dowels</a></li>
+            <li><a href="/shop.html#category-diy-kits" class="site-footer__link">DIY Kits</a></li>
+            <li><a href="/shop.html#category-tinctures" class="site-footer__link">Tinctures</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="site-footer__column-title">Help</h4>
+          <ul class="site-footer__links" role="list">
+            <li><a href="/care.html" class="site-footer__link">Care Instructions</a></li>
+            <li><a href="/faq.html" class="site-footer__link">FAQ</a></li>
+            <li><a href="#" class="site-footer__link">Shipping</a></li>
+            <li><a href="#" class="site-footer__link">Returns</a></li>
+            <li><a href="/contact.html" class="site-footer__link">Contact</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="site-footer__column-title">Company</h4>
+          <ul class="site-footer__links" role="list">
+            <li><a href="/about.html" class="site-footer__link">About Us</a></li>
+            <li><a href="#" class="site-footer__link">Our Story</a></li>
+            <li><a href="#" class="site-footer__link">Sustainability</a></li>
+            <li><a href="#" class="site-footer__link">Privacy Policy</a></li>
+            <li><a href="#" class="site-footer__link">Terms of Service</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="site-footer__bottom">
+        <p class="site-footer__copyright">&copy; 2026 Centrifungal. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    /* Hamburger toggle */
+    const hamburger = document.getElementById('hamburger-btn');
+    const nav = document.getElementById('main-nav');
+    hamburger.addEventListener('click', () => {
+      const expanded = hamburger.getAttribute('aria-expanded') === 'true';
+      hamburger.setAttribute('aria-expanded', !expanded);
+      nav.classList.toggle('site-header__nav--open');
+    });
+
+    /* Header scroll shadow */
+    const header = document.getElementById('site-header');
+    window.addEventListener('scroll', () => {
+      header.classList.toggle('site-header--scrolled', window.scrollY > 10);
+    }, { passive: true });
+  </script>
+  <script type="module">
+    import { handleCheckoutReturn } from './js/checkout.js';
+    handleCheckoutReturn();
+  </script>
+
+</body>
+</html>

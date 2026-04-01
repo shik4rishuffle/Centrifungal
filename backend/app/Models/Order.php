@@ -25,6 +25,7 @@ use Illuminate\Support\Facades\Mail;
     'tracking_number',
     'tracking_url',
     'shipped_at',
+    'shipping_notification_sent_at',
     'delivered_at',
     'reconciled_at',
 ])]
@@ -82,6 +83,7 @@ class Order extends Model
             'shipping_pence' => 'integer',
             'total_pence' => 'integer',
             'shipped_at' => 'datetime',
+            'shipping_notification_sent_at' => 'datetime',
             'delivered_at' => 'datetime',
             'reconciled_at' => 'datetime',
         ];

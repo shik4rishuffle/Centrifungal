@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands;
 
+use App\Jobs\SendShippingNotification;
 use App\Models\Order;
 use App\Services\RoyalMailService;
 use Illuminate\Console\Command;
@@ -43,6 +44,11 @@ class PollRoyalMailTracking extends Command
                         'tracking_url' => $tracking->trackingUrl,
                         'shipped_at' => now(),
                     ]);
+
+                    if (is_null($order->shipping_notification_sent_at)) {
+                        SendShippingNotification::dispatch($order->fresh());
+                    }
+
                     $this->info("Order {$order->order_number} updated to shipped.");
                 } elseif ($tracking->status === 'delivered' && $order->status !== 'delivered') {
                     $order->update([

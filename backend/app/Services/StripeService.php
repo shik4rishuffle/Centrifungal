@@ -5,6 +5,26 @@ namespace App\Services;
 class StripeService
 {
     /**
+     * List completed checkout sessions from the last 24 hours.
+     *
+     * @return array<int, array<string, mixed>>
+     */
+    public function listCompletedSessions(): array
+    {
+        $stripe = new \Stripe\StripeClient(config('services.stripe.secret'));
+
+        $since = now()->subDay()->timestamp;
+
+        $sessions = $stripe->checkout->sessions->all([
+            'limit' => 100,
+            'created' => ['gte' => $since],
+            'status' => 'complete',
+        ]);
+
+        return array_values(array_map(fn ($s) => $s->toArray(), $sessions->data));
+    }
+
+    /**
      * Create a Stripe Checkout Session and return the checkout URL.
      *
      * @param array<int, array{name: string, price_pence: int, quantity: int}> $lineItems

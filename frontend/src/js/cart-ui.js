@@ -4,6 +4,7 @@
  */
 
 import { getCart, getCartCount, getCartTotal, updateQuantity, removeItem, clearCart } from './cart.js';
+import { initiateCheckout } from './checkout.js';
 
 function formatPrice(cents) {
   return `$${cents.toFixed(2)}`;
@@ -119,7 +120,7 @@ function renderCartSummary(items) {
         </div>
       </div>
       <div class="cart-summary__actions">
-        <a href="#" class="btn btn-primary btn-lg cart-summary__checkout">Proceed to Checkout</a>
+        <button type="button" class="btn btn-primary btn-lg cart-summary__checkout" id="checkout-btn">Proceed to Checkout</button>
         <a href="/shop.html" class="btn btn-ghost">Continue Shopping</a>
       </div>
     </div>
@@ -228,6 +229,24 @@ function bindCartEvents() {
       clearCart();
       showToast('success', 'Cart cleared', 'All items have been removed.');
       renderCart();
+    });
+  }
+
+  // Checkout
+  const checkoutBtn = document.getElementById('checkout-btn');
+  if (checkoutBtn) {
+    checkoutBtn.addEventListener('click', async () => {
+      checkoutBtn.disabled = true;
+      checkoutBtn.textContent = 'Processing...';
+
+      const error = await initiateCheckout();
+
+      if (error) {
+        showToast('error', 'Checkout failed', error);
+        checkoutBtn.disabled = false;
+        checkoutBtn.textContent = 'Proceed to Checkout';
+      }
+      // On success, initiateCheckout redirects - no need to re-enable.
     });
   }
 }
