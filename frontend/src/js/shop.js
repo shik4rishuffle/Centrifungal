@@ -3,32 +3,39 @@
  * Fetches products and renders a categorised, responsive product grid.
  */
 
-const CATEGORY_ORDER = ['Grow Logs', 'Colonised Dowels', 'DIY Kits', 'Tinctures'];
+const CATEGORY_ORDER = ['grow-logs', 'colonised-dowels', 'diy-kits', 'tinctures'];
+
+const CATEGORY_DISPLAY_NAMES = {
+  'grow-logs': 'Grow Logs',
+  'colonised-dowels': 'Colonised Dowels',
+  'diy-kits': 'DIY Kits',
+  'tinctures': 'Tinctures'
+};
 
 const CATEGORY_DESCRIPTIONS = {
-  'Grow Logs': 'Ready-to-fruit logs - just mist and harvest.',
-  'Colonised Dowels': 'Inoculate your own logs for years of harvests.',
-  'DIY Kits': 'Everything you need to grow mushrooms at home.',
-  'Tinctures': 'Double-extracted mushroom supplements for daily wellness.'
+  'grow-logs': 'Ready-to-fruit logs - just mist and harvest.',
+  'colonised-dowels': 'Inoculate your own logs for years of harvests.',
+  'diy-kits': 'Everything you need to grow mushrooms at home.',
+  'tinctures': 'Double-extracted mushroom supplements for daily wellness.'
 };
 
 const CATEGORY_ICONS = {
-  'Grow Logs': '\u{1F344}',
-  'Colonised Dowels': '\u{1FAB5}',
-  'DIY Kits': '\u{1F4E6}',
-  'Tinctures': '\u{1F9EA}'
+  'grow-logs': '\u{1F344}',
+  'colonised-dowels': '\u{1FAB5}',
+  'diy-kits': '\u{1F4E6}',
+  'tinctures': '\u{1F9EA}'
 };
 
-function formatPrice(price) {
-  return `$${price.toFixed(2)}`;
+function formatPrice(pence) {
+  return `\u00a3${(pence / 100).toFixed(2)}`;
 }
 
 function getLowestPrice(variants) {
-  return Math.min(...variants.map(v => v.price));
+  return Math.min(...variants.map(v => v.price_pence));
 }
 
 function getHighestPrice(variants) {
-  return Math.max(...variants.map(v => v.price));
+  return Math.max(...variants.map(v => v.price_pence));
 }
 
 function renderPriceRange(variants) {
@@ -40,8 +47,12 @@ function renderPriceRange(variants) {
   return `${formatPrice(low)} - ${formatPrice(high)}`;
 }
 
+function isProductInStock(product) {
+  return product.variants && product.variants.some(v => v.in_stock);
+}
+
 function renderBadge(product) {
-  if (!product.inStock) {
+  if (!isProductInStock(product)) {
     return '<span class="badge badge--out-of-stock">Out of Stock</span>';
   }
   if (product.badge === 'new') {
@@ -54,9 +65,10 @@ function renderBadge(product) {
 }
 
 function renderProductCard(product) {
-  const isOutOfStock = !product.inStock;
+  const isOutOfStock = !isProductInStock(product);
   const cardClasses = `product-card${isOutOfStock ? ' product-card--out-of-stock' : ''}`;
   const badge = renderBadge(product);
+  const displayCategory = CATEGORY_DISPLAY_NAMES[product.category] || product.category;
 
   return `
     <a href="/product/${product.slug}" class="${cardClasses}" aria-label="${product.name}${isOutOfStock ? ' - Out of Stock' : ''}">
@@ -67,9 +79,8 @@ function renderProductCard(product) {
         ${badge ? `<div class="product-card__badge">${badge}</div>` : ''}
       </div>
       <div class="product-card__body">
-        <span class="product-card__category">${product.category}</span>
+        <span class="product-card__category">${displayCategory}</span>
         <h3 class="product-card__title">${product.name}</h3>
-        <p class="product-card__description">${product.description}</p>
         <div class="product-card__price">
           ${isOutOfStock ? '<span class="product-card__price--unavailable">Unavailable</span>' : renderPriceRange(product.variants)}
         </div>
@@ -85,11 +96,12 @@ function renderProductCard(product) {
 
 function renderCategorySection(category, products) {
   const description = CATEGORY_DESCRIPTIONS[category] || '';
+  const displayName = CATEGORY_DISPLAY_NAMES[category] || category;
 
   return `
-    <section class="shop-category" id="category-${category.toLowerCase().replace(/\s+/g, '-')}">
+    <section class="shop-category" id="category-${category}">
       <div class="shop-category__header">
-        <h2 class="shop-category__title">${category}</h2>
+        <h2 class="shop-category__title">${displayName}</h2>
         ${description ? `<p class="shop-category__description">${description}</p>` : ''}
       </div>
       <div class="shop-grid">
@@ -149,12 +161,12 @@ async function init() {
   renderLoading();
 
   try {
-    const response = await fetch('/data/products.json');
+    const response = await fetch('/api/products');
     if (!response.ok) {
       throw new Error(`Failed to load products (${response.status})`);
     }
-    const data = await response.json();
-    renderShop(data.products || []);
+    const json = await response.json();
+    renderShop(json.data || []);
   } catch (error) {
     console.error('Shop: failed to fetch products:', error);
     renderError('Unable to load products. Please try again later.');

@@ -46,6 +46,8 @@ class StripeWebhookController extends Controller
                 'name' => $product->name . ' - ' . $variant->name,
                 'quantity' => $cartItem->quantity,
                 'price_pence' => $variant->price_pence,
+                'weight_grams' => $variant->weight_grams,
+                'sku' => $variant->sku,
             ];
         })->values()->toArray();
 

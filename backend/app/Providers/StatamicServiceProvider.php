@@ -4,8 +4,12 @@ namespace App\Providers;
 
 use App\Http\Controllers\CP\ContactSubmissionsController;
 use App\Http\Controllers\CP\OrdersController;
+use App\Listeners\SyncProductToDatabase;
+use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
+use Statamic\Events\EntryDeleted;
+use Statamic\Events\EntrySaved;
 use Statamic\Facades\CP\Nav;
 use Statamic\Statamic;
 
@@ -26,6 +30,7 @@ class StatamicServiceProvider extends ServiceProvider
     {
         $this->registerNavItems();
         $this->registerCpRoutes();
+        $this->registerEventListeners();
     }
 
     /**
@@ -62,5 +67,16 @@ class StatamicServiceProvider extends ServiceProvider
                 Route::get('/{submission}', [ContactSubmissionsController::class, 'show'])->name('show');
             });
         });
+    }
+
+    /**
+     * Register Statamic event listeners for CMS-to-database sync.
+     */
+    private function registerEventListeners(): void
+    {
+        $listener = app(SyncProductToDatabase::class);
+
+        Event::listen(EntrySaved::class, [$listener, 'handleSaved']);
+        Event::listen(EntryDeleted::class, [$listener, 'handleDeleted']);
     }
 }

@@ -157,6 +157,8 @@ class StripeWebhookTest extends TestCase
             $this->assertArrayHasKey('name', $item);
             $this->assertArrayHasKey('quantity', $item);
             $this->assertArrayHasKey('price_pence', $item);
+            $this->assertArrayHasKey('weight_grams', $item);
+            $this->assertArrayHasKey('sku', $item);
         }
 
         // Totals stored in pence as reported by Stripe.

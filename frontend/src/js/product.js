@@ -7,15 +7,22 @@
 import { addItem } from './cart.js';
 
 const CATEGORY_ICONS = {
-  'Grow Logs': '\u{1F344}',
-  'Colonised Dowels': '\u{1FAB5}',
-  'DIY Kits': '\u{1F4E6}',
-  'Tinctures': '\u{1F9EA}'
+  'grow-logs': '\u{1F344}',
+  'colonised-dowels': '\u{1FAB5}',
+  'diy-kits': '\u{1F4E6}',
+  'tinctures': '\u{1F9EA}'
+};
+
+const CATEGORY_DISPLAY_NAMES = {
+  'grow-logs': 'Grow Logs',
+  'colonised-dowels': 'Colonised Dowels',
+  'diy-kits': 'DIY Kits',
+  'tinctures': 'Tinctures'
 };
 
 /** Format pence as a display price string. */
 function formatPrice(pence) {
-  return `$${(pence / 100).toFixed(2)}`;
+  return `\u00a3${(pence / 100).toFixed(2)}`;
 }
 
 /** Extract the product slug from the URL. Supports ?slug=x and /product/x. */
@@ -190,7 +197,7 @@ function renderProductInfo(product) {
 
   return `
     <div class="product-info">
-      <span class="product-info__category">${product.category}</span>
+      <span class="product-info__category">${CATEGORY_DISPLAY_NAMES[product.category] || product.category}</span>
       <h1 class="product-info__title">${product.name}</h1>
       <div class="product-info__price" id="product-price">${formatPrice(variant.price_pence)}</div>
       <p class="product-info__description">${product.description}</p>
@@ -411,13 +418,17 @@ async function init() {
   }
 
   try {
-    const response = await fetch('/data/products.json');
+    const response = await fetch(`/api/products/${encodeURIComponent(slug)}`);
+    if (response.status === 404) {
+      renderError('Product not found. It may have been removed or the link is incorrect.');
+      return;
+    }
     if (!response.ok) {
-      throw new Error(`Failed to load products (${response.status})`);
+      throw new Error(`Failed to load product (${response.status})`);
     }
 
-    const products = await response.json();
-    const product = products.find(p => p.slug === slug);
+    const json = await response.json();
+    const product = json.data;
 
     if (!product) {
       renderError('Product not found. It may have been removed or the link is incorrect.');
