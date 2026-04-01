@@ -5,6 +5,13 @@
 (function () {
   'use strict';
 
+  var CATEGORY_DISPLAY_NAMES = {
+    'grow-logs': 'Grow Logs',
+    'colonised-dowels': 'Colonised Dowels',
+    'diy-kits': 'DIY Kits',
+    'tinctures': 'Tinctures'
+  };
+
   /**
    * Format price from pence to pounds string
    */
@@ -16,27 +23,24 @@
    * Build a product card HTML string from product data
    */
   function renderProductCard(product) {
-    const price = formatPrice(product.base_price_pence);
-    const badgeHtml = product.badge
-      ? `<span class="badge badge--${product.badge}">${product.badge}</span>`
-      : '';
+    var price = formatPrice(product.base_price_pence);
+    var displayCategory = CATEGORY_DISPLAY_NAMES[product.category] || product.category;
+    var imageAlt = (product.images && product.images[0]) ? product.images[0].alt : product.name;
 
     return `
       <article class="product-card">
-        <a href="/shop/${product.slug}" class="product-card__image" aria-label="${product.name}">
-          <div class="product-card__placeholder" role="img" aria-label="${product.images[0].alt}"></div>
-          ${badgeHtml ? `<div class="product-card__badge">${badgeHtml}</div>` : ''}
+        <a href="/product/${product.slug}" class="product-card__image" aria-label="${product.name}">
+          <div class="product-card__placeholder" role="img" aria-label="${imageAlt}"></div>
         </a>
         <div class="product-card__body">
-          <span class="product-card__category">${product.category}</span>
+          <span class="product-card__category">${displayCategory}</span>
           <h3 class="product-card__title">
-            <a href="/shop/${product.slug}">${product.name}</a>
+            <a href="/product/${product.slug}">${product.name}</a>
           </h3>
-          <p class="product-card__description">${product.description}</p>
           <span class="product-card__price">From ${price}</span>
         </div>
         <div class="product-card__footer">
-          <a href="/shop/${product.slug}" class="btn btn-primary">View Product</a>
+          <a href="/product/${product.slug}" class="btn btn-primary">View Product</a>
         </div>
       </article>
     `;
@@ -46,20 +50,20 @@
    * Fetch products and render into the grid
    */
   async function loadFeaturedProducts() {
-    const grid = document.getElementById('featured-products-grid');
+    var grid = document.getElementById('featured-products-grid');
     if (!grid) return;
 
     try {
-      const response = await fetch('/data/products.json');
+      var response = await fetch('/api/products');
       if (!response.ok) throw new Error('Failed to load products');
-      const products = await response.json();
+      var json = await response.json();
+      var products = json.data || [];
 
       // Take up to 4 featured products
-      const featured = products.slice(0, 4);
+      var featured = products.slice(0, 4);
       grid.innerHTML = featured.map(renderProductCard).join('');
     } catch (err) {
       console.warn('Could not load products from API, using inline data.', err);
-      // Inline fallback is already in the HTML as a noscript-friendly measure
     }
   }
 

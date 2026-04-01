@@ -6,8 +6,8 @@
 import { getCart, getCartCount, getCartTotal, updateQuantity, removeItem, clearCart } from './cart.js';
 import { initiateCheckout } from './checkout.js';
 
-function formatPrice(cents) {
-  return `$${cents.toFixed(2)}`;
+function formatPrice(pounds) {
+  return `\u00a3${pounds.toFixed(2)}`;
 }
 
 function showToast(type, title, message) {
