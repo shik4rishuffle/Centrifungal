@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\Api\CartController;
+use App\Http\Controllers\Api\CheckoutController;
+use App\Http\Controllers\Api\ContactController;
 use App\Http\Controllers\Api\ProductController;
 use App\Http\Middleware\ResolveCartSession;
 use Illuminate\Support\Facades\Route;
@@ -33,8 +35,8 @@ Route::middleware(['throttle:api-cart', ResolveCartSession::class])->prefix('car
 | Checkout Endpoints
 |--------------------------------------------------------------------------
 */
-Route::middleware('throttle:api-checkout')->prefix('checkout')->group(function () {
-    // Checkout routes will be added when CheckoutController is implemented.
+Route::middleware('throttle:api-checkout')->group(function () {
+    Route::post('/checkout', [CheckoutController::class, 'store']);
 });
 
 /*
@@ -43,5 +45,5 @@ Route::middleware('throttle:api-checkout')->prefix('checkout')->group(function (
 |--------------------------------------------------------------------------
 */
 Route::middleware('throttle:api-contact')->group(function () {
-    // Contact route will be added when ContactController is implemented.
+    Route::post('/contact', ContactController::class);
 });
