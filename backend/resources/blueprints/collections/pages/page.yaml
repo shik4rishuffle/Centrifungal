@@ -1,0 +1,64 @@
+title: Page
+tabs:
+  main:
+    display: 'Page Content'
+    sections:
+      -
+        display: 'Page Details'
+        instructions: 'Edit the page title and content below.'
+        fields:
+          -
+            handle: title
+            field:
+              type: text
+              display: Title
+              instructions: 'The page title displayed at the top of the page.'
+              validate:
+                - required
+                - 'max:120'
+          -
+            handle: subtitle
+            field:
+              type: text
+              display: Subtitle
+              instructions: 'An optional subtitle shown below the page title.'
+              validate:
+                - 'max:200'
+          -
+            import: bard_page_content
+  seo:
+    display: SEO
+    sections:
+      -
+        display: 'Search Engine Optimisation'
+        instructions: 'These fields help your page appear in Google search results. If left empty, the page title is used.'
+        fields:
+          -
+            handle: meta_title
+            field:
+              type: text
+              display: 'Meta Title'
+              instructions: 'Custom page title for search engines. Keep under 60 characters.'
+              validate:
+                - 'max:60'
+          -
+            handle: meta_description
+            field:
+              type: textarea
+              display: 'Meta Description'
+              instructions: 'A short summary shown in search results. Keep between 120-160 characters for best results.'
+              validate:
+                - 'max:160'
+  sidebar:
+    display: Sidebar
+    sections:
+      -
+        fields:
+          -
+            handle: slug
+            field:
+              type: slug
+              display: Slug
+              instructions: 'The URL-friendly version of the page title.'
+              validate:
+                - 'max:200'

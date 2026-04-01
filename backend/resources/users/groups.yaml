@@ -1,4 +1,9 @@
-# admin:
-#   title: Administrators
-#   roles:
-#     - admin
+admin:
+  title: Administrators
+  roles:
+    - admin
+
+editors:
+  title: Editors
+  roles:
+    - editor

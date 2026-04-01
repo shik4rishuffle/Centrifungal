@@ -1,0 +1,17 @@
+title: Pages
+template: pages/show
+layout: layout
+route: '/{slug}'
+sort_dir: asc
+orderable: true
+date: false
+search: true
+revisions: false
+default_status: published
+structure: false
+listing:
+  columns:
+    - title
+    - slug
+  sort: title
+  sort_dir: asc

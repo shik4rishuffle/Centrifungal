@@ -53,7 +53,24 @@ return [
     */
 
     'widgets' => [
-        //
+        [
+            'type' => 'recent_orders',
+            'width' => 100,
+            'limit' => 10,
+            'title' => 'Recent Orders',
+        ],
+        [
+            'type' => 'collection',
+            'collection' => 'products',
+            'width' => 50,
+            'limit' => 5,
+        ],
+        [
+            'type' => 'collection',
+            'collection' => 'pages',
+            'width' => 50,
+            'limit' => 5,
+        ],
     ],
 
     /*
@@ -103,7 +120,7 @@ return [
     |
     */
 
-    'custom_cms_name' => env('STATAMIC_CUSTOM_CMS_NAME', 'Statamic'),
+    'custom_cms_name' => env('STATAMIC_CUSTOM_CMS_NAME', 'Centrifungal'),
 
     'custom_logo_url' => env('STATAMIC_CUSTOM_LOGO_URL', null),
 

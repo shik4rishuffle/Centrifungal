@@ -4,7 +4,25 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Order Confirmed - Centrifungal</title>
-  <meta name="description" content="Thank you for your order from Centrifungal.">
+  <meta name="description" content="Your Centrifungal order has been confirmed. Find out what happens next - from confirmation email to doorstep delivery of your mushroom grow logs.">
+  <link rel="canonical" href="https://centrifungal.co.uk/order-confirmation.html">
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Order Confirmed - Centrifungal">
+  <meta property="og:description" content="Thank you for your order. Your mushroom grow logs are on their way.">
+  <meta property="og:image" content="https://centrifungal.co.uk/images/og-default.jpg">
+  <meta property="og:url" content="https://centrifungal.co.uk/order-confirmation.html">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Centrifungal">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Order Confirmed - Centrifungal">
+  <meta name="twitter:description" content="Thank you for your order. Your mushroom grow logs are on their way.">
+  <meta name="twitter:image" content="https://centrifungal.co.uk/images/og-default.jpg">
+
+  <meta name="robots" content="noindex, nofollow">
+
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=DM+Serif+Display&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -34,7 +52,12 @@
       max-width: var(--container-md);
       margin: 0 auto;
       padding: var(--space-3xl) var(--space-md) var(--space-4xl);
+    }
+
+    /* Success banner */
+    .confirmation-success {
       text-align: center;
+      margin-bottom: var(--space-3xl);
     }
 
     .confirmation__icon {
@@ -62,9 +85,153 @@
       color: var(--color-text-muted);
       line-height: var(--leading-relaxed);
       max-width: 520px;
-      margin: 0 auto var(--space-xl);
+      margin: 0 auto var(--space-md);
     }
 
+    .confirmation__session-id {
+      font-family: var(--font-mono);
+      font-size: var(--text-sm);
+      color: var(--color-text-muted);
+      background: var(--color-surface-alt);
+      padding: var(--space-xs) var(--space-sm);
+      border-radius: var(--radius-sm);
+      display: none;
+    }
+
+    /* What happens next */
+    .next-steps {
+      background: var(--color-surface-alt);
+      border: 1px solid var(--color-border-light);
+      border-radius: var(--radius-lg);
+      padding: var(--space-xl);
+      margin-bottom: var(--space-3xl);
+    }
+
+    .next-steps__title {
+      font-family: var(--font-heading);
+      font-size: var(--text-2xl);
+      color: var(--color-text);
+      margin-bottom: var(--space-lg);
+      text-align: center;
+    }
+
+    .next-steps__list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-lg);
+    }
+
+    .next-step {
+      display: flex;
+      gap: var(--space-md);
+      align-items: flex-start;
+    }
+
+    .next-step__number {
+      width: 40px;
+      height: 40px;
+      border-radius: var(--radius-full);
+      background: var(--color-primary);
+      color: var(--color-text-on-primary);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: var(--weight-bold);
+      font-size: var(--text-base);
+      flex-shrink: 0;
+    }
+
+    .next-step__content {
+      flex: 1;
+      padding-top: 2px;
+    }
+
+    .next-step__heading {
+      font-weight: var(--weight-semibold);
+      font-size: var(--text-base);
+      color: var(--color-text);
+      margin-bottom: var(--space-xs);
+    }
+
+    .next-step__desc {
+      font-size: var(--text-sm);
+      color: var(--color-text-muted);
+      line-height: var(--leading-normal);
+    }
+
+    /* Suggested products */
+    .suggested-section {
+      margin-bottom: var(--space-3xl);
+    }
+
+    .suggested-section__title {
+      font-family: var(--font-heading);
+      font-size: var(--text-2xl);
+      color: var(--color-text);
+      margin-bottom: var(--space-lg);
+      text-align: center;
+    }
+
+    .suggested-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: var(--space-md);
+    }
+
+    @media (max-width: 768px) {
+      .suggested-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .suggested-card {
+      display: flex;
+      flex-direction: column;
+      background: var(--color-surface);
+      border: 1px solid var(--color-border-light);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      text-decoration: none;
+      color: inherit;
+      transition: box-shadow var(--transition-base), transform var(--transition-base);
+    }
+
+    .suggested-card:hover {
+      box-shadow: var(--shadow-lg);
+      transform: translateY(-2px);
+    }
+
+    .suggested-card__image {
+      height: 140px;
+      background: linear-gradient(135deg, var(--green-100), var(--gold-100));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: var(--text-3xl);
+      color: var(--color-text-muted);
+    }
+
+    .suggested-card__body {
+      padding: var(--space-md);
+    }
+
+    .suggested-card__name {
+      font-family: var(--font-heading);
+      font-size: var(--text-lg);
+      color: var(--color-text);
+      margin-bottom: var(--space-xs);
+    }
+
+    .suggested-card__desc {
+      font-size: var(--text-sm);
+      color: var(--color-text-muted);
+      line-height: var(--leading-normal);
+    }
+
+    /* Actions */
     .confirmation__actions {
       display: flex;
       flex-direction: column;
@@ -125,13 +292,84 @@
 
   <!-- Confirmation Content -->
   <main class="confirmation-content">
-    <div class="confirmation__icon" aria-hidden="true">&#10003;</div>
-    <h2 class="confirmation__title">Thank you for your order!</h2>
-    <p class="confirmation__text">Your order has been placed successfully. You'll receive a confirmation email shortly with your order details and tracking information.</p>
+
+    <!-- Success message -->
+    <div class="confirmation-success">
+      <div class="confirmation__icon" aria-hidden="true">&#10003;</div>
+      <h2 class="confirmation__title">Thank you for your order!</h2>
+      <p class="confirmation__text">Your order has been placed successfully. We are already preparing your mushroom grow logs with care.</p>
+      <span class="confirmation__session-id" id="session-id-display"></span>
+    </div>
+
+    <!-- What happens next -->
+    <div class="next-steps">
+      <h3 class="next-steps__title">What happens next</h3>
+      <ol class="next-steps__list">
+        <li class="next-step">
+          <span class="next-step__number" aria-hidden="true">1</span>
+          <div class="next-step__content">
+            <p class="next-step__heading">Confirmation email</p>
+            <p class="next-step__desc">You will receive an order confirmation email within the next few minutes. It includes a summary of your items, delivery address, and order reference number. Check your spam folder if it does not arrive.</p>
+          </div>
+        </li>
+        <li class="next-step">
+          <span class="next-step__number" aria-hidden="true">2</span>
+          <div class="next-step__content">
+            <p class="next-step__heading">We prepare your order</p>
+            <p class="next-step__desc">Our team hand-packs every order in compostable, plastic-free packaging designed to keep your grow logs safe and happy in transit. Most orders are dispatched within 1-2 working days.</p>
+          </div>
+        </li>
+        <li class="next-step">
+          <span class="next-step__number" aria-hidden="true">3</span>
+          <div class="next-step__content">
+            <p class="next-step__heading">Shipping confirmation with tracking</p>
+            <p class="next-step__desc">Once your order has been dispatched, you will receive a second email with a tracking number so you can follow your parcel to your door. UK delivery typically takes 2-3 working days.</p>
+          </div>
+        </li>
+        <li class="next-step">
+          <span class="next-step__number" aria-hidden="true">4</span>
+          <div class="next-step__content">
+            <p class="next-step__heading">Start growing</p>
+            <p class="next-step__desc">When your logs arrive, follow our <a href="/care.html" style="color: var(--color-primary); text-decoration: underline;">care instructions</a> to get started. Most logs produce their first flush of mushrooms within 2-4 weeks.</p>
+          </div>
+        </li>
+      </ol>
+    </div>
+
+    <!-- Suggested products -->
+    <div class="suggested-section">
+      <h3 class="suggested-section__title">You might also like</h3>
+      <div class="suggested-grid">
+        <a href="/shop.html#category-grow-logs" class="suggested-card">
+          <div class="suggested-card__image" aria-hidden="true">&#127812;</div>
+          <div class="suggested-card__body">
+            <p class="suggested-card__name">More Grow Logs</p>
+            <p class="suggested-card__desc">Explore our full range of hand-inoculated hardwood grow logs - from oyster to shiitake.</p>
+          </div>
+        </a>
+        <a href="/shop.html#category-colonised-dowels" class="suggested-card">
+          <div class="suggested-card__image" aria-hidden="true">&#129704;</div>
+          <div class="suggested-card__body">
+            <p class="suggested-card__name">Colonised Dowels</p>
+            <p class="suggested-card__desc">Inoculate your own logs with our ready-to-use colonised dowel plugs.</p>
+          </div>
+        </a>
+        <a href="/care.html" class="suggested-card">
+          <div class="suggested-card__image" aria-hidden="true">&#128218;</div>
+          <div class="suggested-card__body">
+            <p class="suggested-card__name">Care Instructions</p>
+            <p class="suggested-card__desc">Everything you need to know to get the best harvests from your grow logs.</p>
+          </div>
+        </a>
+      </div>
+    </div>
+
+    <!-- Actions -->
     <div class="confirmation__actions">
       <a href="/shop.html" class="btn btn-primary btn-lg">Continue Shopping</a>
       <a href="/" class="btn btn-ghost">Back to Home</a>
     </div>
+
   </main>
 
   <!-- Footer -->
@@ -205,6 +443,19 @@
     window.addEventListener('scroll', () => {
       header.classList.toggle('site-header--scrolled', window.scrollY > 10);
     }, { passive: true });
+
+    /* Display session_id from URL params if available */
+    (function() {
+      const params = new URLSearchParams(window.location.search);
+      const sessionId = params.get('session_id');
+      if (sessionId) {
+        const el = document.getElementById('session-id-display');
+        if (el) {
+          el.textContent = 'Reference: ' + sessionId;
+          el.style.display = 'inline-block';
+        }
+      }
+    })();
   </script>
   <script type="module">
     import { handleCheckoutReturn } from './js/checkout.js';

@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Care Instructions - Centrifungal</title>
+  <meta name="description" content="Everything you need to know about caring for your mushroom grow log - watering, light, temperature, humidity, and harvesting tips.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=DM+Serif+Display&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/reset.css">
+  <link rel="stylesheet" href="css/design-tokens.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/pages.css">
+</head>
+<body>
+
+  <!-- Header -->
+  <header class="site-header" id="site-header">
+    <div class="site-header__inner">
+      <a href="/" class="site-header__logo">
+        <svg class="site-header__logo-icon" viewBox="0 0 36 36" fill="none">
+          <circle cx="18" cy="18" r="17" fill="var(--gold-500)" stroke="var(--gold-700)" stroke-width="2"/>
+          <path d="M18 8c-2 0-6 3-6 10 0 4 2 8 6 10 4-2 6-6 6-10 0-7-4-10-6-10z" fill="var(--green-700)" stroke="var(--green-900)" stroke-width="1"/>
+          <ellipse cx="18" cy="26" rx="8" ry="2" fill="var(--green-900)" opacity="0.3"/>
+        </svg>
+        Centrifungal
+      </a>
+      <nav class="site-header__nav" id="main-nav" aria-label="Main navigation">
+        <a href="/" class="site-header__nav-link">Home</a>
+        <a href="/shop.html" class="site-header__nav-link">Shop</a>
+        <a href="/about.html" class="site-header__nav-link">About</a>
+        <a href="/care-instructions.html" class="site-header__nav-link site-header__nav-link--active">Care Instructions</a>
+        <a href="/faq.html" class="site-header__nav-link">FAQ</a>
+        <a href="/contact.html" class="site-header__nav-link">Contact</a>
+      </nav>
+      <div class="site-header__actions">
+        <a href="/cart.html" class="site-header__cart" aria-label="Cart">
+          <svg class="icon-svg" viewBox="0 0 24 24"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
+          <span class="site-header__cart-count" id="header-cart-count" style="display: none;">0</span>
+        </a>
+        <button class="site-header__hamburger" id="hamburger-btn" aria-expanded="false" aria-controls="main-nav" aria-label="Toggle menu">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Page Hero -->
+  <div class="page-hero">
+    <h1 class="page-hero__title">Care Instructions</h1>
+    <p class="page-hero__subtitle">Everything you need to grow beautiful, gourmet mushrooms from your log - no experience required.</p>
+  </div>
+
+  <main class="page-content page-content--narrow">
+
+    <!-- ================================================================
+         CARING FOR YOUR LOG
+         ================================================================ -->
+    <section class="content-section" aria-labelledby="care-heading">
+      <h2 class="content-section__title" id="care-heading">How to Care for Your Grow Log</h2>
+      <p class="content-section__text">Your grow log arrives fully colonised and ready to fruit. Just give it the right conditions and nature does the rest. Here are the four things your log needs.</p>
+
+      <div class="step-grid">
+        <div class="step-card">
+          <div class="step-card__icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24"><path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"/></svg>
+          </div>
+          <div class="step-card__body">
+            <h3 class="step-card__title">Watering</h3>
+            <p class="step-card__text">Mist your log 2-3 times daily with a spray bottle, or soak it in cold water for 6-8 hours once a week. The bark should feel damp to the touch but never waterlogged. Tap water is fine - just let it sit for an hour first if your area has heavily chlorinated water.</p>
+          </div>
+        </div>
+
+        <div class="step-card">
+          <div class="step-card__icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+          </div>
+          <div class="step-card__body">
+            <h3 class="step-card__title">Light</h3>
+            <p class="step-card__text">Place your log in indirect light - a kitchen worktop away from windows, a shaded shelf, or a spot that gets ambient daylight. Avoid direct sunlight, which dries the log out quickly and can harm developing pins. Mushrooms do not need strong light to grow.</p>
+          </div>
+        </div>
+
+        <div class="step-card">
+          <div class="step-card__icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24"><path d="M14 14.76V3.5a2.5 2.5 0 0 0-5 0v11.26a4.5 4.5 0 1 0 5 0z"/></svg>
+          </div>
+          <div class="step-card__body">
+            <h3 class="step-card__title">Temperature</h3>
+            <p class="step-card__text">Most of our logs fruit best between 12-20 degrees Celsius. Normal room temperature works well. Avoid placing your log near radiators, ovens, or draughty windows. A slight drop in temperature at night can actually help trigger fruiting.</p>
+          </div>
+        </div>
+
+        <div class="step-card">
+          <div class="step-card__icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24"><path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="8" y1="14" x2="16" y2="14"/></svg>
+          </div>
+          <div class="step-card__body">
+            <h3 class="step-card__title">Humidity</h3>
+            <p class="step-card__text">Mushrooms love humidity. If your home is dry, try placing the log on a tray of damp pebbles or loosely tent it with a clear plastic bag (with holes for airflow). Kitchens and bathrooms tend to have naturally higher humidity and make great spots.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================================================================
+         HARVESTING
+         ================================================================ -->
+    <section class="content-section" aria-labelledby="harvest-heading">
+      <h2 class="content-section__title" id="harvest-heading">Harvesting Your Mushrooms</h2>
+      <p class="content-section__text">Once you see pins (small bumps) forming on the log, mushrooms can reach harvestable size in just 5-10 days. Here is how to harvest them properly.</p>
+
+      <ol class="harvest-steps" role="list">
+        <li class="harvest-step">
+          <span class="harvest-step__text"><strong>Watch for the right moment.</strong> Harvest when the cap edges are still slightly curled under. Once caps flatten out fully, the mushrooms are past their peak flavour.</span>
+        </li>
+        <li class="harvest-step">
+          <span class="harvest-step__text"><strong>Twist and pull gently.</strong> Grip the mushroom at the base of the stem and twist gently until it detaches from the log. Do not cut with a knife - this can leave behind a stump that may rot.</span>
+        </li>
+        <li class="harvest-step">
+          <span class="harvest-step__text"><strong>Harvest the whole cluster.</strong> If mushrooms are growing in a cluster, harvest them all at once rather than picking individual ones. This gives the log a clean surface for the next flush.</span>
+        </li>
+        <li class="harvest-step">
+          <span class="harvest-step__text"><strong>Rest and repeat.</strong> After harvesting, let the log rest for 2-3 weeks. Continue misting lightly during this period. Most logs produce 3-5 flushes over their lifetime, with each flush appearing a few weeks apart.</span>
+        </li>
+        <li class="harvest-step">
+          <span class="harvest-step__text"><strong>Store your harvest.</strong> Fresh mushrooms are best eaten within a few days. Store them in a paper bag in the fridge - never in a sealed plastic bag, as they need to breathe.</span>
+        </li>
+      </ol>
+    </section>
+
+    <!-- ================================================================
+         GROWING FAQ
+         ================================================================ -->
+    <section class="content-section" aria-labelledby="growing-faq-heading">
+      <h2 class="content-section__title" id="growing-faq-heading">Common Growing Questions</h2>
+
+      <div class="accordion" role="region">
+        <h3>
+          <button class="accordion__trigger" aria-expanded="false" aria-controls="gfaq-1">
+            How long until I see my first mushrooms?
+            <svg class="accordion__icon" viewBox="0 0 24 24" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+          </button>
+        </h3>
+        <div class="accordion__panel" id="gfaq-1" role="region" aria-hidden="true">
+          <p class="accordion__answer">Most logs begin producing pins within 1-3 weeks of being placed in the right conditions. Some species are faster than others - oyster mushrooms tend to fruit first, while shiitake may take a little longer. Be patient and keep misting.</p>
+        </div>
+      </div>
+
+      <div class="accordion" role="region">
+        <h3>
+          <button class="accordion__trigger" aria-expanded="false" aria-controls="gfaq-2">
+            My log has not produced anything yet. Is it dead?
+            <svg class="accordion__icon" viewBox="0 0 24 24" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+          </button>
+        </h3>
+        <div class="accordion__panel" id="gfaq-2" role="region" aria-hidden="true">
+          <p class="accordion__answer">Probably not. Logs can sometimes take a few weeks to adjust to their new environment. Make sure the conditions are right (humidity, temperature, indirect light) and try soaking the log in cold water overnight to trigger fruiting. If you are still not seeing results after 4-5 weeks, get in touch and we will help troubleshoot.</p>
+        </div>
+      </div>
+
+      <div class="accordion" role="region">
+        <h3>
+          <button class="accordion__trigger" aria-expanded="false" aria-controls="gfaq-3">
+            I see green or black mould on my log. What should I do?
+            <svg class="accordion__icon" viewBox="0 0 24 24" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+          </button>
+        </h3>
+        <div class="accordion__panel" id="gfaq-3" role="region" aria-hidden="true">
+          <p class="accordion__answer">A small amount of surface mould is normal and usually harmless - the mushroom mycelium inside the log is much stronger. If you see significant green or black patches, reduce watering slightly and increase air circulation. You can gently wipe the affected area with a damp cloth. White fluffy growth on the log is actually mycelium and is a great sign.</p>
+        </div>
+      </div>
+
+      <div class="accordion" role="region">
+        <h3>
+          <button class="accordion__trigger" aria-expanded="false" aria-controls="gfaq-4">
+            How many harvests will I get from one log?
+            <svg class="accordion__icon" viewBox="0 0 24 24" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+          </button>
+        </h3>
+        <div class="accordion__panel" id="gfaq-4" role="region" aria-hidden="true">
+          <p class="accordion__answer">Most logs produce between 3-5 flushes over several months, depending on the species and conditions. Each flush tends to be slightly smaller than the last as the log's nutrients are consumed. After the log is spent, it can be composted or broken up and used as garden mulch.</p>
+        </div>
+      </div>
+
+      <div class="accordion" role="region">
+        <h3>
+          <button class="accordion__trigger" aria-expanded="false" aria-controls="gfaq-5">
+            Can I grow my log outdoors?
+            <svg class="accordion__icon" viewBox="0 0 24 24" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+          </button>
+        </h3>
+        <div class="accordion__panel" id="gfaq-5" role="region" aria-hidden="true">
+          <p class="accordion__answer">Yes, during the warmer months (spring through autumn). Place it in a shaded, sheltered spot - under a hedge or on a north-facing wall works well. Bring it indoors or protect it from frost during winter. Outdoor logs benefit from natural humidity and temperature swings, which can encourage fruiting.</p>
+        </div>
+      </div>
+
+      <div class="accordion" role="region">
+        <h3>
+          <button class="accordion__trigger" aria-expanded="false" aria-controls="gfaq-6">
+            Is the mushroom mycelium safe around pets and children?
+            <svg class="accordion__icon" viewBox="0 0 24 24" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+          </button>
+        </h3>
+        <div class="accordion__panel" id="gfaq-6" role="region" aria-hidden="true">
+          <p class="accordion__answer">All of our grow logs contain edible gourmet mushroom species that are safe to handle. That said, we recommend placing logs out of reach of curious pets and small children, mainly to prevent the log from being knocked over or chewed on. The mushrooms themselves are the same species you would buy at a farmers' market.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================================================================
+         CTA
+         ================================================================ -->
+    <section class="content-section" style="text-align: center;">
+      <p class="content-section__text">Still have questions? We are always happy to help.</p>
+      <a href="/contact.html" class="btn btn-primary">Get in Touch</a>
+    </section>
+
+  </main>
+
+  <!-- Footer -->
+  <footer class="site-footer">
+    <div class="site-footer__inner">
+      <div class="site-footer__grid">
+        <div class="site-footer__brand">
+          <div class="site-footer__logo">Centrifungal</div>
+          <p class="site-footer__tagline">Artisan mushroom grow logs, cultivated with care. Bringing the forest floor to your front door.</p>
+          <div class="site-footer__social">
+            <a href="#" class="site-footer__social-link" aria-label="Instagram">
+              <svg class="icon-svg" viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+            </a>
+            <a href="#" class="site-footer__social-link" aria-label="Facebook">
+              <svg class="icon-svg" viewBox="0 0 24 24"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/></svg>
+            </a>
+            <a href="#" class="site-footer__social-link" aria-label="Twitter">
+              <svg class="icon-svg" viewBox="0 0 24 24"><path d="M23 3a10.9 10.9 0 01-3.14 1.53 4.48 4.48 0 00-7.86 3v1A10.66 10.66 0 013 4s-4 9 5 13a11.64 11.64 0 01-7 2c9 5 20 0 20-11.5a4.5 4.5 0 00-.08-.83A7.72 7.72 0 0023 3z"/></svg>
+            </a>
+          </div>
+        </div>
+        <div>
+          <h4 class="site-footer__column-title">Shop</h4>
+          <ul class="site-footer__links" role="list">
+            <li><a href="/shop.html" class="site-footer__link">All Products</a></li>
+            <li><a href="/shop.html#category-grow-logs" class="site-footer__link">Grow Logs</a></li>
+            <li><a href="/shop.html#category-colonised-dowels" class="site-footer__link">Colonised Dowels</a></li>
+            <li><a href="/shop.html#category-diy-kits" class="site-footer__link">DIY Kits</a></li>
+            <li><a href="/shop.html#category-tinctures" class="site-footer__link">Tinctures</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="site-footer__column-title">Help</h4>
+          <ul class="site-footer__links" role="list">
+            <li><a href="/care-instructions.html" class="site-footer__link">Care Instructions</a></li>
+            <li><a href="/faq.html" class="site-footer__link">FAQ</a></li>
+            <li><a href="#" class="site-footer__link">Shipping</a></li>
+            <li><a href="#" class="site-footer__link">Returns</a></li>
+            <li><a href="/contact.html" class="site-footer__link">Contact</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="site-footer__column-title">Company</h4>
+          <ul class="site-footer__links" role="list">
+            <li><a href="/about.html" class="site-footer__link">About Us</a></li>
+            <li><a href="#" class="site-footer__link">Sustainability</a></li>
+            <li><a href="#" class="site-footer__link">Privacy Policy</a></li>
+            <li><a href="#" class="site-footer__link">Terms of Service</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="site-footer__bottom">
+        <p class="site-footer__copyright">&copy; 2026 Centrifungal. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    /* Hamburger toggle */
+    const hamburger = document.getElementById('hamburger-btn');
+    const nav = document.getElementById('main-nav');
+    hamburger.addEventListener('click', () => {
+      const expanded = hamburger.getAttribute('aria-expanded') === 'true';
+      hamburger.setAttribute('aria-expanded', !expanded);
+      nav.classList.toggle('site-header__nav--open');
+    });
+
+    /* Header scroll shadow */
+    const header = document.getElementById('site-header');
+    window.addEventListener('scroll', () => {
+      header.classList.toggle('site-header--scrolled', window.scrollY > 10);
+    }, { passive: true });
+
+    /* Update cart badge from localStorage */
+    function updateHeaderCartCount() {
+      const badge = document.getElementById('header-cart-count');
+      if (!badge) return;
+      try {
+        const cart = JSON.parse(localStorage.getItem('centrifungal_cart') || '[]');
+        const count = cart.reduce((sum, item) => sum + item.quantity, 0);
+        badge.textContent = count;
+        badge.style.display = count > 0 ? 'flex' : 'none';
+      } catch (e) {
+        badge.style.display = 'none';
+      }
+    }
+
+    updateHeaderCartCount();
+    window.addEventListener('cart-updated', updateHeaderCartCount);
+
+    /* Accordion toggle */
+    document.querySelectorAll('.accordion__trigger').forEach(trigger => {
+      trigger.addEventListener('click', () => {
+        const expanded = trigger.getAttribute('aria-expanded') === 'true';
+        const panel = document.getElementById(trigger.getAttribute('aria-controls'));
+        trigger.setAttribute('aria-expanded', !expanded);
+        panel.setAttribute('aria-hidden', expanded);
+      });
+    });
+  </script>
+
+</body>
+</html>

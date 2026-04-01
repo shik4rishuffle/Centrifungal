@@ -1,0 +1,16 @@
+title: Images
+disk: public
+path: images
+url: /storage/images
+allow_uploads: true
+allow_downloads: true
+allow_moving: true
+allow_renaming: true
+create_folders: true
+search_index: default
+validate:
+  - 'mimes:jpg,jpeg,png,webp'
+  - 'max:5120'
+warm_presets:
+  - small
+  - medium

@@ -67,7 +67,7 @@ return [
         */
 
         'defaults' => [
-            // 'quality' => 50,
+            'quality' => 80,
         ],
 
         /*
@@ -83,7 +83,10 @@ return [
         */
 
         'presets' => [
-            // 'small' => ['w' => 200, 'h' => 200, 'q' => 75, 'fit' => 'crop'],
+            'small' => ['w' => 400, 'h' => 400, 'q' => 75, 'fit' => 'crop'],
+            'medium' => ['w' => 800, 'h' => 800, 'q' => 80, 'fit' => 'contain'],
+            'large' => ['w' => 1200, 'h' => 1200, 'q' => 85, 'fit' => 'contain'],
+            'thumbnail' => ['w' => 150, 'h' => 150, 'q' => 70, 'fit' => 'crop'],
         ],
 
         /*

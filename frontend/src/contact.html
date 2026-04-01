@@ -3,71 +3,15 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Product - Centrifungal</title>
-  <meta name="description" content="View product details and add to cart - Centrifungal artisan mushroom grow logs, hand-inoculated and shipped from our woodland workshop.">
-  <link rel="canonical" href="https://centrifungal.co.uk/product.html">
-
-  <!-- Open Graph (defaults - overridden by product.js when product data loads) -->
-  <meta property="og:title" content="Product - Centrifungal">
-  <meta property="og:description" content="Artisan mushroom grow logs, hand-inoculated and shipped from our woodland workshop.">
-  <meta property="og:image" content="https://centrifungal.co.uk/images/og-default.jpg">
-  <meta property="og:url" content="https://centrifungal.co.uk/product.html">
-  <meta property="og:type" content="product">
-  <meta property="og:site_name" content="Centrifungal">
-
-  <!-- Twitter Card -->
-  <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Product - Centrifungal">
-  <meta name="twitter:description" content="Artisan mushroom grow logs, hand-inoculated and shipped from our woodland workshop.">
-  <meta name="twitter:image" content="https://centrifungal.co.uk/images/og-default.jpg">
-
-  <!-- Structured Data - Product (populated by product.js with real data) -->
-  <script type="application/ld+json" id="product-structured-data">
-  {
-    "@context": "https://schema.org",
-    "@type": "Product",
-    "name": "Mushroom Grow Log",
-    "description": "Hand-inoculated hardwood mushroom grow log from Centrifungal.",
-    "brand": {
-      "@type": "Brand",
-      "name": "Centrifungal"
-    },
-    "offers": {
-      "@type": "Offer",
-      "priceCurrency": "GBP",
-      "availability": "https://schema.org/InStock",
-      "seller": {
-        "@type": "Organization",
-        "name": "Centrifungal"
-      }
-    }
-  }
-  </script>
-
+  <title>Contact Us - Centrifungal</title>
+  <meta name="description" content="Get in touch with Centrifungal. Questions about your grow log, an order, or mushroom growing in general - we are here to help.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=DM+Serif+Display&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/reset.css">
   <link rel="stylesheet" href="css/design-tokens.css">
   <link rel="stylesheet" href="css/components.css">
-  <link rel="stylesheet" href="css/product.css">
-  <style>
-    body {
-      font-family: var(--font-body);
-      color: var(--color-text);
-      background: var(--color-surface);
-    }
-
-    .icon-svg {
-      width: 24px;
-      height: 24px;
-      fill: none;
-      stroke: currentColor;
-      stroke-width: 2;
-      stroke-linecap: round;
-      stroke-linejoin: round;
-    }
-  </style>
+  <link rel="stylesheet" href="css/pages.css">
 </head>
 <body>
 
@@ -86,9 +30,9 @@
         <a href="/" class="site-header__nav-link">Home</a>
         <a href="/shop.html" class="site-header__nav-link">Shop</a>
         <a href="/about.html" class="site-header__nav-link">About</a>
-        <a href="/care.html" class="site-header__nav-link">Care Instructions</a>
+        <a href="/care-instructions.html" class="site-header__nav-link">Care Instructions</a>
         <a href="/faq.html" class="site-header__nav-link">FAQ</a>
-        <a href="/contact.html" class="site-header__nav-link">Contact</a>
+        <a href="/contact.html" class="site-header__nav-link site-header__nav-link--active">Contact</a>
       </nav>
       <div class="site-header__actions">
         <a href="/cart.html" class="site-header__cart" aria-label="Cart">
@@ -104,30 +48,114 @@
     </div>
   </header>
 
-  <!-- Breadcrumb -->
-  <nav class="product-breadcrumb" id="product-breadcrumb" aria-label="Breadcrumb">
-    <!-- Rendered by product.js -->
-  </nav>
+  <!-- Page Hero -->
+  <div class="page-hero">
+    <h1 class="page-hero__title">Contact Us</h1>
+    <p class="page-hero__subtitle">Questions about your order, your grow log, or mushroom growing in general? We would love to hear from you.</p>
+  </div>
 
-  <!-- Toast container -->
-  <div class="toast-container" id="toast-container"></div>
+  <main class="page-content page-content--narrow">
 
-  <!-- Product content -->
-  <main id="product-main">
-    <!-- Rendered by product.js -->
+    <div class="contact-layout">
+
+      <!-- ================================================================
+           CONTACT FORM
+           ================================================================ -->
+      <section aria-labelledby="form-heading">
+        <h2 class="content-section__title" id="form-heading">Send Us a Message</h2>
+
+        <div id="contact-feedback" class="form-feedback" role="alert" aria-live="polite"></div>
+
+        <form id="contact-form" class="contact-form" novalidate>
+          <div class="form-group">
+            <label for="contact-name" class="form-label form-label--required">Name</label>
+            <input type="text" id="contact-name" name="name" class="form-input" required autocomplete="name" placeholder="Your name">
+            <span class="form-error" id="contact-name-error" aria-live="polite"></span>
+          </div>
+
+          <div class="form-group">
+            <label for="contact-email" class="form-label form-label--required">Email</label>
+            <input type="email" id="contact-email" name="email" class="form-input" required autocomplete="email" placeholder="you@example.com">
+            <span class="form-error" id="contact-email-error" aria-live="polite"></span>
+          </div>
+
+          <div class="form-group">
+            <label for="contact-message" class="form-label form-label--required">Message</label>
+            <textarea id="contact-message" name="message" class="form-textarea" required rows="6" placeholder="How can we help?"></textarea>
+            <span class="form-error" id="contact-message-error" aria-live="polite"></span>
+          </div>
+
+          <!-- Honeypot field - hidden from real users, matches backend TASK-115 -->
+          <div class="form-honeypot" aria-hidden="true">
+            <label for="phone_confirm">Phone confirmation</label>
+            <input type="text" id="phone_confirm" name="phone_confirm" tabindex="-1" autocomplete="off">
+          </div>
+
+          <div>
+            <button type="submit" class="btn btn-primary" id="contact-submit">Send Message</button>
+          </div>
+        </form>
+      </section>
+
+      <!-- ================================================================
+           BUSINESS INFO
+           ================================================================ -->
+      <section aria-labelledby="info-heading">
+        <h2 class="content-section__title" id="info-heading">Get in Touch</h2>
+
+        <div class="contact-info">
+          <div class="contact-info__item">
+            <div class="contact-info__icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+            </div>
+            <div>
+              <p class="contact-info__label">Email</p>
+              <p class="contact-info__value"><a href="mailto:hello@centrifungal.co.uk">hello@centrifungal.co.uk</a></p>
+            </div>
+          </div>
+
+          <div class="contact-info__item">
+            <div class="contact-info__icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+            </div>
+            <div>
+              <p class="contact-info__label">Response Time</p>
+              <p class="contact-info__value">We aim to reply within 24 hours on weekdays. If you message us over the weekend, we will get back to you on Monday.</p>
+            </div>
+          </div>
+
+          <div class="contact-info__item">
+            <div class="contact-info__icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+            </div>
+            <div>
+              <p class="contact-info__label">Social Media</p>
+              <p class="contact-info__value">Follow us on Instagram for growing tips, harvest photos, and behind-the-scenes updates.</p>
+            </div>
+          </div>
+
+          <div class="contact-info__item">
+            <div class="contact-info__icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 015.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+            </div>
+            <div>
+              <p class="contact-info__label">Quick Help</p>
+              <p class="contact-info__value">Check our <a href="/faq.html">FAQ</a> and <a href="/care-instructions.html">Care Instructions</a> for answers to common questions.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+    </div>
+
   </main>
-
-  <!-- Long description -->
-  <section class="product-long-description" id="product-long-description">
-    <!-- Rendered by product.js -->
-  </section>
 
   <!-- Footer -->
   <footer class="site-footer">
     <div class="site-footer__inner">
       <div class="site-footer__grid">
         <div class="site-footer__brand">
-          <div class="site-footer__logo">&#127812; Centrifungal</div>
+          <div class="site-footer__logo">Centrifungal</div>
           <p class="site-footer__tagline">Artisan mushroom grow logs, cultivated with care. Bringing the forest floor to your front door.</p>
           <div class="site-footer__social">
             <a href="#" class="site-footer__social-link" aria-label="Instagram">
@@ -154,7 +182,7 @@
         <div>
           <h4 class="site-footer__column-title">Help</h4>
           <ul class="site-footer__links" role="list">
-            <li><a href="/care.html" class="site-footer__link">Care Instructions</a></li>
+            <li><a href="/care-instructions.html" class="site-footer__link">Care Instructions</a></li>
             <li><a href="/faq.html" class="site-footer__link">FAQ</a></li>
             <li><a href="#" class="site-footer__link">Shipping</a></li>
             <li><a href="#" class="site-footer__link">Returns</a></li>
@@ -165,7 +193,6 @@
           <h4 class="site-footer__column-title">Company</h4>
           <ul class="site-footer__links" role="list">
             <li><a href="/about.html" class="site-footer__link">About Us</a></li>
-            <li><a href="#" class="site-footer__link">Our Story</a></li>
             <li><a href="#" class="site-footer__link">Sustainability</a></li>
             <li><a href="#" class="site-footer__link">Privacy Policy</a></li>
             <li><a href="#" class="site-footer__link">Terms of Service</a></li>
@@ -211,7 +238,7 @@
     updateHeaderCartCount();
     window.addEventListener('cart-updated', updateHeaderCartCount);
   </script>
-  <script type="module" src="js/product.js"></script>
+  <script src="js/contact.js"></script>
 
 </body>
 </html>

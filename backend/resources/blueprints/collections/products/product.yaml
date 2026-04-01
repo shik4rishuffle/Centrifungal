@@ -1,10 +1,11 @@
 title: Product
 tabs:
   main:
-    display: Product
+    display: 'Basic Info'
     sections:
       -
         display: 'Product Details'
+        instructions: 'Core product information that appears on the storefront.'
         fields:
           -
             handle: name
@@ -15,12 +16,27 @@ tabs:
               validate:
                 - required
                 - 'max:120'
+              width: 66
+          -
+            handle: category
+            field:
+              type: select
+              display: Category
+              instructions: 'Choose the product category. This determines where the product appears on the site.'
+              options:
+                grow-logs: 'Grow Logs'
+                colonised-dowels: 'Colonised Dowels'
+                diy-kits: 'DIY Kits'
+                tinctures: Tinctures
+              validate:
+                - required
+              width: 33
           -
             handle: description
             field:
               type: bard
               display: Description
-              instructions: 'A detailed product description. Keep it clear and helpful for customers.'
+              instructions: 'A detailed product description. Keep it clear and helpful for customers. You can use bold, italic, links, and lists.'
               buttons:
                 - bold
                 - italic
@@ -29,6 +45,7 @@ tabs:
                 - anchor
               allow_source: false
               save_html: false
+              toolbar_mode: fixed
               sets:
                 main:
                   display: 'Content Blocks'
@@ -50,35 +67,23 @@ tabs:
                               - anchor
                             allow_source: false
                             save_html: false
+  pricing:
+    display: 'Pricing & Stock'
+    sections:
+      -
+        display: 'Pricing'
+        instructions: 'Set the base price and stock status. Prices are in pence (GBP).'
+        fields:
           -
             handle: price
             field:
               type: integer
-              display: Price
-              instructions: 'Enter price in pence, e.g. 1299 = GBP 12.99'
+              display: 'Price (pence)'
+              instructions: 'Enter price in pence. For example, 1299 = GBP 12.99.'
               validate:
                 - required
                 - 'min:1'
-          -
-            handle: category
-            field:
-              type: select
-              display: Category
-              instructions: 'Choose the product category. This determines where the product appears on the site.'
-              options:
-                grow-logs: 'Grow Logs'
-                colonised-dowels: 'Colonised Dowels'
-                diy-kits: 'DIY Kits'
-                tinctures: Tinctures
-              validate:
-                - required
-          -
-            handle: in_stock
-            field:
-              type: toggle
-              display: 'In Stock'
-              instructions: 'Master stock toggle. If turned off, the product will show as out of stock regardless of variant settings.'
-              default: true
+              width: 33
           -
             handle: weight_grams
             field:
@@ -88,15 +93,28 @@ tabs:
               validate:
                 - required
                 - 'min:1'
+              width: 33
+          -
+            handle: in_stock
+            field:
+              type: toggle
+              display: 'In Stock'
+              instructions: 'Master stock toggle. If turned off, the product shows as "out of stock" regardless of variant settings.'
+              default: true
+              width: 33
+  variants:
+    display: 'Sizes & Variants'
+    sections:
       -
         display: 'Sizes & Variants'
+        instructions: 'Add size or variant options if this product comes in different sizes or types. Leave empty if there is only one version.'
         fields:
           -
             handle: sizes_variants
             field:
               type: replicator
               display: 'Sizes & Variants'
-              instructions: 'Add size or variant options. Each variant can have its own price, SKU, and stock status.'
+              instructions: 'Each variant can have its own price, SKU, and stock status. Click "Add Variant" to add one.'
               sets:
                 variant:
                   display: Variant
@@ -110,40 +128,72 @@ tabs:
                         validate:
                           - required
                           - 'max:80'
-                    -
-                      handle: price_override
-                      field:
-                        type: integer
-                        display: 'Price Override'
-                        instructions: 'Leave empty to use the main product price. Enter a value in pence to override.'
+                        width: 50
                     -
                       handle: sku
                       field:
                         type: text
                         display: SKU
-                        instructions: 'Unique stock-keeping unit code for this variant.'
+                        instructions: 'Unique stock-keeping unit code for this variant, e.g. "GL-SHI-SM".'
                         validate:
                           - required
                           - 'max:40'
+                        width: 50
+                    -
+                      handle: price_override
+                      field:
+                        type: integer
+                        display: 'Price Override (pence)'
+                        instructions: 'Leave empty to use the main product price. Enter a value in pence to override for this variant.'
+                        width: 50
                     -
                       handle: in_stock
                       field:
                         type: toggle
                         display: 'In Stock'
-                        instructions: 'Is this variant currently available? The master stock toggle overrides this.'
+                        instructions: 'Is this variant currently available? The master stock toggle on the Pricing tab overrides this.'
                         default: true
+                        width: 50
+  images:
+    display: Images
+    sections:
       -
-        display: Images
+        display: 'Product Images'
+        instructions: 'Upload high-quality product photos. The first image will be the main photo shown on the site.'
         fields:
           -
             handle: images
             field:
               type: assets
               display: Images
-              instructions: 'Upload product images. The first image will be used as the main product photo. Minimum 1, maximum 8.'
+              container: images
+              instructions: 'Upload product images. The first image is the main product photo. You can drag to reorder. Minimum 1, maximum 8. Accepted formats: JPG, PNG, WebP.'
               max_files: 8
               validate:
                 - required
+  seo:
+    display: SEO
+    sections:
+      -
+        display: 'Search Engine Optimisation'
+        instructions: 'These fields help your product appear in Google search results. If left empty, the product name and description will be used.'
+        fields:
+          -
+            handle: meta_title
+            field:
+              type: text
+              display: 'Meta Title'
+              instructions: 'Custom page title for search engines. Keep under 60 characters. If empty, the product name is used.'
+              validate:
+                - 'max:60'
+          -
+            handle: meta_description
+            field:
+              type: textarea
+              display: 'Meta Description'
+              instructions: 'A short summary shown in search results. Keep between 120-160 characters for best results.'
+              validate:
+                - 'max:160'
   sidebar:
     display: Sidebar
     sections:
@@ -154,7 +204,7 @@ tabs:
             field:
               type: slug
               display: Slug
-              instructions: 'The URL-friendly version of the product name.'
+              instructions: 'The URL-friendly version of the product name. Auto-generated from the name.'
               validate:
                 - 'max:200'
           -
