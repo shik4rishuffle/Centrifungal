@@ -1,0 +1,133 @@
+/* ==========================================================================
+   Modern CSS Reset
+   Centrifungal Design System
+   ========================================================================== */
+
+/* Box sizing for all elements */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+/* Remove default margin and padding */
+* {
+  margin: 0;
+  padding: 0;
+}
+
+/* Prevent font size inflation on mobile */
+html {
+  -moz-text-size-adjust: none;
+  -webkit-text-size-adjust: none;
+  text-size-adjust: none;
+}
+
+/* Smooth scrolling for users who don't prefer reduced motion */
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
+/* Set core body defaults */
+body {
+  min-height: 100vh;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeSpeed;
+}
+
+/* Remove list styles on ul, ol with a list role */
+ul[role="list"],
+ol[role="list"] {
+  list-style: none;
+}
+
+/* Headings and interactive elements get accessible line-height */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  line-height: 1.2;
+  text-wrap: balance;
+}
+
+p,
+li,
+figcaption {
+  text-wrap: pretty;
+}
+
+/* Anchors inherit colour and have sensible defaults */
+a {
+  color: inherit;
+  text-decoration-skip-ink: auto;
+}
+
+/* Images and media defaults */
+img,
+picture,
+video,
+canvas,
+svg {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+/* Form elements inherit font */
+input,
+button,
+textarea,
+select {
+  font: inherit;
+  color: inherit;
+}
+
+/* Textarea without a rows attribute should not be tiny */
+textarea:not([rows]) {
+  min-height: 10em;
+}
+
+/* Buttons have pointer cursor */
+button,
+[role="button"] {
+  cursor: pointer;
+}
+
+/* Anything with an anchor target should have scroll margin */
+:target {
+  scroll-margin-block: 5ex;
+}
+
+/* Remove all animations and transitions for people that prefer not to see them */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Table defaults */
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+/* Remove fieldset styling */
+fieldset {
+  border: 0;
+}
+
+/* Hidden attribute support */
+[hidden] {
+  display: none !important;
+}
