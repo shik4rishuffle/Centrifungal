@@ -32,7 +32,13 @@ class StripeService
      */
     public function createCheckoutSession(array $lineItems, array $metadata): string
     {
-        $stripe = new \Stripe\StripeClient(config('services.stripe.secret'));
+        $secret = config('services.stripe.secret');
+
+        if (empty($secret)) {
+            throw new \RuntimeException('Stripe secret key is not configured. Set STRIPE_SECRET in your .env file.');
+        }
+
+        $stripe = new \Stripe\StripeClient($secret);
 
         $stripeLineItems = array_map(fn (array $item) => [
             'price_data' => [

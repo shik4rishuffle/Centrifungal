@@ -3,6 +3,7 @@
 use App\Http\Controllers\Api\CartController;
 use App\Http\Controllers\Api\CheckoutController;
 use App\Http\Controllers\Api\ContactController;
+use App\Http\Controllers\Api\PageController;
 use App\Http\Controllers\Api\ProductController;
 use App\Http\Middleware\ResolveCartSession;
 use Illuminate\Http\JsonResponse;
@@ -18,6 +19,62 @@ Route::middleware('throttle:api-public')->group(function () {
     Route::get('/products', [ProductController::class, 'index']);
     Route::get('/products/categories', [ProductController::class, 'categories']);
     Route::get('/products/{slug}', [ProductController::class, 'show']);
+
+    Route::get('/homepage', [PageController::class, 'homepage']);
+    Route::get('/pages', [PageController::class, 'index']);
+    Route::get('/pages/{slug}', [PageController::class, 'show']);
+
+    Route::get('/navigation', function (): JsonResponse {
+        $nav = \Statamic\Facades\Nav::find('main_nav');
+        if (! $nav) {
+            return response()->json(['data' => []])->header('Cache-Control', 'public, max-age=300');
+        }
+
+        $site = \Statamic\Facades\Site::current()->handle();
+        $tree = $nav->in($site);
+
+        if (! $tree) {
+            return response()->json(['data' => []])->header('Cache-Control', 'public, max-age=300');
+        }
+
+        $items = collect($tree->flattenedPages())->map(function ($page) {
+            return [
+                'title' => $page->title(),
+                'url' => $page->url() ?? $page->uri(),
+            ];
+        })->values()->all();
+
+        return response()->json(['data' => $items])
+            ->header('Cache-Control', 'public, max-age=300');
+    });
+});
+
+/*
+|--------------------------------------------------------------------------
+| Frontend Config
+|--------------------------------------------------------------------------
+| Exposes non-secret environment config to the static frontend.
+*/
+Route::get('/random-no', function (): JsonResponse {
+    try {
+        $response = \Illuminate\Support\Facades\Http::timeout(5)
+            ->get('https://no-as-a-service.onrender.com/no');
+
+        if ($response->ok()) {
+            return response()->json($response->json())
+                ->header('Cache-Control', 'public, max-age=60');
+        }
+    } catch (\Throwable) {
+        // fall through
+    }
+
+    return response()->json(['reason' => 'No.']);
+});
+
+Route::get('/config', function (): JsonResponse {
+    return response()->json([
+        'api_base_url' => config('app.url'),
+    ])->header('Cache-Control', 'public, max-age=3600');
 });
 
 /*

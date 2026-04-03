@@ -16,9 +16,6 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->validateCsrfTokens(except: [
             'webhook/stripe',
         ]);
-        $middleware->appendToGroup('statamic.cp', [
-            \App\Http\Middleware\ThrottleCpLogin::class,
-        ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         //
