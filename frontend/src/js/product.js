@@ -6,6 +6,8 @@
 
 import { addItem } from './cart.js';
 
+function getApiUrl() { return window.__CENTRIFUNGAL.getApiUrl(); }
+
 const CATEGORY_ICONS = {
   'grow-logs': '\u{1F344}',
   'colonised-dowels': '\u{1FAB5}',
@@ -226,7 +228,7 @@ function renderLongDescription(product) {
   if (!el) return;
 
   // Use long_description if available, otherwise a fallback
-  const longDesc = product.long_description || null;
+  const longDesc = product.long_description;
   if (!longDesc) {
     el.style.display = 'none';
     return;
@@ -418,7 +420,7 @@ async function init() {
   }
 
   try {
-    const response = await fetch(`/api/products/${encodeURIComponent(slug)}`);
+    const response = await fetch(`${getApiUrl()}/api/products/${encodeURIComponent(slug)}`);
     if (response.status === 404) {
       renderError('Product not found. It may have been removed or the link is incorrect.');
       return;

@@ -3,6 +3,8 @@
  * Fetches products and renders a categorised, responsive product grid.
  */
 
+function getApiUrl() { return window.__CENTRIFUNGAL.getApiUrl(); }
+
 const CATEGORY_ORDER = ['grow-logs', 'colonised-dowels', 'diy-kits', 'tinctures'];
 
 const CATEGORY_DISPLAY_NAMES = {
@@ -30,17 +32,10 @@ function formatPrice(pence) {
   return `\u00a3${(pence / 100).toFixed(2)}`;
 }
 
-function getLowestPrice(variants) {
-  return Math.min(...variants.map(v => v.price_pence));
-}
-
-function getHighestPrice(variants) {
-  return Math.max(...variants.map(v => v.price_pence));
-}
-
 function renderPriceRange(variants) {
-  const low = getLowestPrice(variants);
-  const high = getHighestPrice(variants);
+  const prices = variants.map(v => v.price_pence);
+  const low = Math.min(...prices);
+  const high = Math.max(...prices);
   if (low === high) {
     return formatPrice(low);
   }
@@ -161,7 +156,7 @@ async function init() {
   renderLoading();
 
   try {
-    const response = await fetch('/api/products');
+    const response = await fetch(getApiUrl() + '/api/products');
     if (!response.ok) {
       throw new Error(`Failed to load products (${response.status})`);
     }

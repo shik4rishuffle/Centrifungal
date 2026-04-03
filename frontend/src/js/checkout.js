@@ -5,19 +5,10 @@
 
 import { getCart, clearCart } from './cart.js';
 
-const CART_TOKEN_KEY = 'centrifungal_cart_token';
+function getApiUrl() { return window.__CENTRIFUNGAL.getApiUrl(); }
 
 /**
- * Get the server-side cart token from localStorage.
- * This is set by the cart API when items are synced to the backend.
- * @returns {string|null}
- */
-function getCartToken() {
-  return localStorage.getItem(CART_TOKEN_KEY);
-}
-
-/**
- * Initiate checkout by posting the cart to the backend.
+ * Initiate checkout by posting cart items to the backend.
  * On success, redirects the browser to the Stripe checkout URL.
  * On failure, returns an error message string.
  *
@@ -29,27 +20,26 @@ export async function initiateCheckout() {
     return 'Your cart is empty.';
   }
 
-  const cartToken = getCartToken();
-  if (!cartToken) {
-    return 'No cart session found. Please add items to your cart and try again.';
-  }
+  var payload = {
+    items: items.map(function (item) {
+      return { variantId: item.variantId, quantity: item.quantity };
+    })
+  };
 
   try {
-    const response = await fetch('/api/checkout', {
+    const response = await fetch(getApiUrl() + '/api/checkout', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'X-Cart-Token': cartToken,
+        'Accept': 'application/json',
       },
+      body: JSON.stringify(payload),
     });
 
     if (!response.ok) {
       const data = await response.json().catch(() => null);
       const message = data?.message || data?.error;
 
-      if (response.status === 401) {
-        return 'Your cart session has expired. Please add items again.';
-      }
       if (response.status === 422) {
         return message || 'There was a problem with your cart. Please review your items.';
       }
@@ -72,9 +62,8 @@ export async function initiateCheckout() {
 
 /**
  * Handle return from Stripe checkout (success page).
- * Clears the local cart and cart token so the user starts fresh.
+ * Clears the local cart so the user starts fresh.
  */
 export function handleCheckoutReturn() {
   clearCart();
-  localStorage.removeItem(CART_TOKEN_KEY);
 }
