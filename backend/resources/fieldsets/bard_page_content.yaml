@@ -83,6 +83,8 @@ fields:
                     display: Body
                     instructions: 'Rich text content - bold, italic, links, and lists are available.'
                     buttons:
+                      - h2
+                      - h3
                       - bold
                       - italic
                       - unorderedlist

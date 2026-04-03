@@ -4,12 +4,13 @@ namespace App\Listeners;
 
 use App\Models\Product;
 use App\Models\ProductVariant;
+use App\Services\ProseMirrorRenderer;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 use Statamic\Events\EntryDeleted;
 use Statamic\Events\EntrySaved;
-use Statamic\Fieldtypes\Bard;
+use Statamic\Facades\Asset;
 
 class SyncProductToDatabase
 {
@@ -75,7 +76,7 @@ class SyncProductToDatabase
                 'category' => $entry->get('category'),
                 'base_price_pence' => (int) $entry->get('price'),
                 'is_active' => (bool) $entry->get('in_stock', true),
-                'images' => $entry->get('images') ?? [],
+                'images' => $this->resolveImageUrls($entry->get('images') ?? []),
             ],
         );
     }
@@ -155,6 +156,30 @@ class SyncProductToDatabase
     }
 
     /**
+     * Resolve asset filenames to absolute URLs.
+     */
+    private function resolveImageUrls(array $filenames): array
+    {
+        return collect($filenames)
+            ->map(function (string $filename): ?array {
+                $asset = Asset::findByPath($filename)
+                    ?? Asset::findById("images::{$filename}");
+
+                if (! $asset) {
+                    return null;
+                }
+
+                return [
+                    'url' => $asset->absoluteUrl(),
+                    'alt' => $asset->get('alt') ?? '',
+                ];
+            })
+            ->filter()
+            ->values()
+            ->all();
+    }
+
+    /**
      * Convert a Bard field's ProseMirror content to an HTML string.
      */
     private function convertBardToHtml(mixed $entry, string $fieldHandle): string
@@ -169,18 +194,6 @@ class SyncProductToDatabase
             return '';
         }
 
-        // Use Statamic's augmented value which renders Bard content to HTML
-        $augmented = $entry->augmentedValue($fieldHandle);
-
-        if ($augmented) {
-            $html = (string) $augmented;
-
-            if (! empty($html)) {
-                return $html;
-            }
-        }
-
-        // Fallback: store as JSON if augmentation is not available
-        return json_encode($value);
+        return ProseMirrorRenderer::render($value);
     }
 }

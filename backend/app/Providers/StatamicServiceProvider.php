@@ -28,6 +28,9 @@ class StatamicServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        $this->app->make(\Illuminate\Routing\Router::class)
+            ->pushMiddlewareToGroup('statamic.cp', \App\Http\Middleware\ThrottleCpLogin::class);
+
         $this->registerNavItems();
         $this->registerCpRoutes();
         $this->registerEventListeners();
@@ -41,12 +44,12 @@ class StatamicServiceProvider extends ServiceProvider
         Nav::extend(function ($nav) {
             $nav->content('Orders')
                 ->section('Tools')
-                ->route('cp.orders.index')
+                ->route('orders.index')
                 ->icon('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25H12"/></svg>');
 
             $nav->content('Contact Submissions')
                 ->section('Tools')
-                ->route('cp.contact-submissions.index')
+                ->route('contact-submissions.index')
                 ->icon('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M21.75 6.75v10.5a2.25 2.25 0 0 1-2.25 2.25h-15a2.25 2.25 0 0 1-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25m19.5 0-8.953 5.468a1.5 1.5 0 0 1-1.594 0L2.25 6.75"/></svg>');
         });
     }

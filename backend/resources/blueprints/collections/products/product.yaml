@@ -8,6 +8,13 @@ tabs:
         instructions: 'Core product information that appears on the storefront.'
         fields:
           -
+            handle: title
+            field:
+              type: text
+              required: true
+              validate:
+                - required
+          -
             handle: name
             field:
               type: text
@@ -44,8 +51,6 @@ tabs:
                 - orderedlist
                 - anchor
               allow_source: false
-              save_html: false
-              toolbar_mode: fixed
               sets:
                 main:
                   display: 'Content Blocks'
@@ -71,7 +76,7 @@ tabs:
     display: 'Pricing & Stock'
     sections:
       -
-        display: 'Pricing'
+        display: Pricing
         instructions: 'Set the base price and stock status. Prices are in pence (GBP).'
         fields:
           -
@@ -203,10 +208,11 @@ tabs:
             handle: slug
             field:
               type: slug
-              display: Slug
-              instructions: 'The URL-friendly version of the product name. Auto-generated from the name.'
+              localizable: true
               validate:
                 - 'max:200'
+              display: Slug
+              instructions: 'The URL-friendly version of the product name. Auto-generated from the name.'
           -
             handle: stripe_price_id
             field:

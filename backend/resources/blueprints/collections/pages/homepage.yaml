@@ -1,0 +1,273 @@
+title: Homepage
+tabs:
+  hero:
+    display: Hero
+    sections:
+      -
+        display: 'Hero Banner'
+        instructions: 'The large banner at the top of the homepage. This is the first thing visitors see.'
+        fields:
+          -
+            handle: title
+            field:
+              type: text
+              required: true
+              display: 'Page Title'
+              instructions: 'Internal page title (shown in the browser tab and CMS sidebar).'
+              validate:
+                - required
+                - 'max:120'
+          -
+            handle: hero_eyebrow
+            field:
+              type: text
+              display: 'Eyebrow Text'
+              instructions: 'Small text shown above the main headline - e.g. "Premium Mushroom Grow Logs".'
+              validate:
+                - 'max:80'
+          -
+            handle: hero_title
+            field:
+              type: text
+              required: true
+              display: Headline
+              instructions: 'The main hero headline - e.g. "Grow Gourmet Mushrooms at Home". Keep it punchy.'
+              validate:
+                - required
+                - 'max:120'
+          -
+            handle: hero_text
+            field:
+              type: textarea
+              display: Description
+              instructions: 'A short paragraph below the headline describing what you offer.'
+              validate:
+                - 'max:500'
+          -
+            handle: hero_cta_primary_text
+            field:
+              type: text
+              display: 'Primary Button Text'
+              instructions: 'Label for the main call-to-action button - e.g. "Shop Grow Logs".'
+              validate:
+                - 'max:40'
+          -
+            handle: hero_cta_primary_link
+            field:
+              type: link
+              display: 'Primary Button Link'
+              instructions: 'Where the main button links to. Pick an internal page or paste a URL.'
+          -
+            handle: hero_cta_secondary_text
+            field:
+              type: text
+              display: 'Secondary Button Text'
+              instructions: 'Label for the second button - e.g. "Care Guides".'
+              validate:
+                - 'max:40'
+          -
+            handle: hero_cta_secondary_link
+            field:
+              type: link
+              display: 'Secondary Button Link'
+              instructions: 'Where the secondary button links to.'
+  featured_products:
+    display: 'Featured Products'
+    sections:
+      -
+        display: 'Featured Products Section'
+        instructions: 'The product grid section. Products are loaded automatically - you just control the heading text here.'
+        fields:
+          -
+            handle: featured_heading
+            field:
+              type: text
+              display: Heading
+              instructions: 'Section heading - e.g. "Our Grow Logs".'
+              validate:
+                - 'max:120'
+          -
+            handle: featured_subtitle
+            field:
+              type: text
+              display: Subtitle
+              instructions: 'A line of text below the heading - e.g. "Hand-made in the UK from locally sourced hardwood".'
+              validate:
+                - 'max:200'
+  brand_story:
+    display: 'Brand Story'
+    sections:
+      -
+        display: 'Brand Story Section'
+        instructions: 'An image-and-text section that tells your brand story.'
+        fields:
+          -
+            handle: story_image
+            field:
+              type: assets
+              container: images
+              max_files: 1
+              display: Image
+              instructions: 'A photo shown alongside your story text. Landscape orientation works best.'
+          -
+            handle: story_heading
+            field:
+              type: text
+              display: Heading
+              instructions: 'Section heading - e.g. "Rooted in the Forest, Made for Your Home".'
+              validate:
+                - 'max:120'
+          -
+            handle: story_text
+            field:
+              type: textarea
+              display: 'Body Text'
+              instructions: 'One or two paragraphs about your brand and what makes you different.'
+              validate:
+                - 'max:1000'
+          -
+            handle: story_cta_text
+            field:
+              type: text
+              display: 'Button Text'
+              instructions: 'Label for the link button - e.g. "Our Story".'
+              validate:
+                - 'max:40'
+          -
+            handle: story_cta_link
+            field:
+              type: link
+              display: 'Button Link'
+              instructions: 'Where the button links to - e.g. your About page.'
+  why_us:
+    display: 'Why Us'
+    sections:
+      -
+        display: 'USP Cards Section'
+        instructions: 'A row of cards highlighting your unique selling points. You can add, remove, or reorder cards.'
+        fields:
+          -
+            handle: usp_heading
+            field:
+              type: text
+              display: Heading
+              instructions: 'Section heading - e.g. "Why Centrifungal?".'
+              validate:
+                - 'max:120'
+          -
+            handle: usp_subtitle
+            field:
+              type: text
+              display: Subtitle
+              instructions: 'A line of text below the heading.'
+              validate:
+                - 'max:200'
+          -
+            handle: usp_cards
+            field:
+              type: replicator
+              display: Cards
+              instructions: 'Add a card for each selling point. Three cards works best visually.'
+              sets:
+                card:
+                  display: Card
+                  instructions: 'A single USP card with an icon, title, and description.'
+                  fields:
+                    -
+                      handle: icon
+                      field:
+                        type: text
+                        display: Icon
+                        instructions: 'An emoji to represent this card - e.g. a tree, a truck, a book.'
+                        validate:
+                          - 'max:10'
+                    -
+                      handle: card_title
+                      field:
+                        type: text
+                        display: Title
+                        instructions: 'Card heading - e.g. "Grown Locally".'
+                        validate:
+                          - 'max:60'
+                    -
+                      handle: card_text
+                      field:
+                        type: textarea
+                        display: Description
+                        instructions: 'A short description for this card.'
+                        validate:
+                          - 'max:300'
+  cta_banner:
+    display: 'Call to Action'
+    sections:
+      -
+        display: 'CTA Banner'
+        instructions: 'A coloured banner near the bottom of the page encouraging visitors to take action.'
+        fields:
+          -
+            handle: cta_heading
+            field:
+              type: text
+              display: Heading
+              instructions: 'Banner heading - e.g. "New to Mushroom Growing?".'
+              validate:
+                - 'max:120'
+          -
+            handle: cta_text
+            field:
+              type: text
+              display: Text
+              instructions: 'A short line of supporting text below the heading.'
+              validate:
+                - 'max:200'
+          -
+            handle: cta_button_text
+            field:
+              type: text
+              display: 'Button Text'
+              instructions: 'Label for the button - e.g. "Read Our Care Guide".'
+              validate:
+                - 'max:40'
+          -
+            handle: cta_button_link
+            field:
+              type: link
+              display: 'Button Link'
+              instructions: 'Where the button links to.'
+  seo:
+    display: SEO
+    sections:
+      -
+        display: 'Search Engine Optimisation'
+        instructions: 'These fields help your page appear in Google search results. If left empty, the page title is used.'
+        fields:
+          -
+            handle: meta_title
+            field:
+              type: text
+              display: 'Meta Title'
+              instructions: 'Custom page title for search engines. Keep under 60 characters.'
+              validate:
+                - 'max:60'
+          -
+            handle: meta_description
+            field:
+              type: textarea
+              display: 'Meta Description'
+              instructions: 'A short summary shown in search results. Keep between 120-160 characters for best results.'
+              validate:
+                - 'max:160'
+  sidebar:
+    display: Sidebar
+    sections:
+      -
+        fields:
+          -
+            handle: slug
+            field:
+              type: slug
+              localizable: true
+              display: Slug
+              instructions: 'The URL-friendly version of the page title.'
+              validate:
+                - 'max:200'
