@@ -71,9 +71,11 @@
       </button>
 
       <nav class="site-header__nav" id="main-nav" aria-label="Main navigation">
+        <a href="/" class="site-header__nav-link site-header__nav-link--active">Home</a>
         <a href="/shop" class="site-header__nav-link">Shop</a>
         <a href="/about" class="site-header__nav-link">About</a>
-        <a href="/care" class="site-header__nav-link">Care Guides</a>
+        <a href="/care" class="site-header__nav-link">Care Instructions</a>
+        <a href="/faq" class="site-header__nav-link">FAQ</a>
         <a href="/contact" class="site-header__nav-link">Contact</a>
       </nav>
 
@@ -93,15 +95,15 @@
     <!-- ================================================================
          HERO
          ================================================================ -->
-    <section class="hero">
+    <section class="hero" id="hero-section">
       <div class="hero__inner">
         <div class="hero__content">
-          <span class="hero__eyebrow">Premium Mushroom Grow Logs</span>
-          <h1 class="hero__title">Grow Gourmet Mushrooms at Home</h1>
-          <p class="hero__text">Hand-inoculated hardwood logs that fruit again and again. No experience needed - just mist, wait, and harvest fresh mushrooms from your kitchen counter.</p>
+          <span class="hero__eyebrow" id="hero-eyebrow">Premium Mushroom Grow Logs</span>
+          <h1 class="hero__title" id="hero-title">Grow Gourmet Mushrooms at Home</h1>
+          <p class="hero__text" id="hero-text">Hand-inoculated hardwood logs that fruit again and again. No experience needed - just mist, wait, and harvest fresh mushrooms from your kitchen counter.</p>
           <div class="hero__actions">
-            <a href="/shop" class="btn btn-secondary btn-lg">Shop Grow Logs</a>
-            <a href="/care" class="btn btn-outline btn-lg" style="border-color: rgba(255,255,255,0.3); color: var(--color-text-on-dark);">Care Guides</a>
+            <a href="/shop" class="btn btn-secondary btn-lg" id="hero-cta-primary">Shop Grow Logs</a>
+            <a href="/care" class="btn btn-outline btn-lg" style="border-color: rgba(255,255,255,0.3); color: var(--color-text-on-dark);" id="hero-cta-secondary">Care Guides</a>
           </div>
         </div>
         <div class="hero__visual">
@@ -113,11 +115,11 @@
     <!-- ================================================================
          FEATURED PRODUCTS
          ================================================================ -->
-    <section class="section" aria-labelledby="featured-heading">
+    <section class="section" aria-labelledby="featured-heading" id="featured-section">
       <div class="container">
         <div class="section__header">
           <h2 class="section__title" id="featured-heading">Our Grow Logs</h2>
-          <p class="section__subtitle">Each log is hand-inoculated with premium spawn and grown on sustainably sourced British hardwood.</p>
+          <p class="section__subtitle" id="featured-subtitle">Each log is hand-inoculated with premium spawn and grown on sustainably sourced British hardwood.</p>
         </div>
         <div class="products-grid" id="featured-products-grid">
           <!-- Product cards rendered by homepage.js -->
@@ -131,15 +133,17 @@
     <!-- ================================================================
          BRAND STORY
          ================================================================ -->
-    <section class="section section--alt" aria-labelledby="story-heading">
+    <section class="section section--alt" aria-labelledby="story-heading" id="story-section">
       <div class="container">
         <div class="brand-story">
-          <div class="brand-story__image-placeholder" aria-label="Brand story image placeholder">&#127808;</div>
+          <div class="brand-story__image-placeholder" id="story-image" aria-label="Brand story image placeholder">&#127808;</div>
           <div class="brand-story__content">
             <h2 class="brand-story__title" id="story-heading">Rooted in the Forest, Made for Your Home</h2>
+            <div id="story-text">
             <p class="brand-story__text">Centrifungal started with a simple idea - that anyone should be able to grow fresh, gourmet mushrooms without a garden or any special equipment. Our logs are inoculated by hand in small batches using spawn we cultivate ourselves, then slowly colonised in controlled conditions before reaching you.</p>
             <p class="brand-story__text">The result? Mushrooms that taste like they were foraged minutes ago.</p>
-            <a href="/about" class="btn btn-primary">Our Story</a>
+            </div>
+            <a href="/about" class="btn btn-primary" id="story-cta">Our Story</a>
           </div>
         </div>
       </div>
@@ -148,13 +152,13 @@
     <!-- ================================================================
          HOW IT WORKS
          ================================================================ -->
-    <section class="section" aria-labelledby="how-heading">
+    <section class="section" aria-labelledby="how-heading" id="usps-section">
       <div class="container">
         <div class="section__header">
-          <h2 class="section__title" id="how-heading">Why Centrifungal?</h2>
-          <p class="section__subtitle">From our woodland to your doorstep - here's what makes us different.</p>
+          <h2 class="section__title" id="usp-heading">Why Centrifungal?</h2>
+          <p class="section__subtitle" id="usp-subtitle">From our woodland to your doorstep - here's what makes us different.</p>
         </div>
-        <div class="how-it-works-grid">
+        <div class="how-it-works-grid" id="usp-cards">
           <article class="content-card">
             <div class="content-card__icon" aria-hidden="true">&#127793;</div>
             <h3 class="content-card__title">Grown Locally</h3>
@@ -177,11 +181,11 @@
     <!-- ================================================================
          CTA BANNER
          ================================================================ -->
-    <section class="cta-banner" aria-labelledby="cta-heading">
+    <section class="cta-banner" aria-labelledby="cta-heading" id="cta-section">
       <div class="cta-banner__inner">
         <h2 class="cta-banner__title" id="cta-heading">New to Mushroom Growing?</h2>
-        <p class="cta-banner__text">Our free care guides cover everything from first misting to your fifth harvest. Written by growers, for growers.</p>
-        <a href="/care" class="btn btn-secondary btn-lg">Explore Care Guides</a>
+        <p class="cta-banner__text" id="cta-text">Our free care guides cover everything from first misting to your fifth harvest. Written by growers, for growers.</p>
+        <a href="/care" class="btn btn-secondary btn-lg" id="cta-button">Explore Care Guides</a>
       </div>
     </section>
   </main>
@@ -270,6 +274,8 @@
       }
     })();
   </script>
+  <script src="/js/config.js"></script>
+  <script src="/js/nav.js"></script>
   <script src="/js/homepage.js" defer></script>
 </body>
 </html>

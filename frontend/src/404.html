@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>About Us - Centrifungal</title>
-  <meta name="description" content="The story behind Centrifungal - a mushroom growing passion project turning British hardwood into gourmet grow logs.">
+  <title>Centrifungal</title>
+  <meta name="description" content="">
   <!-- Resource hints -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -15,10 +15,10 @@
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=DM+Serif+Display&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 
   <!-- Stylesheets -->
-  <link rel="stylesheet" href="css/reset.css">
-  <link rel="stylesheet" href="css/design-tokens.css">
-  <link rel="stylesheet" href="css/components.css">
-  <link rel="stylesheet" href="css/pages.css">
+  <link rel="stylesheet" href="/css/reset.css">
+  <link rel="stylesheet" href="/css/design-tokens.css">
+  <link rel="stylesheet" href="/css/components.css">
+  <link rel="stylesheet" href="/css/pages.css">
 </head>
 <body>
 
@@ -35,14 +35,14 @@
       </a>
       <nav class="site-header__nav" id="main-nav" aria-label="Main navigation">
         <a href="/" class="site-header__nav-link">Home</a>
-        <a href="/shop.html" class="site-header__nav-link">Shop</a>
-        <a href="/about.html" class="site-header__nav-link site-header__nav-link--active">About</a>
-        <a href="/care-instructions.html" class="site-header__nav-link">Care Instructions</a>
-        <a href="/faq.html" class="site-header__nav-link">FAQ</a>
-        <a href="/contact.html" class="site-header__nav-link">Contact</a>
+        <a href="/shop" class="site-header__nav-link">Shop</a>
+        <a href="/about" class="site-header__nav-link">About</a>
+        <a href="/care" class="site-header__nav-link">Care Instructions</a>
+        <a href="/faq" class="site-header__nav-link">FAQ</a>
+        <a href="/contact" class="site-header__nav-link">Contact</a>
       </nav>
       <div class="site-header__actions">
-        <a href="/cart.html" class="site-header__cart" aria-label="Cart">
+        <a href="/cart" class="site-header__cart" aria-label="Cart">
           <svg class="icon-svg" viewBox="0 0 24 24"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
           <span class="site-header__cart-count" id="header-cart-count" style="display: none;">0</span>
         </a>
@@ -57,12 +57,12 @@
 
   <!-- Page Hero -->
   <div class="page-hero">
-    <h1 class="page-hero__title">About Centrifungal</h1>
-    <p class="page-hero__subtitle">A passion project born in the woods, grown with care, and shipped to your door.</p>
+    <h1 class="page-hero__title" id="page-title"></h1>
+    <p class="page-hero__subtitle" id="page-subtitle"></p>
   </div>
 
   <main class="page-content page-content--narrow">
-    <div id="cms-page-content" data-slug="about"></div>
+    <div id="cms-page-content"></div>
   </main>
 
   <!-- Footer -->
@@ -85,32 +85,23 @@
           </div>
         </div>
         <div>
-          <h3 class="site-footer__column-title">Shop</h4>
+          <h3 class="site-footer__column-title">Shop</h3>
           <ul class="site-footer__links" role="list">
-            <li><a href="/shop.html" class="site-footer__link">All Products</a></li>
-            <li><a href="/shop.html#category-grow-logs" class="site-footer__link">Grow Logs</a></li>
-            <li><a href="/shop.html#category-colonised-dowels" class="site-footer__link">Colonised Dowels</a></li>
-            <li><a href="/shop.html#category-diy-kits" class="site-footer__link">DIY Kits</a></li>
-            <li><a href="/shop.html#category-tinctures" class="site-footer__link">Tinctures</a></li>
+            <li><a href="/shop" class="site-footer__link">All Products</a></li>
           </ul>
         </div>
         <div>
-          <h3 class="site-footer__column-title">Help</h4>
+          <h3 class="site-footer__column-title">Help</h3>
           <ul class="site-footer__links" role="list">
-            <li><a href="/care-instructions.html" class="site-footer__link">Care Instructions</a></li>
-            <li><a href="/faq.html" class="site-footer__link">FAQ</a></li>
-            <li><a href="#" class="site-footer__link">Shipping</a></li>
-            <li><a href="#" class="site-footer__link">Returns</a></li>
-            <li><a href="/contact.html" class="site-footer__link">Contact</a></li>
+            <li><a href="/care" class="site-footer__link">Care Instructions</a></li>
+            <li><a href="/faq" class="site-footer__link">FAQ</a></li>
+            <li><a href="/contact" class="site-footer__link">Contact</a></li>
           </ul>
         </div>
         <div>
-          <h3 class="site-footer__column-title">Company</h4>
+          <h3 class="site-footer__column-title">Company</h3>
           <ul class="site-footer__links" role="list">
-            <li><a href="/about.html" class="site-footer__link">About Us</a></li>
-            <li><a href="#" class="site-footer__link">Sustainability</a></li>
-            <li><a href="#" class="site-footer__link">Privacy Policy</a></li>
-            <li><a href="#" class="site-footer__link">Terms of Service</a></li>
+            <li><a href="/about" class="site-footer__link">About Us</a></li>
           </ul>
         </div>
       </div>
@@ -122,27 +113,31 @@
 
   <script>
     /* Hamburger toggle */
-    const hamburger = document.getElementById('hamburger-btn');
-    const nav = document.getElementById('main-nav');
-    hamburger.addEventListener('click', () => {
-      const expanded = hamburger.getAttribute('aria-expanded') === 'true';
-      hamburger.setAttribute('aria-expanded', !expanded);
-      nav.classList.toggle('site-header__nav--open');
-    });
+    var hamburger = document.getElementById('hamburger-btn');
+    var nav = document.getElementById('main-nav');
+    if (hamburger && nav) {
+      hamburger.addEventListener('click', function () {
+        var expanded = hamburger.getAttribute('aria-expanded') === 'true';
+        hamburger.setAttribute('aria-expanded', !expanded);
+        nav.classList.toggle('site-header__nav--open');
+      });
+    }
 
     /* Header scroll shadow */
-    const header = document.getElementById('site-header');
-    window.addEventListener('scroll', () => {
-      header.classList.toggle('site-header--scrolled', window.scrollY > 10);
-    }, { passive: true });
+    var header = document.getElementById('site-header');
+    if (header) {
+      window.addEventListener('scroll', function () {
+        header.classList.toggle('site-header--scrolled', window.scrollY > 10);
+      }, { passive: true });
+    }
 
     /* Update cart badge from localStorage */
     function updateHeaderCartCount() {
-      const badge = document.getElementById('header-cart-count');
+      var badge = document.getElementById('header-cart-count');
       if (!badge) return;
       try {
-        const cart = JSON.parse(localStorage.getItem('centrifungal_cart') || '[]');
-        const count = cart.reduce((sum, item) => sum + item.quantity, 0);
+        var cart = JSON.parse(localStorage.getItem('centrifungal_cart') || '[]');
+        var count = cart.reduce(function (sum, item) { return sum + item.quantity; }, 0);
         badge.textContent = count;
         badge.style.display = count > 0 ? 'flex' : 'none';
       } catch (e) {

@@ -63,6 +63,9 @@
 
   <main class="page-content page-content--narrow">
 
+    <!-- CMS content loaded above the form -->
+    <div id="cms-page-content" data-slug="contact"></div>
+
     <div class="contact-layout">
 
       <!-- ================================================================
@@ -245,6 +248,9 @@
     updateHeaderCartCount();
     window.addEventListener('cart-updated', updateHeaderCartCount);
   </script>
+  <script src="/js/config.js"></script>
+  <script src="/js/nav.js"></script>
+  <script src="/js/cms-content.js"></script>
   <script src="js/contact.js" defer></script>
 
 </body>
