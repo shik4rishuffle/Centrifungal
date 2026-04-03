@@ -1,4 +1,6 @@
 ---
+id: c98a98f1-67e5-4a2d-8835-87c3f7bafdf4
+blueprint: page
 title: Contact
 subtitle: 'Get in Touch'
 slug: contact

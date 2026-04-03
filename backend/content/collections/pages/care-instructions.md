@@ -1,4 +1,6 @@
 ---
+id: f4a5ff33-c49b-41b0-bd01-6148c57d0e4c
+blueprint: page
 title: 'Care Instructions'
 subtitle: 'How to Get the Best From Your Grow Log'
 slug: care-instructions
@@ -72,4 +74,6 @@ page_content:
                       -
                         type: text
                         text: 'Expect to see mushrooms appear within 1-3 weeks depending on the species and conditions.'
+updated_by: 2
+updated_at: 1775131467
 ---

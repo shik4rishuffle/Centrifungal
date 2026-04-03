@@ -8,7 +8,6 @@ date: false
 search: true
 revisions: false
 default_status: published
-structure: false
 listing:
   columns:
     - title
