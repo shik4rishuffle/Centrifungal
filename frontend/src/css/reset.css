@@ -1,6 +1,10 @@
 /* ==========================================================================
    Modern CSS Reset
    Centrifungal Design System
+
+   Note: font-display: swap is handled via the Google Fonts URL parameter
+   in design-tokens.css (&display=swap). No additional @font-face rules
+   needed here.
    ========================================================================== */
 
 /* Box sizing for all elements */
@@ -33,7 +37,11 @@ html {
 /* Set core body defaults */
 body {
   min-height: 100vh;
-  line-height: 1.6;
+  font-family: var(--font-body);
+  font-size: var(--text-base);
+  line-height: var(--leading-normal);
+  color: var(--color-text);
+  background-color: var(--color-cream);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeSpeed;
@@ -45,17 +53,18 @@ ol[role="list"] {
   list-style: none;
 }
 
-/* Headings and interactive elements get accessible line-height */
+/* Headings get accessible line-height and balance wrapping */
 h1,
 h2,
 h3,
 h4,
 h5,
 h6 {
-  line-height: 1.2;
+  line-height: var(--leading-tight);
   text-wrap: balance;
 }
 
+/* Body text gets pretty wrapping */
 p,
 li,
 figcaption {
@@ -102,6 +111,12 @@ button,
 /* Anything with an anchor target should have scroll margin */
 :target {
   scroll-margin-block: 5ex;
+}
+
+/* Focus visible - accessible focus ring using design tokens */
+:focus-visible {
+  outline: 2px solid var(--color-focus-ring);
+  outline-offset: 3px;
 }
 
 /* Remove all animations and transitions for people that prefer not to see them */

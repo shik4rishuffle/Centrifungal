@@ -3,6 +3,7 @@
 use App\Http\Controllers\Api\CartController;
 use App\Http\Controllers\Api\CheckoutController;
 use App\Http\Controllers\Api\ContactController;
+use App\Http\Controllers\Api\FooterController;
 use App\Http\Controllers\Api\PageController;
 use App\Http\Controllers\Api\ProductController;
 use App\Http\Middleware\ResolveCartSession;
@@ -23,6 +24,8 @@ Route::middleware('throttle:api-public')->group(function () {
     Route::get('/homepage', [PageController::class, 'homepage']);
     Route::get('/pages', [PageController::class, 'index']);
     Route::get('/pages/{slug}', [PageController::class, 'show']);
+
+    Route::get('/footer', FooterController::class);
 
     Route::get('/navigation', function (): JsonResponse {
         $nav = \Statamic\Facades\Nav::find('main_nav');

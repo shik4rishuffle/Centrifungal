@@ -1,0 +1,60 @@
+title: Footer
+tabs:
+  main:
+    display: Main
+    sections:
+      - fields:
+          - handle: tagline
+            field:
+              type: textarea
+              display: Tagline
+              instructions: "Short brand description shown in the footer"
+          - handle: copyright
+            field:
+              type: text
+              display: Copyright Text
+          - handle: social_links
+            field:
+              type: grid
+              display: Social Links
+              fields:
+                - handle: platform
+                  field:
+                    type: select
+                    display: Platform
+                    options:
+                      instagram: Instagram
+                      facebook: Facebook
+                      twitter: Twitter/X
+                      tiktok: TikTok
+                      youtube: YouTube
+                - handle: url
+                  field:
+                    type: text
+                    display: URL
+                - handle: label
+                  field:
+                    type: text
+                    display: Aria Label
+          - handle: footer_columns
+            field:
+              type: grid
+              display: Footer Columns
+              fields:
+                - handle: title
+                  field:
+                    type: text
+                    display: Column Title
+                - handle: links
+                  field:
+                    type: grid
+                    display: Links
+                    fields:
+                      - handle: label
+                        field:
+                          type: text
+                          display: Label
+                      - handle: url
+                        field:
+                          type: text
+                          display: URL

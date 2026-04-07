@@ -3,16 +3,14 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Centrifungal</title>
-  <meta name="description" content="">
+  <title>Page Not Found - Centrifungal</title>
+  <meta name="description" content="The page you are looking for could not be found.">
+
   <!-- Resource hints -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="dns-prefetch" href="https://fonts.googleapis.com">
   <link rel="dns-prefetch" href="https://fonts.gstatic.com">
-
-  <!-- Google Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=DM+Serif+Display&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 
   <!-- Stylesheets -->
   <link rel="stylesheet" href="/css/reset.css">
@@ -22,65 +20,53 @@
 </head>
 <body>
 
-  <!-- Header -->
   <header class="site-header" id="site-header">
     <div class="site-header__inner">
-      <a href="/" class="site-header__logo">
-        <svg class="site-header__logo-icon" viewBox="0 0 36 36" fill="none">
-          <circle cx="18" cy="18" r="17" fill="var(--gold-500)" stroke="var(--gold-700)" stroke-width="2"/>
-          <path d="M18 8c-2 0-6 3-6 10 0 4 2 8 6 10 4-2 6-6 6-10 0-7-4-10-6-10z" fill="var(--green-700)" stroke="var(--green-900)" stroke-width="1"/>
-          <ellipse cx="18" cy="26" rx="8" ry="2" fill="var(--green-900)" opacity="0.3"/>
-        </svg>
+      <a href="/" class="site-header__logo" aria-label="Centrifungal home">
+        <svg class="site-header__logo-icon" viewBox="0 0 36 36" fill="none" aria-hidden="true"><circle cx="18" cy="18" r="17" fill="var(--color-chanterelle)"/><path d="M18 8c-2 0-6 3-6 10 0 4 2 8 6 10 4-2 6-6 6-10 0-7-4-10-6-10z" fill="var(--color-forest)"/><ellipse cx="18" cy="26" rx="8" ry="2" fill="var(--color-forest)" opacity="0.3"/></svg>
         Centrifungal
       </a>
       <nav class="site-header__nav" id="main-nav" aria-label="Main navigation">
         <a href="/" class="site-header__nav-link">Home</a>
         <a href="/shop" class="site-header__nav-link">Shop</a>
         <a href="/about" class="site-header__nav-link">About</a>
-        <a href="/care" class="site-header__nav-link">Care Instructions</a>
+        <a href="/care" class="site-header__nav-link">Care</a>
         <a href="/faq" class="site-header__nav-link">FAQ</a>
         <a href="/contact" class="site-header__nav-link">Contact</a>
       </nav>
       <div class="site-header__actions">
-        <a href="/cart" class="site-header__cart" aria-label="Cart">
-          <svg class="icon-svg" viewBox="0 0 24 24"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
-          <span class="site-header__cart-count" id="header-cart-count" style="display: none;">0</span>
+        <a href="/cart" class="site-header__cart" aria-label="Shopping cart">
+          <svg class="icon-svg" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
+          <span class="site-header__cart-count" id="header-cart-count" style="display:none;">0</span>
         </a>
         <button class="site-header__hamburger" id="hamburger-btn" aria-expanded="false" aria-controls="main-nav" aria-label="Toggle menu">
-          <span></span>
-          <span></span>
-          <span></span>
+          <span></span><span></span><span></span>
         </button>
       </div>
     </div>
   </header>
 
-  <!-- Page Hero -->
   <div class="page-hero">
-    <h1 class="page-hero__title" id="page-title"></h1>
-    <p class="page-hero__subtitle" id="page-subtitle"></p>
+    <h1 class="page-hero__title" id="page-title">404</h1>
+    <p class="page-hero__subtitle" id="page-subtitle">Page not found</p>
   </div>
 
   <main class="page-content page-content--narrow">
     <div id="cms-page-content"></div>
   </main>
 
-  <!-- Footer -->
   <footer class="site-footer">
     <div class="site-footer__inner">
       <div class="site-footer__grid">
         <div class="site-footer__brand">
-          <div class="site-footer__logo">Centrifungal</div>
+          <span class="site-footer__logo">Centrifungal</span>
           <p class="site-footer__tagline">Artisan mushroom grow logs, cultivated with care. Bringing the forest floor to your front door.</p>
           <div class="site-footer__social">
             <a href="#" class="site-footer__social-link" aria-label="Instagram">
-              <svg class="icon-svg" viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+              <svg class="icon-svg" viewBox="0 0 24 24" aria-hidden="true"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
             </a>
             <a href="#" class="site-footer__social-link" aria-label="Facebook">
-              <svg class="icon-svg" viewBox="0 0 24 24"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/></svg>
-            </a>
-            <a href="#" class="site-footer__social-link" aria-label="Twitter">
-              <svg class="icon-svg" viewBox="0 0 24 24"><path d="M23 3a10.9 10.9 0 01-3.14 1.53 4.48 4.48 0 00-7.86 3v1A10.66 10.66 0 013 4s-4 9 5 13a11.64 11.64 0 01-7 2c9 5 20 0 20-11.5a4.5 4.5 0 00-.08-.83A7.72 7.72 0 0023 3z"/></svg>
+              <svg class="icon-svg" viewBox="0 0 24 24" aria-hidden="true"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/></svg>
             </a>
           </div>
         </div>
@@ -88,6 +74,8 @@
           <h3 class="site-footer__column-title">Shop</h3>
           <ul class="site-footer__links" role="list">
             <li><a href="/shop" class="site-footer__link">All Products</a></li>
+            <li><a href="/shop#category-grow-logs" class="site-footer__link">Grow Logs</a></li>
+            <li><a href="/shop#category-colonised-dowels" class="site-footer__link">Colonised Dowels</a></li>
           </ul>
         </div>
         <div>
@@ -112,44 +100,39 @@
   </footer>
 
   <script>
-    /* Hamburger toggle */
-    var hamburger = document.getElementById('hamburger-btn');
-    var nav = document.getElementById('main-nav');
-    if (hamburger && nav) {
-      hamburger.addEventListener('click', function () {
-        var expanded = hamburger.getAttribute('aria-expanded') === 'true';
-        hamburger.setAttribute('aria-expanded', !expanded);
-        nav.classList.toggle('site-header__nav--open');
-      });
-    }
-
-    /* Header scroll shadow */
-    var header = document.getElementById('site-header');
-    if (header) {
-      window.addEventListener('scroll', function () {
-        header.classList.toggle('site-header--scrolled', window.scrollY > 10);
-      }, { passive: true });
-    }
-
-    /* Update cart badge from localStorage */
-    function updateHeaderCartCount() {
-      var badge = document.getElementById('header-cart-count');
-      if (!badge) return;
-      try {
-        var cart = JSON.parse(localStorage.getItem('centrifungal_cart') || '[]');
-        var count = cart.reduce(function (sum, item) { return sum + item.quantity; }, 0);
-        badge.textContent = count;
-        badge.style.display = count > 0 ? 'flex' : 'none';
-      } catch (e) {
-        badge.style.display = 'none';
+    (function() {
+      var hamburger = document.getElementById('hamburger-btn');
+      var nav = document.getElementById('main-nav');
+      if (hamburger && nav) {
+        hamburger.addEventListener('click', function() {
+          var expanded = hamburger.getAttribute('aria-expanded') === 'true';
+          hamburger.setAttribute('aria-expanded', !expanded);
+          nav.classList.toggle('site-header__nav--open');
+        });
       }
-    }
-
-    updateHeaderCartCount();
-    window.addEventListener('cart-updated', updateHeaderCartCount);
+      var header = document.getElementById('site-header');
+      if (header) {
+        window.addEventListener('scroll', function() {
+          header.classList.toggle('site-header--scrolled', window.scrollY > 10);
+        }, { passive: true });
+      }
+      function updateHeaderCartCount() {
+        var badge = document.getElementById('header-cart-count');
+        if (!badge) return;
+        try {
+          var cart = JSON.parse(localStorage.getItem('centrifungal_cart') || '[]');
+          var count = cart.reduce(function(sum, item) { return sum + item.quantity; }, 0);
+          badge.textContent = count;
+          badge.style.display = count > 0 ? 'flex' : 'none';
+        } catch (e) { badge.style.display = 'none'; }
+      }
+      updateHeaderCartCount();
+      window.addEventListener('cart-updated', updateHeaderCartCount);
+    })();
   </script>
   <script src="/js/config.js"></script>
   <script src="/js/nav.js"></script>
+  <script src="/js/footer.js"></script>
   <script src="/js/cms-content.js"></script>
 
 </body>

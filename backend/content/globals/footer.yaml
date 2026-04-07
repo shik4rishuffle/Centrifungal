@@ -1,0 +1,32 @@
+title: Footer
+data:
+  tagline: "Artisan mushroom grow logs, cultivated with care. Bringing the forest floor to your front door."
+  copyright: "© 2026 Centrifungal. All rights reserved."
+  social_links:
+    - platform: instagram
+      url: "#"
+      label: Instagram
+    - platform: facebook
+      url: "#"
+      label: Facebook
+  footer_columns:
+    - title: Shop
+      links:
+        - label: All Products
+          url: /shop
+        - label: Grow Logs
+          url: "/shop#category-grow-logs"
+        - label: Colonised Dowels
+          url: "/shop#category-colonised-dowels"
+    - title: Help
+      links:
+        - label: Care Instructions
+          url: /care
+        - label: FAQ
+          url: /faq
+        - label: Contact
+          url: /contact
+    - title: Company
+      links:
+        - label: About Us
+          url: /about

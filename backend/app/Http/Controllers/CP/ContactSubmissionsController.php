@@ -4,15 +4,9 @@ namespace App\Http\Controllers\CP;
 
 use App\Models\ContactSubmission;
 use Illuminate\Routing\Controller;
-use Statamic\Http\Middleware\CP\Authenticate;
 
 class ContactSubmissionsController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware(Authenticate::class);
-    }
-
     /**
      * Show a read-only paginated listing of contact form submissions.
      */

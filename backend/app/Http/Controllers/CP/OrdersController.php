@@ -4,15 +4,9 @@ namespace App\Http\Controllers\CP;
 
 use App\Models\Order;
 use Illuminate\Routing\Controller;
-use Statamic\Http\Middleware\CP\Authenticate;
 
 class OrdersController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware(Authenticate::class);
-    }
-
     /**
      * Show a read-only listing of all orders in the CP.
      */
