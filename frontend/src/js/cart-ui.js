@@ -49,7 +49,9 @@ function renderCartItem(item) {
   return `
     <div class="cart-item" data-item-id="${item.itemId}">
       <div class="cart-item__image">
-        <div class="img-placeholder" aria-hidden="true">\u{1F344}</div>
+        ${item.productImage
+          ? `<img src="${item.productImage}" alt="${item.productName}" loading="lazy">`
+          : `<div class="img-placeholder" aria-hidden="true">\u{1F344}</div>`}
       </div>
       <div class="cart-item__details">
         <div class="cart-item__info">

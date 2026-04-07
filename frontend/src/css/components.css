@@ -582,6 +582,12 @@
   height: 36px;
 }
 
+.site-header__logo-img {
+  height: 36px;
+  width: auto;
+  object-fit: contain;
+}
+
 /* Nav links */
 .site-header__nav-link {
   font-family: var(--font-body);
@@ -1270,6 +1276,49 @@
   .accordion__trigger[aria-expanded="true"]::before {
     transform: none;
   }
+}
+
+/* ---------- FAQ Cards (non-accordion) ---------- */
+
+.faq-group {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6);
+}
+
+.faq-group__title {
+  font-family: var(--font-display);
+  font-size: var(--text-3xl);
+  color: var(--color-text);
+  margin-bottom: var(--space-2);
+  font-variation-settings: "SOFT" var(--font-display-soft), "WONK" var(--font-display-wonk);
+}
+
+.faq-card {
+  border: none;
+  border-radius: var(--radius-xl);
+  padding: var(--space-8);
+}
+
+.faq-card:nth-child(4n+1) { background: var(--color-surface-kraft); }
+.faq-card:nth-child(4n+2) { background: color-mix(in srgb, var(--color-chanterelle) 12%, var(--color-surface)); }
+.faq-card:nth-child(4n+3) { background: color-mix(in srgb, var(--color-mycelium) 12%, var(--color-surface)); }
+.faq-card:nth-child(4n+4) { background: color-mix(in srgb, var(--color-spore) 12%, var(--color-surface)); }
+
+.faq-card__question {
+  font-family: var(--font-display);
+  font-size: var(--text-2xl);
+  color: var(--color-text);
+  line-height: var(--leading-snug);
+  margin-bottom: var(--space-3);
+  font-variation-settings: "SOFT" var(--font-display-soft), "WONK" var(--font-display-wonk);
+}
+
+.faq-card__answer {
+  font-family: var(--font-body);
+  font-size: var(--text-lg);
+  line-height: var(--leading-relaxed);
+  color: var(--color-text-muted);
 }
 
 /* ==========================================================================

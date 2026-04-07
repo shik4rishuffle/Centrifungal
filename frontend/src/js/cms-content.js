@@ -205,26 +205,18 @@
 
     faq_group: function (block) {
       var groupId = 'faq-' + (block.title || 'group').toLowerCase().replace(/[^a-z0-9]+/g, '-');
-      var html = '<div class="accordion-group" aria-labelledby="' + escapeAttr(groupId) + '-heading">';
+      var html = '<div class="faq-group" aria-labelledby="' + escapeAttr(groupId) + '-heading">';
       if (block.title) {
-        html += '<h2 class="accordion-group__title" id="' + escapeAttr(groupId) + '-heading">' + escapeHtml(block.title) + '</h2>';
+        html += '<h2 class="faq-group__title" id="' + escapeAttr(groupId) + '-heading">' + escapeHtml(block.title) + '</h2>';
       }
       var faqs = (block.items || block.faqs || []).filter(function (item) {
         return item.enabled !== false;
       });
       if (faqs.length) {
-        faqs.forEach(function (faq, i) {
-          var panelId = groupId + '-' + i;
-          html += '<div class="accordion" role="region">';
-          html += '<h3>';
-          html += '<button class="accordion__trigger" aria-expanded="false" aria-controls="' + escapeAttr(panelId) + '">';
-          html += escapeHtml(faq.question);
-          html += '<svg class="accordion__icon" viewBox="0 0 24 24" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>';
-          html += '</button>';
-          html += '</h3>';
-          html += '<div class="accordion__panel" id="' + escapeAttr(panelId) + '" role="region" aria-hidden="true">';
-          html += '<p class="accordion__answer">' + escapeHtml(faq.answer) + '</p>';
-          html += '</div>';
+        faqs.forEach(function (faq) {
+          html += '<div class="faq-card">';
+          html += '<h3 class="faq-card__question">' + escapeHtml(faq.question) + '</h3>';
+          html += '<p class="faq-card__answer">' + escapeHtml(faq.answer) + '</p>';
           html += '</div>';
         });
       }

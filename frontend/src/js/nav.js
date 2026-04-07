@@ -33,6 +33,43 @@
       .replace(/"/g, '&quot;');
   }
 
+  function loadSiteSettings() {
+    fetch(getApiUrl() + '/api/site-settings')
+      .then(function (response) {
+        if (!response.ok) throw new Error('Site settings API ' + response.status);
+        return response.json();
+      })
+      .then(function (json) {
+        var data = json.data || {};
+        if (!data.site_logo) return;
+
+        var logoLinks = document.querySelectorAll('.site-header__logo');
+        logoLinks.forEach(function (link) {
+          var svg = link.querySelector('.site-header__logo-icon');
+          if (svg) svg.remove();
+
+          var existingImg = link.querySelector('.site-header__logo-img');
+          if (existingImg) existingImg.remove();
+
+          var img = document.createElement('img');
+          img.src = data.site_logo;
+          img.alt = data.site_name || 'Centrifungal';
+          img.className = 'site-header__logo-img';
+          link.insertBefore(img, link.firstChild);
+
+          if (data.site_name) {
+            var textNode = link.childNodes[link.childNodes.length - 1];
+            if (textNode && textNode.nodeType === 3) {
+              textNode.textContent = ' ' + data.site_name;
+            }
+          }
+        });
+      })
+      .catch(function () {
+        /* Silent fail - keep the SVG logo as fallback */
+      });
+  }
+
   function init() {
     var nav = document.getElementById('main-nav');
     if (!nav) return;
@@ -51,6 +88,8 @@
       .catch(function () {
         /* Silent fail - keep the hardcoded nav links as fallback */
       });
+
+    loadSiteSettings();
   }
 
   if (document.readyState === 'loading') {

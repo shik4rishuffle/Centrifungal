@@ -68,9 +68,9 @@ function renderProductCard(product) {
   return `
     <a href="/product/${product.slug}" class="${cardClasses}" aria-label="${product.name}${isOutOfStock ? ' - Out of Stock' : ''}">
       <div class="product-card__image">
-        <div class="img-placeholder" aria-hidden="true">
-          ${CATEGORY_ICONS[product.category] || '\u{1F344}'}
-        </div>
+        ${(product.images && product.images[0] && product.images[0].url)
+          ? `<img src="${product.images[0].url}" alt="${product.images[0].alt || product.name}" loading="lazy" class="product-card__img">`
+          : `<div class="img-placeholder" aria-hidden="true">${CATEGORY_ICONS[product.category] || '\u{1F344}'}</div>`}
         ${badge ? `<div class="product-card__badge">${badge}</div>` : ''}
       </div>
       <div class="product-card__body">

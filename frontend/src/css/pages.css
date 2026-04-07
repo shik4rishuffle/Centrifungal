@@ -709,6 +709,10 @@ body {
   animation: float 6s ease-in-out infinite;
 }
 
+.hero__image-placeholder--has-image {
+  background: none;
+}
+
 /* Sections - generic */
 
 .section {

@@ -58,6 +58,15 @@
       if (data.hero.cta_secondary) {
         setLink('hero-cta-secondary', data.hero.cta_secondary.text, data.hero.cta_secondary.link);
       }
+      if (data.hero.image) {
+        var placeholder = document.querySelector('.hero__image-placeholder');
+        if (placeholder) {
+          placeholder.style.backgroundImage = 'url(' + data.hero.image + ')';
+          placeholder.style.backgroundSize = 'cover';
+          placeholder.style.backgroundPosition = 'center';
+          placeholder.classList.add('hero__image-placeholder--has-image');
+        }
+      }
     }
 
     // Featured section headings
@@ -103,16 +112,14 @@
       setText('usp-heading', data.usps.heading);
       setText('usp-subtitle', data.usps.subtitle);
       if (data.usps.cards && data.usps.cards.length) {
-        var cardsEl = document.getElementById('usp-cards');
-        if (cardsEl) {
-          cardsEl.innerHTML = data.usps.cards.map(function (card) {
-            return '<article class="content-card">' +
-              '<div class="content-card__icon" aria-hidden="true">' + escapeHtml(card.icon) + '</div>' +
-              '<h3 class="content-card__title">' + escapeHtml(card.title) + '</h3>' +
-              '<p class="content-card__text">' + escapeHtml(card.text) + '</p>' +
-              '</article>';
-          }).join('');
-        }
+        var existingCards = document.querySelectorAll('#usp-cards .content-card');
+        data.usps.cards.forEach(function (card, i) {
+          if (!existingCards[i]) return;
+          var titleEl = existingCards[i].querySelector('.content-card__title');
+          var textEl = existingCards[i].querySelector('.content-card__text');
+          if (titleEl && card.title) titleEl.textContent = card.title;
+          if (textEl && card.text) textEl.textContent = card.text;
+        });
       }
     }
 
@@ -155,14 +162,19 @@
    * Build a product card HTML string from product data
    */
   function renderProductCard(product) {
-    var price = formatPrice(product.base_price_pence);
+    var prices = (product.variants || []).map(function (v) { return v.price_pence; });
+    var lowestPrice = prices.length ? Math.min.apply(null, prices) : product.base_price_pence;
+    var price = formatPrice(lowestPrice);
     var displayCategory = CATEGORY_DISPLAY_NAMES[product.category] || product.category;
-    var imageAlt = (product.images && product.images[0]) ? product.images[0].alt : product.name;
+    var hasImage = product.images && product.images[0] && product.images[0].url;
+    var imageAlt = hasImage ? (product.images[0].alt || product.name) : product.name;
 
     return `
       <article class="product-card">
         <a href="/product/${product.slug}" class="product-card__image" aria-label="${product.name}">
-          <div class="product-card__placeholder" role="img" aria-label="${imageAlt}"></div>
+          ${hasImage
+            ? `<img src="${product.images[0].url}" alt="${imageAlt}" loading="lazy" class="product-card__img">`
+            : `<div class="product-card__placeholder" role="img" aria-label="${imageAlt}"></div>`}
         </a>
         <div class="product-card__body">
           <span class="product-card__category">${displayCategory}</span>
