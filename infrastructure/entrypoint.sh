@@ -1,6 +1,12 @@
 #!/bin/sh
 set -e
 
+# Ensure writable temp and storage directories
+export TMPDIR=/tmp
+mkdir -p /tmp /app/storage/framework/sessions /app/storage/framework/views /app/storage/framework/cache
+chmod -R 775 /app/storage
+chown -R www-data:www-data /app/storage
+
 echo "[entrypoint] Starting Centrifungal..."
 
 # -------------------------------------------------------------------------
