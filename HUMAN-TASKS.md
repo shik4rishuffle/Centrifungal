@@ -48,6 +48,23 @@ cd backend && php artisan key:generate --show
 ```
 Copy the output (starts with `base64:`) and paste it as the APP_KEY value.
 
+### Raw env list (copy-paste into Railway bulk editor)
+
+```
+APP_KEY="<generate with php artisan key:generate --show>"
+APP_ENV="production"
+APP_DEBUG="false"
+APP_URL="https://your-service.up.railway.app"
+DB_CONNECTION="sqlite"
+DB_DATABASE="/data/database.sqlite"
+STRIPE_KEY=""
+STRIPE_SECRET=""
+STRIPE_WEBHOOK_SECRET=""
+FRONTEND_URL="https://your-site.netlify.app"
+RESEND_API_KEY=""
+CONTACT_FORM_RECIPIENT=""
+```
+
 ### Deploy
 
 Railway should auto-deploy when you push to main. After the first deploy:
