@@ -74,7 +74,9 @@ COPY infrastructure/check-volume.sh /usr/local/bin/check-volume.sh
 RUN chmod +x /usr/local/bin/entrypoint.sh /usr/local/bin/check-volume.sh
 
 # Set correct permissions
-RUN chown -R www-data:www-data /app/storage /app/bootstrap/cache /data
+RUN chown -R www-data:www-data /app/storage /app/bootstrap/cache /data \
+    && chmod -R 775 /app/storage /app/bootstrap/cache \
+    && mkdir -p /tmp && chmod 1777 /tmp
 
 # Expose Railway's expected port
 EXPOSE 8080
