@@ -1,0 +1,24 @@
+title: 'Site Settings'
+tabs:
+  main:
+    display: Branding
+    sections:
+      -
+        display: Logo
+        instructions: 'Upload your site logo. This appears in the header on every page.'
+        fields:
+          -
+            handle: site_logo
+            field:
+              type: assets
+              container: images
+              max_files: 1
+              display: 'Site Logo'
+              instructions: 'Upload a logo image (PNG or SVG recommended). If empty, the text name is shown instead.'
+          -
+            handle: site_name
+            field:
+              type: text
+              display: 'Site Name'
+              instructions: 'The name shown next to the logo and used as a fallback if no logo image is uploaded.'
+              default: Centrifungal

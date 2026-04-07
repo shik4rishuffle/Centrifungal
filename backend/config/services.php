@@ -35,6 +35,12 @@ return [
         ],
     ],
 
+    'stripe' => [
+        'key' => env('STRIPE_KEY'),
+        'secret' => env('STRIPE_SECRET'),
+        'webhook_secret' => env('STRIPE_WEBHOOK_SECRET'),
+    ],
+
     'royal_mail' => [
         'api_url' => env('ROYAL_MAIL_API_URL', 'https://api.parcel.royalmail.com'),
         'api_key' => env('ROYAL_MAIL_API_KEY'),

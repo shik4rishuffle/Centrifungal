@@ -27,6 +27,32 @@ Route::middleware('throttle:api-public')->group(function () {
 
     Route::get('/footer', FooterController::class);
 
+    Route::get('/site-settings', function (): JsonResponse {
+        $globals = \Statamic\Facades\GlobalSet::findByHandle('site_settings');
+        if (! $globals) {
+            return response()->json(['data' => []])->header('Cache-Control', 'public, max-age=300');
+        }
+
+        $data = $globals->inCurrentSite();
+        $logo = $data->get('site_logo');
+        $logoUrl = null;
+
+        if ($logo) {
+            $asset = \Statamic\Facades\Asset::findByPath($logo)
+                ?? \Statamic\Facades\Asset::findById("images::{$logo}");
+            if ($asset) {
+                $logoUrl = $asset->absoluteUrl();
+            }
+        }
+
+        return response()->json([
+            'data' => [
+                'site_name' => $data->get('site_name') ?? 'Centrifungal',
+                'site_logo' => $logoUrl,
+            ],
+        ])->header('Cache-Control', 'public, max-age=300');
+    });
+
     Route::get('/navigation', function (): JsonResponse {
         $nav = \Statamic\Facades\Nav::find('main_nav');
         if (! $nav) {

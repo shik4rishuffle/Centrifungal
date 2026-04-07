@@ -132,11 +132,16 @@ class PageController extends Controller
         $uspCards = collect($entry->get('usp_cards') ?? [])
             ->map(fn (array $set) => [
                 'icon' => $set['icon'] ?? '',
-                'title' => $set['title'] ?? '',
-                'text' => $set['text'] ?? '',
+                'title' => $set['card_title'] ?? $set['title'] ?? '',
+                'text' => $set['card_text'] ?? $set['text'] ?? '',
             ])
             ->values()
             ->all();
+
+        $heroImage = $entry->get('hero_image');
+        if ($heroImage) {
+            $heroImage = $this->resolveAssetUrl($heroImage);
+        }
 
         $storyImage = $entry->get('story_image');
         if ($storyImage) {
@@ -149,6 +154,7 @@ class PageController extends Controller
                     'eyebrow' => $entry->get('hero_eyebrow'),
                     'title' => $entry->get('hero_title'),
                     'text' => $entry->get('hero_text'),
+                    'image' => $heroImage,
                     'cta_primary' => [
                         'text' => $entry->get('hero_cta_primary_text'),
                         'link' => $entry->get('hero_cta_primary_link'),
