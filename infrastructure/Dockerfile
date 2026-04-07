@@ -58,11 +58,12 @@ WORKDIR /app
 # Copy application code from backend/ directory
 COPY backend/ .
 
-# Install PHP dependencies (production only)
-RUN composer install --no-dev --optimize-autoloader --no-interaction --no-progress
+# Create the /data directory and a placeholder DB so artisan commands don't fail at build time
+RUN mkdir -p /data && touch /data/database.sqlite
 
-# Create the /data directory for SQLite persistent volume
-RUN mkdir -p /data
+# Install PHP dependencies (production only)
+RUN composer install --no-dev --optimize-autoloader --no-interaction --no-progress --no-scripts \
+    && php artisan package:discover --ansi || true
 
 # Copy infrastructure config files
 COPY infrastructure/nginx.conf /etc/nginx/http.d/default.conf
