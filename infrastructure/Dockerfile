@@ -81,7 +81,7 @@ RUN composer install --no-dev --optimize-autoloader --no-interaction --no-progre
 # Publish Statamic CP assets to public/vendor/statamic/cp
 # Required because composer --no-scripts skips post-install publishing,
 # and public/vendor/ is gitignored so these files aren't in the repo.
-RUN php artisan vendor:publish --tag=statamic-cp --force
+RUN DB_DATABASE=/data/database.sqlite php artisan vendor:publish --tag=statamic-cp --force
 
 # Copy infrastructure config files
 COPY infrastructure/nginx.conf /etc/nginx/http.d/default.conf
