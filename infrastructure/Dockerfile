@@ -5,6 +5,18 @@
 # on Docker Hub. Upgrade to 8.5-fpm-alpine when the official image is published.
 # Track availability at: https://hub.docker.com/_/php/tags?name=8.5-fpm-alpine
 
+# Stage 1: Node.js - build Vite assets for the app and Statamic CP
+FROM node:22-alpine AS node-builder
+
+WORKDIR /app
+
+COPY backend/package.json backend/package-lock.json ./
+RUN npm ci
+
+COPY backend/ .
+RUN npm run build
+
+# Stage 2: PHP runtime
 FROM php:8.4-fpm-alpine
 
 # Install system dependencies
@@ -65,6 +77,12 @@ RUN mkdir -p /data && touch /data/database.sqlite
 # Install PHP dependencies (production only)
 RUN composer install --no-dev --optimize-autoloader --no-interaction --no-progress --no-scripts \
     && php artisan package:discover --ansi || true
+
+# Copy app Vite build output from the Node stage
+COPY --from=node-builder /app/public/build /app/public/build
+
+# Publish Statamic CP pre-built assets from the vendor package
+RUN php artisan vendor:publish --tag=statamic --force || true
 
 # Copy infrastructure config files
 COPY infrastructure/nginx.conf /etc/nginx/http.d/default.conf
