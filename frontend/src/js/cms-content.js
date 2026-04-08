@@ -329,9 +329,11 @@
         document.title = '404 - Centrifungal';
 
         container.innerHTML =
-          '<section class="content-section" style="text-align:center;padding:var(--space-3xl) 0;">' +
-            '<p class="content-section__text" style="font-style:italic;font-size:var(--text-lg);max-width:500px;margin:0 auto var(--space-lg);">' + escapeHtml(quote) + '</p>' +
-            '<a href="/" class="btn btn-primary">Go Home</a>' +
+          '<section style="text-align:center;padding:var(--space-16) var(--space-4);max-width:600px;margin:0 auto;">' +
+            '<p style="font-family:var(--font-display);font-size:clamp(4rem, 10vw, 8rem);font-weight:700;color:var(--color-chanterelle);line-height:1;margin-bottom:var(--space-4);">404</p>' +
+            '<p style="font-family:var(--font-display);font-size:var(--text-2xl);color:var(--color-text);margin-bottom:var(--space-6);">Page not found</p>' +
+            '<p style="font-style:italic;font-size:var(--text-lg);color:var(--color-text-muted);margin-bottom:var(--space-8);">' + escapeHtml(quote) + '</p>' +
+            '<a href="/" class="btn btn-primary btn-lg">Go Home</a>' +
           '</section>';
       });
   }

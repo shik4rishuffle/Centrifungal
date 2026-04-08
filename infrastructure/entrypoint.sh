@@ -49,15 +49,11 @@ echo "[entrypoint] Running migrations..."
 php -d error_reporting=E_ERROR /app/artisan migrate --force 2>&1 || echo "[entrypoint] WARNING: migrations returned non-zero, continuing..."
 echo "[entrypoint] Migrations complete."
 
-# Cache configuration for production
-if [ "$APP_ENV" = "production" ]; then
-    echo "[entrypoint] Caching configuration for production..."
-    php -d error_reporting=E_ERROR /app/artisan config:clear 2>&1 || true
-    php -d error_reporting=E_ERROR /app/artisan config:cache 2>&1 || true
-    php -d error_reporting=E_ERROR /app/artisan route:cache 2>&1 || true
-    php -d error_reporting=E_ERROR /app/artisan view:cache 2>&1 || true
-    echo "[entrypoint] Caching complete."
-fi
+# Clear any stale config cache so env var changes take effect
+echo "[entrypoint] Clearing config cache..."
+php -d error_reporting=E_ERROR /app/artisan config:clear 2>&1 || true
+php -d error_reporting=E_ERROR /app/artisan route:clear 2>&1 || true
+php -d error_reporting=E_ERROR /app/artisan view:clear 2>&1 || true
 
 # -------------------------------------------------------------------------
 # TASK-005: Start with Litestream wrapping Supervisor
