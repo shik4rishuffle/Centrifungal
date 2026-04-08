@@ -82,7 +82,9 @@ RUN composer install --no-dev --optimize-autoloader --no-interaction --no-progre
 # Required because composer --no-scripts skips post-install publishing,
 # and public/vendor/ is gitignored so these files aren't in the repo.
 RUN mkdir -p /tmp && chmod 1777 /tmp \
-    && DB_DATABASE=/data/database.sqlite php artisan vendor:publish --tag=statamic-cp --force
+    && TMPDIR=/tmp DB_DATABASE=/data/database.sqlite \
+    php -d sys_temp_dir=/tmp -d error_reporting=E_ERROR \
+    artisan vendor:publish --tag=statamic-cp --force
 
 # Copy infrastructure config files
 COPY infrastructure/nginx.conf /etc/nginx/http.d/default.conf
