@@ -2,7 +2,14 @@
 
 # Ensure writable temp and storage directories
 export TMPDIR=/tmp
-mkdir -p /tmp /app/storage/framework/sessions /app/storage/framework/views /app/storage/framework/cache /app/storage/logs
+mkdir -p /tmp \
+    /app/storage/framework/sessions \
+    /app/storage/framework/views \
+    /app/storage/framework/cache \
+    /app/storage/logs \
+    /app/storage/statamic/stache \
+    /app/storage/statamic/static-caching \
+    /app/storage/app/public
 chmod -R 775 /app/storage /app/bootstrap/cache
 chown -R www-data:www-data /app/storage /app/bootstrap/cache
 
@@ -45,6 +52,7 @@ echo "[entrypoint] Migrations complete."
 # Cache configuration for production
 if [ "$APP_ENV" = "production" ]; then
     echo "[entrypoint] Caching configuration for production..."
+    php -d error_reporting=E_ERROR /app/artisan config:clear 2>&1 || true
     php -d error_reporting=E_ERROR /app/artisan config:cache 2>&1 || true
     php -d error_reporting=E_ERROR /app/artisan route:cache 2>&1 || true
     php -d error_reporting=E_ERROR /app/artisan view:cache 2>&1 || true
