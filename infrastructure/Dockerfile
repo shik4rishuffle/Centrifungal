@@ -5,6 +5,18 @@
 # on Docker Hub. Upgrade to 8.5-fpm-alpine when the official image is published.
 # Track availability at: https://hub.docker.com/_/php/tags?name=8.5-fpm-alpine
 
+# ─── Stage 1: Node.js — build Vite assets (app + Statamic CP) ────────────────
+FROM node:22-alpine AS node-builder
+
+WORKDIR /app
+
+# Copy application source so Vite can resolve all inputs
+COPY backend/ .
+
+# Install JS dependencies and compile assets
+RUN npm ci && npm run build
+
+# ─── Stage 2: PHP runtime ─────────────────────────────────────────────────────
 FROM php:8.4-fpm-alpine
 
 # Install system dependencies
@@ -63,8 +75,19 @@ COPY backend/ .
 RUN mkdir -p /data && touch /data/database.sqlite
 
 # Install PHP dependencies (production only)
+# Note: --no-scripts is kept intentionally; package:discover is run explicitly below.
+# The pixelfear/composer-dist-plugin (a composer *plugin*, not a script) still runs
+# and downloads the pre-built Statamic CP assets into public/vendor/statamic/cp/build/.
 RUN composer install --no-dev --optimize-autoloader --no-interaction --no-progress --no-scripts \
     && php artisan package:discover --ansi || true
+
+# Copy Vite-compiled assets from the Node build stage.
+# - public/build/          → app CSS/JS compiled by vite build
+# - public/vendor/statamic/cp/build/ → Statamic CP frontend (manifest.json + chunks)
+#   The composer dist plugin downloads pre-built CP assets, but if they are absent
+#   (e.g. network restrictions at build time) the Node stage compiles them from source.
+COPY --from=node-builder /app/public/build/ /app/public/build/
+COPY --from=node-builder /app/public/vendor/statamic/cp/build/ /app/public/vendor/statamic/cp/build/
 
 # Copy infrastructure config files
 COPY infrastructure/nginx.conf /etc/nginx/http.d/default.conf
