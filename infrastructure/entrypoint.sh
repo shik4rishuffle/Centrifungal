@@ -82,6 +82,9 @@ echo "[entrypoint] Warming Statamic Stache..."
 php -d error_reporting=E_ALL /app/artisan statamic:stache:warm 2>&1 || echo "[entrypoint] WARNING: stache warm failed, continuing..."
 echo "[entrypoint] Stache warm complete."
 
+# Fix ownership after all entrypoint commands (which run as root) so PHP-FPM (www-data) can write
+chown -R www-data:www-data /app/storage /app/bootstrap/cache
+
 # -------------------------------------------------------------------------
 # TASK-005: Start with Litestream wrapping Supervisor
 # -------------------------------------------------------------------------
