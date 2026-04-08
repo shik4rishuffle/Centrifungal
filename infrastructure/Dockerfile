@@ -78,11 +78,10 @@ RUN mkdir -p /data && touch /data/database.sqlite
 RUN composer install --no-dev --optimize-autoloader --no-interaction --no-progress --no-scripts \
     && php artisan package:discover --ansi || true
 
-# Copy app Vite build output from the Node stage
-COPY --from=node-builder /app/public/build /app/public/build
-
-# Publish Statamic CP pre-built assets from the vendor package
-RUN php artisan vendor:publish --tag=statamic --force || true
+# Publish Statamic CP assets to public/vendor/statamic/cp
+# Required because composer --no-scripts skips post-install publishing,
+# and public/vendor/ is gitignored so these files aren't in the repo.
+RUN php artisan vendor:publish --tag=statamic-cp --force
 
 # Copy infrastructure config files
 COPY infrastructure/nginx.conf /etc/nginx/http.d/default.conf
