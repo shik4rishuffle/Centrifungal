@@ -15,6 +15,12 @@ chown -R www-data:www-data /app/storage /app/bootstrap/cache
 
 echo "[entrypoint] Starting Centrifungal..."
 
+# Default LOG_CHANNEL to stderr for Railway visibility
+if [ -z "$LOG_CHANNEL" ]; then
+    export LOG_CHANNEL=stderr
+    echo "[entrypoint] LOG_CHANNEL not set - defaulting to stderr for Railway"
+fi
+
 # -------------------------------------------------------------------------
 # TASK-004: Verify persistent volume is mounted
 # -------------------------------------------------------------------------
@@ -46,14 +52,19 @@ fi
 
 # Run migrations (allow warnings without crashing)
 echo "[entrypoint] Running migrations..."
-php -d error_reporting=E_ERROR /app/artisan migrate --force 2>&1 || echo "[entrypoint] WARNING: migrations returned non-zero, continuing..."
+php -d error_reporting=E_ALL /app/artisan migrate --force 2>&1 || echo "[entrypoint] WARNING: migrations returned non-zero, continuing..."
 echo "[entrypoint] Migrations complete."
 
 # Clear any stale config cache so env var changes take effect
 echo "[entrypoint] Clearing config cache..."
-php -d error_reporting=E_ERROR /app/artisan config:clear 2>&1 || true
-php -d error_reporting=E_ERROR /app/artisan route:clear 2>&1 || true
-php -d error_reporting=E_ERROR /app/artisan view:clear 2>&1 || true
+php -d error_reporting=E_ALL /app/artisan config:clear 2>&1 || true
+php -d error_reporting=E_ALL /app/artisan route:clear 2>&1 || true
+php -d error_reporting=E_ALL /app/artisan view:clear 2>&1 || true
+
+# Warm the Statamic Stache so CP first-load doesn't timeout
+echo "[entrypoint] Warming Statamic Stache..."
+php -d error_reporting=E_ALL /app/artisan statamic:stache:warm 2>&1 || echo "[entrypoint] WARNING: stache warm failed, continuing..."
+echo "[entrypoint] Stache warm complete."
 
 # -------------------------------------------------------------------------
 # TASK-005: Start with Litestream wrapping Supervisor

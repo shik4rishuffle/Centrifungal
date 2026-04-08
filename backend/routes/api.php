@@ -160,3 +160,50 @@ Route::get('/health', function (): JsonResponse {
         'timestamp' => now()->toIso8601String(),
     ], $httpCode);
 });
+
+// Temporary CP diagnostic endpoint - remove once /cp is working
+Route::get('/debug-cp', function (): JsonResponse {
+    $checks = [];
+
+    // Check orders table exists
+    try {
+        DB::select('SELECT count(*) as c FROM orders');
+        $checks['orders_table'] = 'OK';
+    } catch (\Throwable $e) {
+        $checks['orders_table'] = 'FAIL: '.$e->getMessage();
+    }
+
+    // Check users table exists (Statamic eloquent driver)
+    try {
+        DB::select('SELECT count(*) as c FROM users');
+        $checks['users_table'] = 'OK';
+    } catch (\Throwable $e) {
+        $checks['users_table'] = 'FAIL: '.$e->getMessage();
+    }
+
+    // Check writable directories
+    $checks['sessions_writable'] = is_writable(storage_path('framework/sessions')) ? 'OK' : 'FAIL';
+    $checks['views_writable'] = is_writable(storage_path('framework/views')) ? 'OK' : 'FAIL';
+    $checks['stache_writable'] = is_writable(storage_path('statamic/stache')) ? 'OK' : 'FAIL';
+
+    // Check PHP extensions
+    $checks['ext_fileinfo'] = extension_loaded('fileinfo') ? 'OK' : 'MISSING';
+    $checks['ext_mbstring'] = extension_loaded('mbstring') ? 'OK' : 'MISSING';
+    $checks['ext_tokenizer'] = extension_loaded('tokenizer') ? 'OK' : 'MISSING';
+
+    // Check Blade rendering
+    try {
+        view('widgets.recent_orders', ['orders' => collect([]), 'title' => 'Test'])->render();
+        $checks['blade_render'] = 'OK';
+    } catch (\Throwable $e) {
+        $checks['blade_render'] = 'FAIL: '.$e->getMessage();
+    }
+
+    // Key config values
+    $checks['app_debug'] = config('app.debug') ? 'true' : 'false';
+    $checks['log_channel'] = config('logging.default');
+    $checks['statamic_pro'] = config('statamic.editions.pro') ? 'true' : 'false';
+    $checks['session_driver'] = config('session.driver');
+
+    return response()->json(['cp_diagnostics' => $checks]);
+});

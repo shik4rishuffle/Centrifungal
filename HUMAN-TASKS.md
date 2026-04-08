@@ -40,6 +40,8 @@ Go to your service > **Variables** and add these:
 | `STRIPE_KEY` | Your Stripe publishable key (`pk_test_...`) | From Stripe dashboard |
 | `STRIPE_SECRET` | Your Stripe secret key (`sk_test_...`) | From Stripe dashboard |
 | `STRIPE_WEBHOOK_SECRET` | (skip for now) | Set up later when you add webhooks |
+| `LOG_CHANNEL` | `stderr` | Required for Railway - without this, logs go to a file inside the container and are invisible |
+| `STATAMIC_PRO_ENABLED` | `true` | Enables CMS Pro features in the control panel |
 | `FRONTEND_URL` | `https://your-site.netlify.app` | For CORS - update after Netlify deploy |
 
 **To generate APP_KEY:** run this locally in terminal:
@@ -61,6 +63,7 @@ STRIPE_KEY="<pk_test_... from Stripe dashboard > API keys > Publishable key>"
 STRIPE_SECRET="<sk_test_... from Stripe dashboard > API keys > Secret key (same one in backend/.env)>"
 STRIPE_WEBHOOK_SECRET="<whsec_... set up later when you add webhooks>"
 STATAMIC_PRO_ENABLED="true"
+LOG_CHANNEL="stderr"
 FRONTEND_URL="https://your-site.netlify.app"
 RESEND_API_KEY=""
 CONTACT_FORM_RECIPIENT=""
@@ -125,6 +128,17 @@ Now that both services are live, update each to know about the other:
 ## 4. Share the dev link
 
 Send your mate the Netlify URL. That's the frontend. The Railway URL is the API - users never see it directly.
+
+---
+
+## Troubleshooting
+
+If the Control Panel at `/cp` returns a blank page or 500 error:
+
+1. Check Railway deploy logs for PHP errors (they should appear if `LOG_CHANNEL=stderr`)
+2. Visit `https://your-railway-url/api/debug-cp` to see which subsystems are working
+3. Ensure all env vars above are set (especially `LOG_CHANNEL`, `STATAMIC_PRO_ENABLED`)
+4. If you see "orders table" errors, migrations may have failed - check deploy logs for migration output
 
 ---
 

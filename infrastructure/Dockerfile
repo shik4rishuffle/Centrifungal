@@ -38,7 +38,8 @@ RUN docker-php-ext-configure gd --with-freetype --with-jpeg \
     xml \
     curl \
     zip \
-    intl
+    intl \
+    fileinfo
 
 # Install Composer
 COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
