@@ -64,16 +64,21 @@ php -d error_reporting=E_ALL /app/artisan view:clear 2>&1 || true
 # TEMPORARY: Create admin user if not exists (remove after first deploy)
 echo "[entrypoint] Ensuring admin user exists..."
 php /app/artisan tinker --execute="
-if (!\App\Models\User::where('email','tom@centrifungal.com')->exists()) {
-    \App\Models\User::create([
+\$user = \App\Models\User::where('email','tom@centrifungal.com')->first();
+if (!\$user) {
+    \$user = \App\Models\User::create([
         'name' => 'Tom',
         'email' => 'tom@centrifungal.com',
         'password' => bcrypt('\$N1psyB1sh\$'),
-        'super' => true,
     ]);
     echo 'Admin user created.';
 } else {
     echo 'Admin user already exists.';
+}
+if (!\$user->super) {
+    \$user->super = true;
+    \$user->save();
+    echo ' Super admin flag set.';
 }
 " 2>&1 || echo "[entrypoint] WARNING: admin user creation failed, continuing..."
 
