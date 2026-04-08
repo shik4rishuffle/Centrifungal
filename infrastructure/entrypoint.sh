@@ -61,26 +61,30 @@ php -d error_reporting=E_ALL /app/artisan config:clear 2>&1 || true
 php -d error_reporting=E_ALL /app/artisan route:clear 2>&1 || true
 php -d error_reporting=E_ALL /app/artisan view:clear 2>&1 || true
 
-# TEMPORARY: Create admin user if not exists (remove after first deploy)
-echo "[entrypoint] Ensuring admin user exists..."
-php /app/artisan tinker --execute="
-\$user = \App\Models\User::where('email','tom@centrifungal.com')->first();
-if (!\$user) {
-    \$user = \App\Models\User::create([
-        'name' => 'Tom',
-        'email' => 'tom@centrifungal.com',
-        'password' => bcrypt('\$N1psyB1sh\$'),
-    ]);
-    echo 'Admin user created.';
-} else {
-    echo 'Admin user already exists.';
-}
-if (!\$user->super) {
-    \$user->super = true;
-    \$user->save();
-    echo ' Super admin flag set.';
-}
-" 2>&1 || echo "[entrypoint] WARNING: admin user creation failed, continuing..."
+# Create admin user from env vars if provided (set ADMIN_EMAIL + ADMIN_PASSWORD in Railway)
+if [ -n "$ADMIN_EMAIL" ] && [ -n "$ADMIN_PASSWORD" ]; then
+    echo "[entrypoint] Ensuring admin user exists..."
+    php /app/artisan tinker --execute="
+    \$user = \App\Models\User::where('email', env('ADMIN_EMAIL'))->first();
+    if (!\$user) {
+        \$user = \App\Models\User::create([
+            'name' => env('ADMIN_NAME', 'Admin'),
+            'email' => env('ADMIN_EMAIL'),
+            'password' => bcrypt(env('ADMIN_PASSWORD')),
+        ]);
+        echo 'Admin user created.';
+    } else {
+        echo 'Admin user already exists.';
+    }
+    if (!\$user->super) {
+        \$user->super = true;
+        \$user->save();
+        echo ' Super admin flag set.';
+    }
+    " 2>&1 || echo "[entrypoint] WARNING: admin user creation failed, continuing..."
+else
+    echo "[entrypoint] ADMIN_EMAIL/ADMIN_PASSWORD not set - skipping admin user creation."
+fi
 
 # Warm the Statamic Stache so CP first-load doesn't timeout
 echo "[entrypoint] Warming Statamic Stache..."

@@ -94,8 +94,8 @@ COPY infrastructure/litestream.yml /etc/litestream.yml
 COPY infrastructure/check-volume.sh /usr/local/bin/check-volume.sh
 RUN chmod +x /usr/local/bin/entrypoint.sh /usr/local/bin/check-volume.sh
 
-# PHP error display for debugging
-RUN echo "display_errors = On" >> /usr/local/etc/php/conf.d/errors.ini \
+# PHP error logging - errors go to stderr (visible in Railway logs), not to users
+RUN echo "display_errors = Off" >> /usr/local/etc/php/conf.d/errors.ini \
     && echo "error_reporting = E_ALL" >> /usr/local/etc/php/conf.d/errors.ini \
     && echo "log_errors = On" >> /usr/local/etc/php/conf.d/errors.ini \
     && echo "error_log = /dev/stderr" >> /usr/local/etc/php/conf.d/errors.ini
