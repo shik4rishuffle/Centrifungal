@@ -61,6 +61,22 @@ php -d error_reporting=E_ALL /app/artisan config:clear 2>&1 || true
 php -d error_reporting=E_ALL /app/artisan route:clear 2>&1 || true
 php -d error_reporting=E_ALL /app/artisan view:clear 2>&1 || true
 
+# TEMPORARY: Create admin user if not exists (remove after first deploy)
+echo "[entrypoint] Ensuring admin user exists..."
+php /app/artisan tinker --execute="
+if (!\App\Models\User::where('email','tom@centrifungal.com')->exists()) {
+    \App\Models\User::create([
+        'name' => 'Tom',
+        'email' => 'tom@centrifungal.com',
+        'password' => bcrypt('\$N1psyB1sh\$'),
+        'super' => true,
+    ]);
+    echo 'Admin user created.';
+} else {
+    echo 'Admin user already exists.';
+}
+" 2>&1 || echo "[entrypoint] WARNING: admin user creation failed, continuing..."
+
 # Warm the Statamic Stache so CP first-load doesn't timeout
 echo "[entrypoint] Warming Statamic Stache..."
 php -d error_reporting=E_ALL /app/artisan statamic:stache:warm 2>&1 || echo "[entrypoint] WARNING: stache warm failed, continuing..."
