@@ -11,32 +11,12 @@
 
 [build]
   publish = "src"
-  command = "echo 'No build step - static site'"
+  command = "echo \"/api/* https://${RAILWAY_BACKEND_URL}/api/:splat 200!\" > src/_redirects && echo '/* /:splat.html 200' >> src/_redirects && echo '/* /404.html 404' >> src/_redirects && echo 'Build: _redirects generated with RAILWAY_BACKEND_URL'"
 
 # ---------------------------------------------------------------------------
-# Redirects
+# Redirects are generated at build time into src/_redirects
+# so the RAILWAY_BACKEND_URL env var gets baked in via shell expansion.
 # ---------------------------------------------------------------------------
-
-# Proxy API requests to the Railway backend so the browser never hits CORS.
-# The 200 status makes this a rewrite (transparent proxy), not a redirect.
-[[redirects]]
-  from = "/api/*"
-  to = "https://:RAILWAY_BACKEND_URL/api/:splat"
-  status = 200
-  force = true
-
-# Pretty URLs - serve .html files without the extension.
-# /about -> /about.html, /contact -> /contact.html, etc.
-[[redirects]]
-  from = "/*"
-  to = "/:splat.html"
-  status = 200
-
-# If no .html match, fall back to the 404 page.
-[[redirects]]
-  from = "/*"
-  to = "/404.html"
-  status = 404
 
 # ---------------------------------------------------------------------------
 # Security Headers (TASK-008)
