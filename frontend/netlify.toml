@@ -11,7 +11,7 @@
 
 [build]
   publish = "src"
-  command = "echo \"/api/* https://${RAILWAY_BACKEND_URL}/api/:splat 200!\" > src/_redirects && echo '/* /:splat.html 200' >> src/_redirects && echo '/* /404.html 404' >> src/_redirects && echo 'Build: _redirects generated with RAILWAY_BACKEND_URL'"
+  command = "echo \"/api/* https://${RAILWAY_BACKEND_URL}/api/:splat 200!\" > src/_redirects && echo '/product/* /product.html 200' >> src/_redirects && echo '/* /:splat.html 200' >> src/_redirects && echo '/* /404.html 404' >> src/_redirects && echo 'Build: _redirects generated with RAILWAY_BACKEND_URL'"
 
 # ---------------------------------------------------------------------------
 # Redirects are generated at build time into src/_redirects
