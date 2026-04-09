@@ -30,6 +30,14 @@ fi
 mkdir -p /data
 chown www-data:www-data /data
 
+# Store uploaded assets on the persistent volume so they survive redeploys
+mkdir -p /data/storage
+rm -rf /app/storage/app/public
+ln -sfn /data/storage /app/storage/app/public
+# Create the public-facing symlink so Nginx can serve /storage/* URLs
+ln -sfn /app/storage/app/public /app/public/storage
+chown -R www-data:www-data /data/storage
+
 # Create SQLite database if it does not exist
 if [ ! -f /data/database.sqlite ]; then
     echo "[entrypoint] No database found at /data/database.sqlite - creating..."
@@ -92,6 +100,10 @@ fi
 echo "[entrypoint] Warming Statamic Stache..."
 php -d error_reporting=E_ALL /app/artisan statamic:stache:warm 2>&1 || echo "[entrypoint] WARNING: stache warm failed, continuing..."
 echo "[entrypoint] Stache warm complete."
+
+# Sync all Statamic products to the database so cart/checkout has variant IDs
+echo "[entrypoint] Syncing products to database..."
+php /app/artisan app:sync-products 2>&1 || echo "[entrypoint] WARNING: product sync failed, continuing..."
 
 # Fix ownership after all entrypoint commands (which run as root) so PHP-FPM (www-data) can write
 # Statamic needs to write to content/, resources/blueprints, resources/fieldsets, resources/users

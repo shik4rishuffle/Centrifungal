@@ -3,8 +3,10 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Models\ProductVariant;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 use Statamic\Facades\Asset;
 use Statamic\Facades\Entry;
 
@@ -116,10 +118,13 @@ class ProductController extends Controller
         $rawVariants = $entry->get('sizes_variants') ?? [];
 
         if (empty($rawVariants)) {
+            $defaultSku = 'DEFAULT-' . Str::upper(Str::slug($entry->slug(), '-'));
+            $dbId = ProductVariant::where('sku', $defaultSku)->value('id');
+
             return [[
-                'id' => $entry->id() . '-default',
+                'id' => $dbId,
                 'name' => 'Standard',
-                'sku' => $entry->slug(),
+                'sku' => $defaultSku,
                 'price_pence' => $basePrice,
                 'weight_grams' => (int) ($entry->get('weight_grams') ?? 0),
                 'in_stock' => $masterInStock,
@@ -127,11 +132,16 @@ class ProductController extends Controller
             ]];
         }
 
-        return collect($rawVariants)
+        $variants = collect($rawVariants)
             ->filter(fn ($v) => ($v['enabled'] ?? true) && ($v['type'] ?? '') === 'variant')
-            ->values()
+            ->values();
+
+        $skus = $variants->pluck('sku')->filter()->all();
+        $dbIds = ProductVariant::whereIn('sku', $skus)->pluck('id', 'sku');
+
+        return $variants
             ->map(fn ($v, $i) => [
-                'id' => $v['id'] ?? $entry->id() . '-' . $i,
+                'id' => $dbIds->get($v['sku'] ?? ''),
                 'name' => $v['variant_name'] ?? 'Variant',
                 'sku' => $v['sku'] ?? $entry->slug() . '-' . $i,
                 'price_pence' => (int) ($v['price_override'] ?? $basePrice),
