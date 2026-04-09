@@ -11,7 +11,9 @@
 (function () {
   'use strict';
 
-  var FALLBACK_API_URL = 'http://localhost:8001';
+  // In production (Netlify), use relative URLs so requests go through the /api/* proxy.
+  // For local dev, set a <meta name="api-base-url" content="http://localhost:8001"> tag.
+  var FALLBACK_API_URL = '';
 
   // Default config - used immediately, updated async
   window.__CENTRIFUNGAL = {
