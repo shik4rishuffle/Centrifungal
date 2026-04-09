@@ -55,15 +55,6 @@ echo "[entrypoint] Running migrations..."
 php -d error_reporting=E_ALL /app/artisan migrate --force 2>&1 || echo "[entrypoint] WARNING: migrations returned non-zero, continuing..."
 echo "[entrypoint] Migrations complete."
 
-# Seed products if table is empty
-PRODUCT_COUNT=$(php /app/artisan tinker --execute="echo \App\Models\Product::count();" 2>/dev/null | tr -d '[:space:]')
-if [ "$PRODUCT_COUNT" = "0" ] || [ -z "$PRODUCT_COUNT" ]; then
-    echo "[entrypoint] No products found - running seeder..."
-    php -d error_reporting=E_ALL /app/artisan db:seed --class=ProductSeeder --force 2>&1 || echo "[entrypoint] WARNING: seeder failed, continuing..."
-    echo "[entrypoint] Seeder complete."
-else
-    echo "[entrypoint] Products already exist ($PRODUCT_COUNT) - skipping seeder."
-fi
 
 # Clear any stale config cache so env var changes take effect
 echo "[entrypoint] Clearing config cache..."
