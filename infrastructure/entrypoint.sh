@@ -74,13 +74,14 @@ if [ -n "$ADMIN_EMAIL" ] && [ -n "$ADMIN_PASSWORD" ]; then
         ]);
         echo 'Admin user created.';
     } else {
-        echo 'Admin user already exists.';
+        \$user->password = bcrypt(env('ADMIN_PASSWORD'));
+        echo 'Admin user password reset.';
     }
     if (!\$user->super) {
         \$user->super = true;
-        \$user->save();
         echo ' Super admin flag set.';
     }
+    \$user->save();
     " 2>&1 || echo "[entrypoint] WARNING: admin user creation failed, continuing..."
 else
     echo "[entrypoint] ADMIN_EMAIL/ADMIN_PASSWORD not set - skipping admin user creation."
