@@ -68,10 +68,10 @@ class SyncProductToDatabase
     private function syncProduct(mixed $entry): Product
     {
         return Product::updateOrCreate(
-            ['statamic_id' => $entry->id()],
+            ['slug' => $entry->slug()],
             [
+                'statamic_id' => $entry->id(),
                 'name' => $entry->get('name'),
-                'slug' => $entry->slug(),
                 'description' => $this->convertBardToHtml($entry, 'description'),
                 'category' => $entry->get('category'),
                 'base_price_pence' => (int) $entry->get('price'),
