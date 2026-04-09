@@ -54,22 +54,9 @@
     window.__CENTRIFUNGAL.apiBaseUrl = metaTag.content;
   }
 
-  fetch(configUrl)
-    .then(function (res) {
-      if (!res.ok) throw new Error('Config endpoint returned ' + res.status);
-      return res.json();
-    })
-    .then(function (data) {
-      if (data.api_base_url) {
-        window.__CENTRIFUNGAL.apiBaseUrl = data.api_base_url;
-      }
-    })
-    .catch(function () {
-      // Silently use fallback
-    })
-    .finally(function () {
-      window.__CENTRIFUNGAL.ready = true;
-      window.__CENTRIFUNGAL._callbacks.forEach(function (fn) { fn(); });
-      window.__CENTRIFUNGAL._callbacks = [];
-    });
+  // With the Netlify proxy handling /api/* -> Railway, we always use relative URLs.
+  // No need to fetch config from the backend.
+  window.__CENTRIFUNGAL.ready = true;
+  window.__CENTRIFUNGAL._callbacks.forEach(function (fn) { fn(); });
+  window.__CENTRIFUNGAL._callbacks = [];
 })();
