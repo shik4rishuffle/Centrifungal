@@ -70,11 +70,11 @@ if [ -n "$ADMIN_EMAIL" ] && [ -n "$ADMIN_PASSWORD" ]; then
         \$user = \App\Models\User::create([
             'name' => env('ADMIN_NAME', 'Admin'),
             'email' => env('ADMIN_EMAIL'),
-            'password' => bcrypt(env('ADMIN_PASSWORD')),
+            'password' => env('ADMIN_PASSWORD'),
         ]);
         echo 'Admin user created.';
     } else {
-        \$user->password = bcrypt(env('ADMIN_PASSWORD'));
+        \$user->password = env('ADMIN_PASSWORD');
         echo 'Admin user password reset.';
     }
     if (!\$user->super) {
