@@ -68,7 +68,7 @@ class ProductSeeder extends Seeder
             'name' => 'Colonised Dowels',
             'slug' => 'colonised-dowels',
             'description' => 'Hardwood dowels fully colonised with mushroom mycelium. Drill, plug, and seal your own logs to grow mushrooms for years.',
-            'category' => 'supplies',
+            'category' => 'colonised-dowels',
             'base_price_pence' => 895,
         ]);
 
@@ -85,7 +85,7 @@ class ProductSeeder extends Seeder
             'name' => 'DIY Mushroom Growing Kit',
             'slug' => 'diy-mushroom-growing-kit',
             'description' => 'Everything you need to start growing gourmet mushrooms at home. Includes substrate, spawn, and step-by-step instructions.',
-            'category' => 'kits',
+            'category' => 'diy-kits',
             'base_price_pence' => 2495,
         ]);
 
