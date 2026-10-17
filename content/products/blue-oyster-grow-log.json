@@ -1,0 +1,27 @@
+{
+  "name": "Blue Oyster Grow Log",
+  "sku": "prod_001",
+  "pricePence": 2499,
+  "shortDescription": "Ready-to-fruit hardwood log colonised with blue oyster mycelium. Produces multiple harvests over 2-3 months.",
+  "description": "Ready-to-fruit hardwood log colonised with blue oyster mycelium. Produces multiple harvests over 2-3 months.",
+  "weightGrams": 1000,
+  "category": "content/categories/grow-logs.json",
+  "badge": "popular",
+  "featured": true,
+  "inStock": true,
+  "sortOrder": 1,
+  "variants": [
+    {
+      "name": "Small (1kg)",
+      "sku": "var_001a",
+      "pricePence": 2499,
+      "inStock": true
+    },
+    {
+      "name": "Large (2.5kg)",
+      "sku": "var_001b",
+      "pricePence": 3999,
+      "inStock": true
+    }
+  ]
+}

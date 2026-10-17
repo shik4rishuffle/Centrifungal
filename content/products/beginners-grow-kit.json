@@ -1,0 +1,27 @@
+{
+  "name": "Beginner's Grow Kit",
+  "sku": "prod_007",
+  "pricePence": 3499,
+  "shortDescription": "Everything you need to start growing mushrooms at home. Includes substrate, spawn, humidity tent, and guide.",
+  "description": "Everything you need to start growing mushrooms at home. Includes substrate, spawn, humidity tent, and guide.",
+  "weightGrams": 250,
+  "category": "content/categories/diy-kits.json",
+  "badge": "popular",
+  "featured": false,
+  "inStock": true,
+  "sortOrder": 7,
+  "variants": [
+    {
+      "name": "Oyster Kit",
+      "sku": "var_007a",
+      "pricePence": 3499,
+      "inStock": true
+    },
+    {
+      "name": "Shiitake Kit",
+      "sku": "var_007b",
+      "pricePence": 3699,
+      "inStock": true
+    }
+  ]
+}

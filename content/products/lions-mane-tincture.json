@@ -1,0 +1,27 @@
+{
+  "name": "Lion's Mane Tincture",
+  "sku": "prod_010",
+  "pricePence": 2899,
+  "shortDescription": "Double-extracted lion's mane tincture for focus and cognitive support. 60ml dropper bottle.",
+  "description": "Double-extracted lion's mane tincture for focus and cognitive support. 60ml dropper bottle.",
+  "weightGrams": 250,
+  "category": "content/categories/tinctures.json",
+  "badge": "new",
+  "featured": false,
+  "inStock": true,
+  "sortOrder": 10,
+  "variants": [
+    {
+      "name": "60ml",
+      "sku": "var_010a",
+      "pricePence": 2899,
+      "inStock": true
+    },
+    {
+      "name": "120ml",
+      "sku": "var_010b",
+      "pricePence": 4999,
+      "inStock": true
+    }
+  ]
+}

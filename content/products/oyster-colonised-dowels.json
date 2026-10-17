@@ -1,0 +1,27 @@
+{
+  "name": "Oyster Mushroom Dowels",
+  "sku": "prod_005",
+  "pricePence": 1499,
+  "shortDescription": "100 oak dowels colonised with oyster mycelium. Plug into your own logs for years of harvests.",
+  "description": "100 oak dowels colonised with oyster mycelium. Plug into your own logs for years of harvests.",
+  "weightGrams": 250,
+  "category": "content/categories/colonised-dowels.json",
+  "badge": "none",
+  "featured": false,
+  "inStock": true,
+  "sortOrder": 5,
+  "variants": [
+    {
+      "name": "100 Dowels",
+      "sku": "var_005a",
+      "pricePence": 1499,
+      "inStock": true
+    },
+    {
+      "name": "250 Dowels",
+      "sku": "var_005b",
+      "pricePence": 2999,
+      "inStock": true
+    }
+  ]
+}

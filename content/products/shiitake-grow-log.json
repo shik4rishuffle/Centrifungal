@@ -1,0 +1,21 @@
+{
+  "name": "Shiitake Grow Log",
+  "sku": "prod_003",
+  "pricePence": 2999,
+  "shortDescription": "Premium shiitake grow log with rich umami flavour. Fruits repeatedly when soaked and shocked.",
+  "description": "Premium shiitake grow log with rich umami flavour. Fruits repeatedly when soaked and shocked.",
+  "weightGrams": 1000,
+  "category": "content/categories/grow-logs.json",
+  "badge": "none",
+  "featured": true,
+  "inStock": true,
+  "sortOrder": 3,
+  "variants": [
+    {
+      "name": "Standard (1.5kg)",
+      "sku": "var_003a",
+      "pricePence": 2999,
+      "inStock": true
+    }
+  ]
+}

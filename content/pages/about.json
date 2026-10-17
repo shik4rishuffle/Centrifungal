@@ -1,0 +1,20 @@
+{
+  "title": "About",
+  "seo": {
+    "metaTitle": "About Centrifungal - UK Mushroom Grow Logs",
+    "metaDescription": "Learn about Centrifungal, a small UK-based mushroom grow log business dedicated to making home mushroom growing simple and accessible."
+  },
+  "blocks": [
+    {
+      "_template": "pageHeading",
+      "eyebrow": "Our Story",
+      "heading": "About Centrifungal",
+      "align": "left"
+    },
+    {
+      "_template": "richText",
+      "body": "Welcome to Centrifungal. We are a small UK-based business passionate about making mushroom growing accessible to everyone. Whether you are a complete beginner or an experienced grower, our products are designed to make the process simple and rewarding.",
+      "width": "narrow"
+    }
+  ]
+}

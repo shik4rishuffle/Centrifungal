@@ -1,0 +1,21 @@
+{
+  "name": "Reishi Tincture",
+  "sku": "prod_011",
+  "pricePence": 2899,
+  "shortDescription": "Double-extracted reishi mushroom tincture for immune support and relaxation. 60ml dropper bottle.",
+  "description": "Double-extracted reishi mushroom tincture for immune support and relaxation. 60ml dropper bottle.",
+  "weightGrams": 250,
+  "category": "content/categories/tinctures.json",
+  "badge": "none",
+  "featured": false,
+  "inStock": true,
+  "sortOrder": 11,
+  "variants": [
+    {
+      "name": "60ml",
+      "sku": "var_011a",
+      "pricePence": 2899,
+      "inStock": true
+    }
+  ]
+}

@@ -1,0 +1,27 @@
+{
+  "name": "Pink Oyster Grow Log",
+  "sku": "prod_002",
+  "pricePence": 2699,
+  "shortDescription": "Vibrant pink oyster mushrooms from a ready-to-fruit hardwood log. A showstopper in any kitchen.",
+  "description": "Vibrant pink oyster mushrooms from a ready-to-fruit hardwood log. A showstopper in any kitchen.",
+  "weightGrams": 1000,
+  "category": "content/categories/grow-logs.json",
+  "badge": "new",
+  "featured": true,
+  "inStock": true,
+  "sortOrder": 2,
+  "variants": [
+    {
+      "name": "Small (1kg)",
+      "sku": "var_002a",
+      "pricePence": 2699,
+      "inStock": true
+    },
+    {
+      "name": "Large (2.5kg)",
+      "sku": "var_002b",
+      "pricePence": 4299,
+      "inStock": true
+    }
+  ]
+}

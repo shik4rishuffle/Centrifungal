@@ -1,0 +1,21 @@
+{
+  "name": "Gift Grow Kit",
+  "sku": "prod_009",
+  "pricePence": 3299,
+  "shortDescription": "Beautifully packaged grow kit - the perfect gift for curious gardeners and food lovers.",
+  "description": "Beautifully packaged grow kit - the perfect gift for curious gardeners and food lovers.",
+  "weightGrams": 250,
+  "category": "content/categories/diy-kits.json",
+  "badge": "none",
+  "featured": false,
+  "inStock": false,
+  "sortOrder": 9,
+  "variants": [
+    {
+      "name": "Pink Oyster Gift Kit",
+      "sku": "var_009a",
+      "pricePence": 3299,
+      "inStock": false
+    }
+  ]
+}

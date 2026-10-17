@@ -1,0 +1,86 @@
+{
+  "site": {
+    "name": "Centrifungal",
+    "tagline": "Premium Mushroom Grow Logs",
+    "logo": "/uploads/logo.png",
+    "defaultDescription": "Grow gourmet mushrooms at home with Centrifungal's hand-inoculated hardwood grow logs. Sustainably sourced British wood, shipped to your door. No experience needed."
+  },
+  "nav": {
+    "links": [
+      {
+        "label": "Shop",
+        "url": "/shop"
+      },
+      {
+        "label": "About",
+        "url": "/about"
+      },
+      {
+        "label": "Care",
+        "url": "/care-instructions"
+      },
+      {
+        "label": "FAQ",
+        "url": "/faq"
+      },
+      {
+        "label": "Contact",
+        "url": "/contact"
+      }
+    ],
+    "cta": {
+      "label": "Shop grow logs",
+      "url": "/shop",
+      "variant": "primary"
+    }
+  },
+  "footer": {
+    "about": "Artisan mushroom grow logs, cultivated with care. Bringing the forest floor to your front door.",
+    "links": [
+      {
+        "label": "All Products",
+        "url": "/shop"
+      },
+      {
+        "label": "Grow Logs",
+        "url": "/shop#category-grow-logs"
+      },
+      {
+        "label": "Colonised Dowels",
+        "url": "/shop#category-colonised-dowels"
+      },
+      {
+        "label": "Care Instructions",
+        "url": "/care-instructions"
+      },
+      {
+        "label": "FAQ",
+        "url": "/faq"
+      },
+      {
+        "label": "About Us",
+        "url": "/about"
+      },
+      {
+        "label": "Contact",
+        "url": "/contact"
+      }
+    ],
+    "copyright": "Centrifungal. All rights reserved."
+  },
+  "contact": {
+    "email": "hello@centrifungal.co.uk",
+    "formEndpoint": "",
+    "formAccessKey": ""
+  },
+  "social": [
+    {
+      "platform": "instagram",
+      "url": "https://instagram.com"
+    },
+    {
+      "platform": "facebook",
+      "url": "https://facebook.com"
+    }
+  ]
+}

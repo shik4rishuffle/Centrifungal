@@ -1,0 +1,21 @@
+{
+  "name": "Lion's Mane Grow Log",
+  "sku": "prod_004",
+  "pricePence": 3499,
+  "shortDescription": "The gourmet's favourite - cascading white tendrils with a lobster-like flavour. Limited seasonal availability.",
+  "description": "The gourmet's favourite - cascading white tendrils with a lobster-like flavour. Limited seasonal availability.",
+  "weightGrams": 1000,
+  "category": "content/categories/grow-logs.json",
+  "badge": "none",
+  "featured": true,
+  "inStock": false,
+  "sortOrder": 4,
+  "variants": [
+    {
+      "name": "Standard (1.5kg)",
+      "sku": "var_004a",
+      "pricePence": 3499,
+      "inStock": false
+    }
+  ]
+}

@@ -1,0 +1,93 @@
+{
+  "title": "Home",
+  "seo": {
+    "metaTitle": "Centrifungal - Premium Mushroom Grow Logs",
+    "metaDescription": "Grow gourmet mushrooms at home with Centrifungal's hand-inoculated hardwood grow logs. Sustainably sourced British wood, shipped to your door. No experience needed."
+  },
+  "blocks": [
+    {
+      "_template": "hero",
+      "style": "full",
+      "eyebrow": "Premium Mushroom Grow Logs",
+      "heading": "Grow Gourmet Mushrooms at Home",
+      "text": "Hand-inoculated hardwood logs that fruit again and again. No experience needed - just mist, wait, and harvest fresh mushrooms from your kitchen counter.",
+      "buttons": [
+        {
+          "label": "Shop Grow Logs",
+          "url": "/shop",
+          "variant": "primary"
+        },
+        {
+          "label": "Care Guides",
+          "url": "/care-instructions",
+          "variant": "outline"
+        }
+      ]
+    },
+    {
+      "_template": "productTeaser",
+      "anchor": "featured",
+      "heading": "Our Grow Logs",
+      "intro": "Each log is hand-inoculated with premium spawn and grown on sustainably sourced British hardwood.",
+      "source": "featured",
+      "maxItems": 4,
+      "more": {
+        "label": "View all products",
+        "url": "/shop",
+        "variant": "outline"
+      }
+    },
+    {
+      "_template": "textWithImage",
+      "anchor": "story",
+      "eyebrow": "Our story",
+      "heading": "Rooted in the Forest, Made for Your Home",
+      "body": "Centrifungal started with a simple idea - that anyone should be able to grow fresh, gourmet mushrooms without a garden or any special equipment. Our logs are inoculated by hand in small batches using spawn we cultivate ourselves, then slowly colonised in controlled conditions before reaching you.\n\nThe result? Mushrooms that taste like they were foraged minutes ago.",
+      "imagePosition": "left",
+      "variant": "accent",
+      "buttons": [
+        {
+          "label": "Our Story",
+          "url": "/about",
+          "variant": "secondary"
+        }
+      ]
+    },
+    {
+      "_template": "uspCards",
+      "anchor": "why",
+      "heading": "Why Centrifungal?",
+      "intro": "From our woodland to your doorstep - here's what makes us different.",
+      "cards": [
+        {
+          "icon": "🌱",
+          "title": "Grown Locally",
+          "text": "Every log is produced in our woodland workshop using sustainably sourced British hardwood and spawn we cultivate in-house."
+        },
+        {
+          "icon": "📦",
+          "title": "Shipped Fast",
+          "text": "Orders are dispatched within 48 hours in plastic-free, compostable packaging designed to keep your log happy in transit."
+        },
+        {
+          "icon": "📚",
+          "title": "Expert Care Guides",
+          "text": "Every order includes access to our detailed care guides, video tutorials, and direct support from our growing team."
+        }
+      ]
+    },
+    {
+      "_template": "cta",
+      "style": "band",
+      "heading": "New to Mushroom Growing?",
+      "text": "Our free care guides cover everything from first misting to your fifth harvest. Written by growers, for growers.",
+      "buttons": [
+        {
+          "label": "Explore Care Guides",
+          "url": "/care-instructions",
+          "variant": "primary"
+        }
+      ]
+    }
+  ]
+}

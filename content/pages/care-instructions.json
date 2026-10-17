@@ -1,0 +1,38 @@
+{
+  "title": "Care Instructions",
+  "seo": {
+    "metaTitle": "Mushroom Grow Log Care Instructions - Centrifungal",
+    "metaDescription": "Step-by-step care instructions for your Centrifungal mushroom grow log. Learn how to water, position, and harvest your mushrooms."
+  },
+  "blocks": [
+    {
+      "_template": "pageHeading",
+      "eyebrow": "Care",
+      "heading": "How to Get the Best From Your Grow Log",
+      "align": "left"
+    },
+    {
+      "_template": "richText",
+      "body": "Congratulations on your new grow log! Follow these simple steps to enjoy fresh, home-grown mushrooms.\n\n## Getting Started\n\n1. Remove the grow log from its packaging and soak it in cold water for 24 hours.\n2. Place the log in a cool, shaded spot - indoors or outdoors. Avoid direct sunlight.\n3. Mist the log daily with water to keep it moist. A spray bottle works perfectly.\n4. Expect to see mushrooms appear within 1-3 weeks depending on the species and conditions.",
+      "width": "narrow"
+    },
+    {
+      "_template": "cta",
+      "style": "card",
+      "heading": "Still stuck?",
+      "text": "Check the FAQ or send us a message and a grower will reply.",
+      "buttons": [
+        {
+          "label": "Read the FAQ",
+          "url": "/faq",
+          "variant": "outline"
+        },
+        {
+          "label": "Contact us",
+          "url": "/contact",
+          "variant": "primary"
+        }
+      ]
+    }
+  ]
+}

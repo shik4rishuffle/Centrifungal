@@ -1,0 +1,21 @@
+{
+  "name": "Advanced Cultivation Kit",
+  "sku": "prod_008",
+  "pricePence": 5999,
+  "shortDescription": "For the serious grower - sterile grain spawn, bulk substrate, and monotub setup with detailed instructions.",
+  "description": "For the serious grower - sterile grain spawn, bulk substrate, and monotub setup with detailed instructions.",
+  "weightGrams": 250,
+  "category": "content/categories/diy-kits.json",
+  "badge": "none",
+  "featured": false,
+  "inStock": true,
+  "sortOrder": 8,
+  "variants": [
+    {
+      "name": "Standard",
+      "sku": "var_008a",
+      "pricePence": 5999,
+      "inStock": true
+    }
+  ]
+}

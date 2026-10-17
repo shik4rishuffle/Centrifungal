@@ -70,3 +70,11 @@ infrastructure/.env
 # Build artefacts
 payload/tsconfig.tsbuildinfo
 payload/next-env.d.ts
+
+# Next.js + Tina (site at repo root)
+.next/
+out/
+next-env.d.ts
+*.tsbuildinfo
+public/admin/
+tina/__generated__/

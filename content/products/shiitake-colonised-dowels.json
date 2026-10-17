@@ -1,0 +1,21 @@
+{
+  "name": "Shiitake Mushroom Dowels",
+  "sku": "prod_006",
+  "pricePence": 1699,
+  "shortDescription": "Premium shiitake dowels for inoculating hardwood logs. Start your own shiitake garden.",
+  "description": "Premium shiitake dowels for inoculating hardwood logs. Start your own shiitake garden.",
+  "weightGrams": 250,
+  "category": "content/categories/colonised-dowels.json",
+  "badge": "none",
+  "featured": false,
+  "inStock": true,
+  "sortOrder": 6,
+  "variants": [
+    {
+      "name": "100 Dowels",
+      "sku": "var_006a",
+      "pricePence": 1699,
+      "inStock": true
+    }
+  ]
+}

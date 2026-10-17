@@ -1,0 +1,27 @@
+{
+  "name": "Daily Mushroom Blend",
+  "sku": "prod_012",
+  "pricePence": 3299,
+  "shortDescription": "A balanced blend of lion's mane, reishi, and chaga for everyday wellness. 60ml dropper bottle.",
+  "description": "A balanced blend of lion's mane, reishi, and chaga for everyday wellness. 60ml dropper bottle.",
+  "weightGrams": 250,
+  "category": "content/categories/tinctures.json",
+  "badge": "popular",
+  "featured": false,
+  "inStock": true,
+  "sortOrder": 12,
+  "variants": [
+    {
+      "name": "60ml",
+      "sku": "var_012a",
+      "pricePence": 3299,
+      "inStock": true
+    },
+    {
+      "name": "120ml",
+      "sku": "var_012b",
+      "pricePence": 5499,
+      "inStock": true
+    }
+  ]
+}

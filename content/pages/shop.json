@@ -1,0 +1,28 @@
+{
+  "title": "Shop",
+  "seo": {
+    "metaTitle": "Shop - Centrifungal Mushroom Grow Logs",
+    "metaDescription": "Hand-inoculated grow logs, colonised dowels, DIY kits and tinctures."
+  },
+  "blocks": [
+    {
+      "_template": "announcementBar",
+      "text": "Free UK shipping on orders over £50",
+      "visible": true,
+      "style": "accent"
+    },
+    {
+      "_template": "pageHeading",
+      "eyebrow": "Shop",
+      "heading": "Grow logs, dowels, kits and tinctures",
+      "subheading": "Everything is grown and packed in our woodland workshop and dispatched within 48 hours.",
+      "align": "left"
+    },
+    {
+      "_template": "productGrid",
+      "anchor": "products",
+      "groupByCategory": true,
+      "emptyText": "Nothing in this category right now. Check back soon."
+    }
+  ]
+}
