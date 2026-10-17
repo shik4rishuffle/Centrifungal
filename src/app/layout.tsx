@@ -3,6 +3,7 @@ import { Fraunces, DM_Sans, Space_Mono } from "next/font/google";
 import "@skeleton-crew/blocks/tokens.css";
 import "../tokens.css";
 import "@skeleton-crew/blocks/blocks.css";
+import { RevealScript } from "@skeleton-crew/blocks";
 import "./globals.css";
 
 const fraunces = Fraunces({ subsets: ["latin"], axes: ["SOFT", "WONK", "opsz"], variable: "--font-fraunces", display: "swap" });
@@ -19,6 +20,7 @@ export const viewport: Viewport = { themeColor: "#1A3A2A" };
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" className={`${fraunces.variable} ${dmSans.variable} ${spaceMono.variable}`}>
+      <head><RevealScript /></head>
       <body>{children}</body>
     </html>
   );
