@@ -13,7 +13,7 @@ const router = Router();
 router.get('/stock', async (req, res, next) => {
   try {
     const { soldOut, updatedAt } = await effectiveSoldOut();
-    res.setHeader('Cache-Control', 'public, max-age=30');
+    res.setHeader('Cache-Control', 'no-store');
     res.json({ soldOut, updatedAt, catalogueLoadedAt: catalogueLoadedAt() });
   } catch (err) {
     next(err);

@@ -12,7 +12,7 @@ export function useSoldOut(): SoldOut[] {
   useEffect(() => {
     let cancelled = false;
     if (cache && Date.now() - cache.at < 30_000) { setList(cache.data); return; }
-    fetch(`${API_BASE}/api/stock`, { headers: { Accept: "application/json" } })
+    fetch(`${API_BASE}/api/stock`, { headers: { Accept: "application/json" }, cache: "no-store" })
       .then((r) => (r.ok ? r.json() : { soldOut: [] }))
       .then((j) => { const data = Array.isArray(j.soldOut) ? j.soldOut : []; cache = { at: Date.now(), data }; if (!cancelled) setList(data); })
       .catch(() => {});
