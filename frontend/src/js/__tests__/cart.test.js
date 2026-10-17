@@ -10,10 +10,10 @@ import {
 } from '../cart.js';
 
 // -- Fixtures ----------------------------------------------------------------
+// Cart is keyed by product slug + variant SKU; prices are in pence.
 
 function makeProduct(overrides = {}) {
   return {
-    id: 1,
     name: 'Lions Mane Tincture',
     slug: 'lions-mane-tincture',
     image: '/images/lions-mane.jpg',
@@ -23,12 +23,14 @@ function makeProduct(overrides = {}) {
 
 function makeVariant(overrides = {}) {
   return {
-    id: 10,
-    name: '30 ml',
-    price: 1500,
+    sku: 'lm-30',
+    variantName: '30 ml',
+    pricePence: 1500,
     ...overrides,
   };
 }
+
+const itemId = (product, variant) => `${product.slug}__${variant.sku}`;
 
 // -- Mocks -------------------------------------------------------------------
 
@@ -44,14 +46,10 @@ const localStorageMock = {
 const dispatchedEvents = [];
 
 beforeEach(() => {
-  // Reset store
   Object.keys(store).forEach((k) => delete store[k]);
-
-  // Reset spies
   vi.restoreAllMocks();
   dispatchedEvents.length = 0;
 
-  // Stub globals
   vi.stubGlobal('localStorage', localStorageMock);
   vi.stubGlobal('window', {
     dispatchEvent: vi.fn((event) => { dispatchedEvents.push(event); }),
@@ -67,10 +65,8 @@ beforeEach(() => {
 // -- Tests -------------------------------------------------------------------
 
 describe('cart.js', () => {
-  // ---- addItem -------------------------------------------------------------
-
   describe('addItem', () => {
-    it('adds an item with correct product, variant, and quantity', () => {
+    it('adds an item with the correct product, variant, and quantity', () => {
       const product = makeProduct();
       const variant = makeVariant();
 
@@ -78,13 +74,13 @@ describe('cart.js', () => {
 
       expect(items).toHaveLength(1);
       expect(items[0]).toMatchObject({
-        productId: product.id,
-        productName: product.name,
-        productSlug: product.slug,
-        productImage: product.image,
-        variantId: variant.id,
-        variantName: variant.name,
-        price: variant.price,
+        itemId: itemId(product, variant),
+        slug: product.slug,
+        name: product.name,
+        image: product.image,
+        sku: variant.sku,
+        variantName: variant.variantName,
+        pricePence: variant.pricePence,
         quantity: 1,
       });
     });
@@ -100,10 +96,10 @@ describe('cart.js', () => {
       expect(items[0].quantity).toBe(5);
     });
 
-    it('treats different variants as separate items', () => {
+    it('treats different variants (SKUs) as separate items', () => {
       const product = makeProduct();
-      const v1 = makeVariant({ id: 10, name: '30 ml' });
-      const v2 = makeVariant({ id: 20, name: '60 ml', price: 2500 });
+      const v1 = makeVariant({ sku: 'lm-30', variantName: '30 ml' });
+      const v2 = makeVariant({ sku: 'lm-60', variantName: '60 ml', pricePence: 2500 });
 
       addItem(product, v1, 1);
       const items = addItem(product, v2, 1);
@@ -112,50 +108,42 @@ describe('cart.js', () => {
     });
   });
 
-  // ---- updateQuantity (increment / decrement) ------------------------------
-
   describe('updateQuantity', () => {
-    it('updates quantity and totals reflect the change', () => {
+    it('updates quantity and totals reflect the change (pence)', () => {
       const product = makeProduct();
-      const variant = makeVariant({ price: 1000 });
+      const variant = makeVariant({ pricePence: 1000 });
       addItem(product, variant, 2);
 
-      const itemId = `${product.id}__${variant.id}`;
-      const items = updateQuantity(itemId, 5);
+      const items = updateQuantity(itemId(product, variant), 5);
 
       expect(items[0].quantity).toBe(5);
-      // Verify totals via helper
       expect(getCartTotal()).toBe(5000);
     });
 
-    it('removes item when quantity is set to zero', () => {
+    it('removes the item when quantity is set to zero', () => {
       const product = makeProduct();
       const variant = makeVariant();
       addItem(product, variant, 1);
 
-      const itemId = `${product.id}__${variant.id}`;
-      const items = updateQuantity(itemId, 0);
+      const items = updateQuantity(itemId(product, variant), 0);
 
       expect(items).toHaveLength(0);
     });
   });
 
-  // ---- removeItem ----------------------------------------------------------
-
   describe('removeItem', () => {
     it('removes the item and updates totals', () => {
       const product = makeProduct();
-      const v1 = makeVariant({ id: 10, price: 1000 });
-      const v2 = makeVariant({ id: 20, price: 2000 });
+      const v1 = makeVariant({ sku: 'lm-30', pricePence: 1000 });
+      const v2 = makeVariant({ sku: 'lm-60', pricePence: 2000 });
 
       addItem(product, v1, 1);
       addItem(product, v2, 1);
 
-      const itemId = `${product.id}__${v1.id}`;
-      const items = removeItem(itemId);
+      const items = removeItem(itemId(product, v1));
 
       expect(items).toHaveLength(1);
-      expect(items[0].variantId).toBe(20);
+      expect(items[0].sku).toBe('lm-60');
       expect(getCartTotal()).toBe(2000);
     });
 
@@ -164,8 +152,7 @@ describe('cart.js', () => {
       const variant = makeVariant();
       addItem(product, variant, 1);
 
-      const itemId = `${product.id}__${variant.id}`;
-      const items = removeItem(itemId);
+      const items = removeItem(itemId(product, variant));
 
       expect(items).toHaveLength(0);
       expect(getCart()).toEqual([]);
@@ -174,13 +161,11 @@ describe('cart.js', () => {
     });
   });
 
-  // ---- getCartCount --------------------------------------------------------
-
   describe('getCartCount', () => {
     it('returns total item count across all line items', () => {
       const product = makeProduct();
-      addItem(product, makeVariant({ id: 10 }), 3);
-      addItem(product, makeVariant({ id: 20 }), 2);
+      addItem(product, makeVariant({ sku: 'lm-30' }), 3);
+      addItem(product, makeVariant({ sku: 'lm-60' }), 2);
 
       expect(getCartCount()).toBe(5);
     });
@@ -190,20 +175,16 @@ describe('cart.js', () => {
     });
   });
 
-  // ---- getCartTotal --------------------------------------------------------
-
   describe('getCartTotal', () => {
     it('returns the correct total in pence', () => {
       const product = makeProduct();
-      addItem(product, makeVariant({ id: 10, price: 1500 }), 2);
-      addItem(product, makeVariant({ id: 20, price: 800 }), 1);
+      addItem(product, makeVariant({ sku: 'lm-30', pricePence: 1500 }), 2);
+      addItem(product, makeVariant({ sku: 'lm-60', pricePence: 800 }), 1);
 
       // (1500 * 2) + (800 * 1) = 3800
       expect(getCartTotal()).toBe(3800);
     });
   });
-
-  // ---- clearCart ------------------------------------------------------------
 
   describe('clearCart', () => {
     it('empties all items from the cart', () => {
@@ -217,8 +198,6 @@ describe('cart.js', () => {
     });
   });
 
-  // ---- cart-updated event --------------------------------------------------
-
   describe('cart-updated event', () => {
     it('fires a cart-updated CustomEvent on addItem', () => {
       addItem(makeProduct(), makeVariant(), 1);
@@ -229,20 +208,24 @@ describe('cart.js', () => {
     });
 
     it('fires on removeItem', () => {
-      addItem(makeProduct(), makeVariant(), 1);
+      const product = makeProduct();
+      const variant = makeVariant();
+      addItem(product, variant, 1);
       dispatchedEvents.length = 0;
 
-      removeItem(`${makeProduct().id}__${makeVariant().id}`);
+      removeItem(itemId(product, variant));
 
       expect(dispatchedEvents).toHaveLength(1);
       expect(dispatchedEvents[0].type).toBe('cart-updated');
     });
 
     it('fires on updateQuantity', () => {
-      addItem(makeProduct(), makeVariant(), 1);
+      const product = makeProduct();
+      const variant = makeVariant();
+      addItem(product, variant, 1);
       dispatchedEvents.length = 0;
 
-      updateQuantity(`${makeProduct().id}__${makeVariant().id}`, 5);
+      updateQuantity(itemId(product, variant), 5);
 
       expect(dispatchedEvents).toHaveLength(1);
       expect(dispatchedEvents[0].type).toBe('cart-updated');
@@ -258,8 +241,6 @@ describe('cart.js', () => {
       expect(dispatchedEvents[0].type).toBe('cart-updated');
     });
   });
-
-  // ---- localStorage persistence --------------------------------------------
 
   describe('localStorage persistence', () => {
     it('saves to localStorage on every mutation', () => {
@@ -277,14 +258,13 @@ describe('cart.js', () => {
 
     it('loads cart from localStorage on init', () => {
       const seeded = [{
-        itemId: '1__10',
-        productId: 1,
-        productName: 'Lions Mane Tincture',
-        productSlug: 'lions-mane-tincture',
-        productImage: '/images/lions-mane.jpg',
-        variantId: 10,
+        itemId: 'lions-mane-tincture__lm-30',
+        slug: 'lions-mane-tincture',
+        name: 'Lions Mane Tincture',
+        image: '/images/lions-mane.jpg',
+        sku: 'lm-30',
         variantName: '30 ml',
-        price: 1500,
+        pricePence: 1500,
         quantity: 2,
       }];
 
@@ -293,7 +273,7 @@ describe('cart.js', () => {
       const items = getCart();
       expect(items).toHaveLength(1);
       expect(items[0].quantity).toBe(2);
-      expect(items[0].productName).toBe('Lions Mane Tincture');
+      expect(items[0].name).toBe('Lions Mane Tincture');
     });
   });
 });

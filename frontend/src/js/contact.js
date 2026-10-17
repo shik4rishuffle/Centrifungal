@@ -12,6 +12,24 @@
 
   if (!form) return;
 
+  // Hydrate the "Get in Touch" sidebar from SiteSettings so the owner can edit it.
+  // (Quick Help keeps its hardcoded inline FAQ/Care links.)
+  if (typeof CMS !== 'undefined') {
+    CMS.fetchSiteSettings().then(function (s) {
+      if (!s) return;
+      ['contactSidebarHeading', 'contactFormHeading', 'responseTimeLabel', 'responseTimeText', 'socialLabel', 'socialText', 'quickHelpLabel'].forEach(function (key) {
+        if (!s[key]) return;
+        document.querySelectorAll('[data-cms-sidebar="' + key + '"]').forEach(function (el) { el.textContent = s[key]; });
+      });
+      if (s.contactEmail) {
+        document.querySelectorAll('[data-cms-email]').forEach(function (a) {
+          a.href = 'mailto:' + s.contactEmail;
+          a.textContent = s.contactEmail;
+        });
+      }
+    });
+  }
+
   /**
    * Show inline error for a specific field.
    */
@@ -116,11 +134,14 @@
     const payload = {
       name: form.elements.name.value.trim(),
       email: form.elements.email.value.trim(),
-      message: form.elements.message.value.trim()
+      message: form.elements.message.value.trim(),
+      // Forward the honeypot so the server-side check catches direct-to-API bots.
+      phone_confirm: honeypot && honeypot.value ? honeypot.value : ''
     };
 
     try {
-      const response = await fetch('/api/contact', {
+      const apiBase = window.__CENTRIFUNGAL ? window.__CENTRIFUNGAL.getApiUrl() : '';
+      const response = await fetch(apiBase + '/api/contact', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload)

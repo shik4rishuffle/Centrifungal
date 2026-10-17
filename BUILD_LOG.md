@@ -103,3 +103,54 @@
 - Smoke test suite covers the full purchase journey end to end - this runs before every deployment
 - All infrastructure config files committed to the repo so there is no undocumented manual setup
 **Delegated To:** cms agent (navigation management, contact submissions admin, order visibility in CP, owner runbook), architect agent (Netlify config, Railway config, Litestream config, backup cron, DNS docs, security headers, smoke test suite, Statamic-to-database sync fix)
+
+## [2026-08-01 11:00] Amendment 001 - Re-platform to Payload CMS + Skeleton Crew
+**Status:** In Progress
+**Summary:** After the original Statamic/Laravel build completed (Phase 8), the owner asked to re-platform Centrifungal onto the Skeleton Crew stack - Payload CMS instead of Statamic, a small Node backend instead of Laravel, the shared PostgreSQL instead of SQLite, and VPS hosting instead of Railway + Netlify. The full re-platform has already been built and verified locally on a safe branch (`payload-migration`) - the CMS schema, the Node backend, the rewired frontend, the content seeder, the platform config, and a 16-agent cross-layer review that caught and fixed 12 real bugs. Nothing is committed or merged; the live site is untouched. What remains is deploying to the dev VPS and verifying the whole thing end to end, plus the accessibility audit - all of which need the owner's VPS access and test keys.
+**Key Decisions:**
+- Framed the re-platform as a formal amendment (AMENDMENT-001) rather than informal follow-up, so the remaining deploy + verification work is tracked and gated like any other build.
+- Full re-platform, not a lift-and-shift: Laravel -> Node/Express, SQLite -> shared PostgreSQL. This supersedes two rows of the original brief's target architecture.
+- Clean-slate products (old catalogues were test/legacy); everything previously hardcoded is now editable in the CMS.
+- Dev/staging proceeds without the backups + revenue gate because there is no live data yet.
+**Tasks Added:** TASK-310..315 (build - already DONE), TASK-316..321 (deploy + verify - Pending, need Flynn).
+**Delegated To:** cms, backend, frontend, devops, qa agents (build already executed autonomously last session; remaining tasks not yet delegated - awaiting VPS access).
+**Next:** Gate on the amendment scope. On approval + VPS access, execute TASK-316 (DevOps: provision on the dev VPS) first.
+
+## [2026-08-01 11:40] Amendment 001 - VPS access confirmed, deploy staged (paused)
+**Status:** In Progress
+**Summary:** Reconnected to the Skeleton Crew VPS and confirmed everything needed to deploy Centrifungal, without touching anything (read-only recon only). The SSH shortcut wasn't set up on this machine, so the connection was rebuilt from scratch: it turned out the box uses a non-standard SSH port (2222, not 22) and the login user is `deploy`, not root. Centrifungal isn't on the box yet. Because the migration code is still uncommitted, the plan is to copy the working tree up with rsync and provision from that local path using the CLI's `--subpath` flag (which, contrary to an old note, is present on the live server). All of these VPS learnings were written into the Obsidian vault as a single source of truth. Stopped deliberately before running the deploy, at Flynn's request (end of day).
+**Key Decisions:**
+- Deploy from an rsync'd copy of the uncommitted working tree rather than a git clone, so the "don't merge yet" gate stays clean and the whole thing is reversible.
+- Documented the VPS access + provisioning route in the vault (new note `skeleton-crew-vps-access`, corrected the `--subpath` doc-drift) so the next run doesn't rediscover it.
+**Delegated To:** none (orchestrator-driven recon + documentation).
+**Next:** Resume TASK-316 - rsync the tree up, run `skeleton new --subpath payload`, verify the CMS boots. Then seed, E2E, a11y, merge. Full steps in AGENTS/handover.md.
+
+## [2026-08-02 08:05] Amendment 001 - Provisioned on VPS; blocked on empty CMS schema
+**Status:** Blocked
+**Summary:** Deployment began. Flynn provisioned the Centrifungal Payload CMS on the dev VPS via the hybrid split (DevOps agent staged the code and ran read-only pre-flight checks; Flynn ran the interactive `skeleton new` wizard). The CMS container is up and reachable, but the admin panel is down - it throws a server-side exception because the database has no tables. Root cause traced from the container logs: the Payload app ships no committed migrations and the Postgres adapter ignores dev "push" mode in production, so the schema was never created. Also set up the `ssh skeleton` shortcut on Flynn's Mac and updated four vault notes documenting today's platform findings. Paused for the day with the fix understood.
+**Key Decisions:**
+- Provisioned from an rsync'd copy of the uncommitted working tree (keeps the merge gate clean); the build context is permanent at `/srv/skeleton/build/centrifungal`.
+- The storefront will NOT use `skeleton deploy` (the generic template has no backend and no custom nginx/CSP) - it will come up via the repo's own `docker-compose.yml`.
+**Delegated To:** DevOps agent (rsync + pre-flight + wizard answer sheet -> AGENTS/devops-output.md); orchestrator drove the recon, the ssh-config fix, and the /scribe documentation run.
+**Next:** Fix the CMS schema (generate + commit Payload migrations, rebuild), then create the first admin + API key, then TASK-317 seed. Full resume steps in AGENTS/handover.md and PROJECT_BRIEF.md (2026-08-02 status).
+
+## [2026-08-02 14:00] Amendment 001 - CMS schema fixed; TASK-316 complete
+**Status:** Complete (TASK-316)
+**Summary:** Cleared yesterday's blocker and finished provisioning. The CMS admin panel was down because the database had no tables; the fix was to generate the missing Payload migration and rebuild so the container creates the schema on boot. The CMS agent generated the migration safely against a disposable local database (the live dev database was never touched), committed it, copied it to the server, and rebuilt just this client's CMS container. The rebuild applied the migration cleanly (`Migrated: 20260802_124327_initial`), all expected tables now exist, and the admin panel returns a healthy 200 serving its create-first-user screen. TASK-316 (provision + verify) is now complete. Paused at Flynn's request; the only remaining step before seeding is a manual browser action - creating the first admin account and generating an API key.
+**Key Decisions:**
+- Generated the migration against a throwaway local Postgres (not the shared dev DB) so the initial migration captures the full schema from empty and the dev box stays out of the blast radius.
+- Kept `push: true` in the Payload config - it is inert in production (the adapter disables it under `next start`) and useful for local dev; the committed migration is what production relies on. Standard Payload v3 pattern.
+- Committed the migration's `.json` schema snapshot as well (separate commit) so the next `migrate:create` has a correct baseline to diff against.
+**Delegated To:** CMS agent (planned + executed the migration fix end-to-end -> AGENTS/cms-migration-plan.md, AGENTS/cms-migration-output.md); orchestrator verified the live result independently and committed the snapshot.
+**Next:** Flynn creates the first admin in the browser + generates an API key, then TASK-317 (seed). Full resume steps in AGENTS/handover.md.
+
+## [2026-08-04 12:00] Amendment 001 - TASK-317 complete (CMS seeded + validated)
+**Status:** Complete (TASK-317)
+**Summary:** Loaded the site's starting content into the live CMS and confirmed it all took. First attempt failed cleanly: the API key sitting in the server's config file did not actually work - a check against the database showed the admin account existed but no API key had ever been generated and saved for it (the value in the file was a placeholder-shaped string, not a real key). Flynn regenerated the key properly in the admin panel (enable + Save, which shows the real key once) and updated the config. The re-run passed everything: the 4 product categories, the site-wide settings (all the copy that used to be hardcoded), and the 4 content pages (About, Contact, FAQ, Care Instructions) were created. Re-running a second time made no duplicates (the seeder correctly skips existing content). Crucially, the rich-text and FAQ content - hand-built to Payload's internal format and never before tested against a running CMS - came back from the CMS byte-for-byte intact, which was the main risk this step existed to retire.
+**Key Decisions:**
+- Ran the seeder from inside the CMS container against its own loopback address - no HTTPS, so the dev box's staging TLS certificate never entered the picture (a plain internet call would have failed cert validation). No security setting was weakened anywhere.
+- Added a fail-fast authentication pre-check to the re-run so a bad key would stop us before any writes, rather than mid-seed.
+- The human "does it render in the editor" eyeball on the rich text is deferred to TASK-319 (editor parity), which already covers it - TASK-317 proves the data seeds and round-trips.
+- Corrected a wrong path inherited from the handover: the client config file is `/srv/skeleton/clients/centrifungal/.env`, not the build-tree path.
+**Delegated To:** Backend agent (planned + executed seed and validation -> AGENTS/task-317-seed-plan.md, AGENTS/task-317-seed-output.md); orchestrator verified the output and drove the key-regeneration loop with Flynn.
+**Next:** TASK-320 (accessibility audit - needs no new keys, can start now) and TASK-318 (end-to-end purchase - needs Stripe test + Resend keys in the client .env) and TASK-319 (editor parity, includes the Lexical render eyeball). TASK-321 is the final merge gate.

@@ -1,5 +1,131 @@
 # Project Brief - Centrifungal Migration to Skeleton Crew Ecosystem
 
+## Migration status - 2026-08-02 (CMS live on VPS; schema fixed; ready for first admin + seed)
+
+**Where it stands:** the CMS schema blocker is **RESOLVED**. Payload is provisioned on the
+dev VPS, migrations are committed and applied, and `/admin` now returns **200**. TASK-316
+(provision + verify) is **complete**. Next action is a manual browser step - create the
+first admin - then seeding. Paused here at Flynn's request.
+
+### Done today (2026-08-02)
+- **Provisioned** via `./skeleton new --subpath payload` (hybrid: DevOps agent rsynced the
+  tree + ran read-only pre-flight; Flynn ran the interactive wizard). Result: DB
+  `payload_centrifungal`, role `centrifungal_user`, client dir
+  `/srv/skeleton/clients/centrifungal`, container `payload-centrifungal` at
+  `cms-centrifungal.dev.skeleton-crew.co.uk`. Build context is the PERMANENT path
+  `/srv/skeleton/build/centrifungal/payload` (rsync'd uncommitted source - do not delete
+  while the client is live). Wizard printed DB_PASSWORD + PAYLOAD_SECRET (stored in the
+  client `.env`; Flynn has them backed up).
+- **Fixed the empty-schema blocker (CMS agent).** Generated the initial Payload migration
+  against a throwaway local Postgres, committed it (`4cc85ff`, migration
+  `20260802_124327_initial`), rsync'd it to the build context, and rebuilt the client's
+  Payload container from its own compose. Boot-time `npx payload migrate` applied it -
+  logs show `Migrated: 20260802_124327_initial`. Verified: `users`, `payload_migrations`,
+  `products`, `orders`, `pages` (+ block tables) all exist; migration ledger batch 1;
+  `/admin` = 200. See `AGENTS/cms-migration-output.md` and `AGENTS/cms-migration-plan.md`.
+- `ssh skeleton` shortcut set up on the Mac (`~/.ssh/config`, mode 600) and confirmed.
+- Vault docs updated via `/scribe`: `skeleton-crew-vps-access`,
+  `skeleton-new-subpath-build-context`, `skeleton-crew-handbook`, and new
+  `skeleton-deploy-generic-template`.
+
+### The blocker (root cause - now fixed)
+The Postgres schema was never created, so `/admin` 500'd with `relation "users" does not
+exist`. Cause: the `payload/` app shipped **no committed migrations** and
+`@payloadcms/db-postgres` **ignores `push: true` under `next start` (production)**, so the
+boot command created nothing. Fix: commit an initial migration so boot-time
+`npx payload migrate` builds the schema. `push: true` was kept (inert in prod, useful for
+local dev - the standard Payload v3 pattern). Note the container reported "healthy"
+throughout because the healthcheck only checks for an HTTP response, not a booting app.
+
+### Resume from here (in order)
+1. **Create the first admin (Flynn, browser).** Open
+   `https://cms-centrifungal.dev.skeleton-crew.co.uk/admin` - Payload serves the
+   "Create first user" form (empty `users` table). Create the account, then generate an
+   API key (needed for the seeder).
+2. TASK-317 seed (needs the API key); TASK-318 E2E (needs Stripe test + Resend keys, drop
+   into the client `.env` on the box); 319 parity; 320 a11y; 321 merge.
+
+### Do NOT
+- Run `skeleton deploy centrifungal` for the storefront - it uses the platform's generic
+  template (no backend, no CSP). Bring the storefront up via this repo's own
+  `docker-compose.yml` (`cd /srv/skeleton/build/centrifungal && docker compose up -d
+  --build`, after filling a client `.env`). Vault: `skeleton-deploy-generic-template`.
+
+### Rollback
+Migration is committed (`4cc85ff`) but NOT pushed/merged; live Railway/Netlify site
+untouched. To roll the migration back: `docker exec payload-centrifungal npx payload
+migrate:down` (no live data). To tear the whole client down:
+`./skeleton destroy centrifungal` then `rm -rf /srv/skeleton/build/centrifungal`.
+
+---
+
+## Migration status - 2026-08-01 (built through Phase 5; deploy + verify pending)
+
+**Where it stands:** the migration is fully built and verified locally. Everything
+that can be validated without live services is green. What remains is Phase 6 -
+deploying to the dev VPS and the end-to-end + accessibility verification - which
+needs VPS access, a Postgres/Payload boot, and Stripe test keys.
+
+**Branch / safety:** all work is on branch `payload-migration` - nothing committed,
+nothing merged to `master`. The live Railway + Netlify site is untouched. The old
+Laravel/Statamic backend and the Railway/Netlify/Litestream infra are archived
+under `_archive/` (reversible via git).
+
+### Decisions that refined this brief
+- **Full re-platform, not a lift-and-shift.** The Laravel backend is replaced by a
+  small **Node/Express** API (matching the Skeleton Crew family), and SQLite moves
+  to the **shared PostgreSQL** (not "SQLite in a volume"). The Target column in the
+  table below is superseded on those two rows.
+- **Clean-slate products.** No products migrated - the old catalogues were
+  test/legacy and diverged. The shop schema + 4 categories are seeded; Tom adds
+  real products in the Payload admin.
+- **Everything editable.** Content previously hardcoded in the frontend (category
+  names/blurbs/icons, the contact sidebar + email, SEO, footer, homepage copy) is
+  now CMS-editable.
+- **Dev/staging proceeds without the backups+quotas revenue gate** - there is no
+  live data yet (owner's call).
+
+### Done + verified (Phases 1-5)
+- **Payload CMS** (`payload/`) - collections Users/Media/Products/ProductCategories/
+  Orders/Pages, globals SiteSettings (tabbed) + ShopSettings, 8 layout blocks,
+  hooks, config. Verified: `tsc` clean + full `next build` clean.
+- **Node backend** (`backend/`) - Stripe checkout + webhook -> order, contact,
+  Royal Mail dispatch/tracking + Stripe reconcile crons, Resend emails (ported
+  verbatim). Verified: installs, imports, boots, `/api/health` OK, degrades
+  gracefully with no CMS.
+- **Frontend** (`frontend/src/`) - all 12 JS modules rewired to Payload REST + the
+  backend (variant/SKU cart in pence, CMS-driven categories, Lexical page
+  renderer). Verified: syntax-clean, `vitest` 17/17, CSP-safe.
+- **Seeder** (`scripts/cms/seed.mjs`) - categories + SiteSettings + 4 pages,
+  idempotent, content taken verbatim from `CONTENT_INVENTORY.md`.
+- **Platform** - `docker-compose.yml` + `nginx/default.conf` (CSP, clean URLs,
+  `/care` redirect) + `build.sh` -> `public/`; deployable via `skeleton new`.
+- **Cross-layer review** - a 16-agent adversarial review found **12 real bugs**
+  (incl. the entire CMS layer being dead because `cms-api.js` was never loaded on
+  any page); all fixed.
+
+### Remaining (Phase 6) - needs Flynn
+- Provision on the dev VPS: `skeleton new` (Payload source = the `payload/` subdir),
+  create the first admin + API key, run the seeder, deploy the storefront.
+- Provide Stripe **test** keys + webhook secret and a Resend key.
+- End-to-end verify: migrations, the Lexical seed shape, checkout -> order -> emails,
+  and an editor-parity check against `CONTENT_INVENTORY.md`.
+- **Accessibility audit** (Lighthouse + pa11y on every page, WCAG AA) once deployed.
+- Decide on the merge to `master`.
+
+### Known flags
+- Royal Mail Click & Drop request shape + shipping band prices are best-effort ports
+  - validate against a real Royal Mail account before go-live (safe now:
+  unconfigured -> the cron no-ops).
+- The Lexical richtext in the page seeder is built to spec but unproven until it
+  hits a running Payload (Phase 6).
+- No images seeded (none in the repo) - upload the logo/hero/story images in the admin.
+
+**Key files:** `DEPLOYMENT.md` (deploy runbook), `scripts/cms/seed.mjs` (seeder),
+`CONTENT_INVENTORY.md` (verbatim content parity net), `_archive/` (old stack).
+
+---
+
 ## What this is
 
 Centrifungal is a mushroom grow log e-commerce site, currently running on Railway (Laravel 13 + Statamic 6 backend) and Netlify (static HTML/CSS/JS frontend). It needs to be migrated into the Skeleton Crew ecosystem - Payload CMS replaces Statamic, the frontend moves from Netlify to the VPS, and the Laravel backend moves from Railway to the VPS.

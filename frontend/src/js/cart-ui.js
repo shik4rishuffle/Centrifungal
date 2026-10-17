@@ -1,13 +1,24 @@
 /**
  * Centrifungal - Cart Page UI
- * Renders cart contents, handles quantity changes, and manages interactions.
+ * Renders cart contents (prices in pence), handles quantity/remove/checkout.
  */
 
 import { getCart, getCartCount, getCartTotal, updateQuantity, removeItem, clearCart } from './cart.js';
 import { initiateCheckout } from './checkout.js';
 
-function formatPrice(pounds) {
-  return `\u00a3${pounds.toFixed(2)}`;
+var isLocalDev = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+
+function formatPrice(pence) {
+  return '£' + ((Number(pence) || 0) / 100).toFixed(2);
+}
+
+function escapeHtml(str) {
+  if (str === null || str === undefined) return '';
+  return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+}
+
+function productUrl(slug) {
+  return isLocalDev ? '/product.html?slug=' + encodeURIComponent(slug) : '/product/' + slug;
 }
 
 function showToast(type, title, message) {
@@ -18,59 +29,54 @@ function showToast(type, title, message) {
     container.id = 'toast-container';
     document.body.appendChild(container);
   }
-
   const toast = document.createElement('div');
   toast.className = `toast toast--${type}`;
   toast.setAttribute('role', 'alert');
   toast.innerHTML = `
-    <span class="toast__icon">${type === 'success' ? '\u2713' : '\u2717'}</span>
+    <span class="toast__icon">${type === 'success' ? '✓' : '✗'}</span>
     <div class="toast__content">
-      <div class="toast__title">${title}</div>
+      <div class="toast__title">${escapeHtml(title)}</div>
       ${message}
     </div>
     <button class="toast__close" aria-label="Dismiss">&times;</button>
   `;
-
   container.appendChild(toast);
-
   const closeBtn = toast.querySelector('.toast__close');
   function dismiss() {
     toast.classList.add('toast--exiting');
     toast.addEventListener('animationend', () => toast.remove());
   }
-
   closeBtn.addEventListener('click', dismiss);
   setTimeout(dismiss, 3000);
 }
 
 function renderCartItem(item) {
-  const lineTotal = item.price * item.quantity;
-
+  const lineTotal = item.pricePence * item.quantity;
   return `
-    <div class="cart-item" data-item-id="${item.itemId}">
+    <div class="cart-item" data-item-id="${escapeHtml(item.itemId)}">
       <div class="cart-item__image">
-        ${item.productImage
-          ? `<img src="${item.productImage}" alt="${item.productName}" loading="lazy">`
+        ${item.image
+          ? `<img src="${item.image}" alt="${escapeHtml(item.name)}" loading="lazy">`
           : `<div class="img-placeholder" aria-hidden="true">\u{1F344}</div>`}
       </div>
       <div class="cart-item__details">
         <div class="cart-item__info">
           <h3 class="cart-item__name">
-            <a href="/product/${item.productSlug}">${item.productName}</a>
+            <a href="${productUrl(item.slug)}">${escapeHtml(item.name)}</a>
           </h3>
-          <p class="cart-item__variant">${item.variantName}</p>
-          <p class="cart-item__unit-price">${formatPrice(item.price)} each</p>
+          <p class="cart-item__variant">${escapeHtml(item.variantName)}</p>
+          <p class="cart-item__unit-price">${formatPrice(item.pricePence)} each</p>
         </div>
         <div class="cart-item__actions">
           <div class="qty-selector" data-qty-selector>
             <button class="qty-selector__btn" data-qty-dec aria-label="Decrease quantity">-</button>
             <input class="qty-selector__input" type="number" data-qty-input
               value="${item.quantity}" min="1" max="99"
-              aria-label="Quantity for ${item.productName}">
+              aria-label="Quantity for ${escapeHtml(item.name)}">
             <button class="qty-selector__btn" data-qty-inc aria-label="Increase quantity">+</button>
           </div>
           <div class="cart-item__line-total">${formatPrice(lineTotal)}</div>
-          <button class="cart-item__remove" data-remove-item="${item.itemId}" aria-label="Remove ${item.productName} from cart">
+          <button class="cart-item__remove" data-remove-item="${escapeHtml(item.itemId)}" aria-label="Remove ${escapeHtml(item.name)} from cart">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
               <polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2"/>
               <line x1="10" y1="11" x2="10" y2="17"/><line x1="14" y1="11" x2="14" y2="17"/>
@@ -99,10 +105,9 @@ function renderEmptyState() {
   `;
 }
 
-function renderCartSummary(items) {
+function renderCartSummary() {
   const subtotal = getCartTotal();
   const itemCount = getCartCount();
-
   return `
     <div class="cart-summary">
       <h2 class="cart-summary__title">Order Summary</h2>
@@ -134,7 +139,6 @@ function renderCart() {
   if (!container) return;
 
   const items = getCart();
-
   if (items.length === 0) {
     container.innerHTML = renderEmptyState();
     return;
@@ -152,7 +156,7 @@ function renderCart() {
         </div>
       </div>
       <aside class="cart-aside">
-        ${renderCartSummary(items)}
+        ${renderCartSummary()}
       </aside>
     </div>
   `;
@@ -161,8 +165,7 @@ function renderCart() {
 }
 
 function bindCartEvents() {
-  // Quantity steppers
-  document.querySelectorAll('[data-qty-selector]').forEach(selector => {
+  document.querySelectorAll('[data-qty-selector]').forEach((selector) => {
     const input = selector.querySelector('[data-qty-input]');
     const decBtn = selector.querySelector('[data-qty-dec]');
     const incBtn = selector.querySelector('[data-qty-inc]');
@@ -181,50 +184,33 @@ function bindCartEvents() {
 
     decBtn.addEventListener('click', () => {
       const val = parseInt(input.value) || min;
-      if (val > min) {
-        const newVal = val - 1;
-        input.value = newVal;
-        updateQuantity(itemId, newVal);
-        renderCart();
-      }
+      if (val > min) { input.value = val - 1; updateQuantity(itemId, val - 1); renderCart(); }
     });
-
     incBtn.addEventListener('click', () => {
       const val = parseInt(input.value) || min;
-      if (val < max) {
-        const newVal = val + 1;
-        input.value = newVal;
-        updateQuantity(itemId, newVal);
-        renderCart();
-      }
+      if (val < max) { input.value = val + 1; updateQuantity(itemId, val + 1); renderCart(); }
     });
-
     input.addEventListener('change', () => {
       let val = parseInt(input.value);
       if (isNaN(val) || val < min) val = min;
       if (val > max) val = max;
-      input.value = val;
-      updateQuantity(itemId, val);
-      renderCart();
+      input.value = val; updateQuantity(itemId, val); renderCart();
     });
 
     updateButtons();
   });
 
-  // Remove buttons
-  document.querySelectorAll('[data-remove-item]').forEach(btn => {
+  document.querySelectorAll('[data-remove-item]').forEach((btn) => {
     btn.addEventListener('click', () => {
       const itemId = btn.dataset.removeItem;
       const itemEl = btn.closest('.cart-item');
       const name = itemEl?.querySelector('.cart-item__name a')?.textContent || 'Item';
-
       removeItem(itemId);
-      showToast('success', 'Removed', `${name} has been removed from your cart.`);
+      showToast('success', 'Removed', `${escapeHtml(name)} has been removed from your cart.`);
       renderCart();
     });
   });
 
-  // Clear cart
   const clearBtn = document.getElementById('clear-cart-btn');
   if (clearBtn) {
     clearBtn.addEventListener('click', () => {
@@ -234,21 +220,18 @@ function bindCartEvents() {
     });
   }
 
-  // Checkout
   const checkoutBtn = document.getElementById('checkout-btn');
   if (checkoutBtn) {
     checkoutBtn.addEventListener('click', async () => {
       checkoutBtn.disabled = true;
       checkoutBtn.textContent = 'Processing...';
-
       const error = await initiateCheckout();
-
       if (error) {
         showToast('error', 'Checkout failed', error);
         checkoutBtn.disabled = false;
         checkoutBtn.textContent = 'Proceed to Checkout';
       }
-      // On success, initiateCheckout redirects - no need to re-enable.
+      // On success initiateCheckout redirects to Stripe.
     });
   }
 }
@@ -256,7 +239,6 @@ function bindCartEvents() {
 function updateHeaderCartCount() {
   const badge = document.getElementById('header-cart-count');
   if (!badge) return;
-
   const count = getCartCount();
   badge.textContent = count;
   badge.style.display = count > 0 ? 'flex' : 'none';
@@ -265,11 +247,7 @@ function updateHeaderCartCount() {
 function init() {
   renderCart();
   updateHeaderCartCount();
-
-  // Listen for cart changes (from other tabs or add-to-cart on other pages)
-  window.addEventListener('cart-updated', () => {
-    updateHeaderCartCount();
-  });
+  window.addEventListener('cart-updated', updateHeaderCartCount);
 }
 
 document.addEventListener('DOMContentLoaded', init);

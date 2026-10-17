@@ -65,3 +65,8 @@ litestream.db
 
 # Infrastructure secrets
 infrastructure/.env
+/public/
+
+# Build artefacts
+payload/tsconfig.tsbuildinfo
+payload/next-env.d.ts

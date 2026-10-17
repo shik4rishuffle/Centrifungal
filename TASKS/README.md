@@ -52,3 +52,25 @@
 | 307 | Order Visibility in CMS Admin | 3 | cms | Medium | M | TASK-300 | DONE |
 | 308 | Contact Form Submissions in CMS Admin | 3 | cms | Medium | S | TASK-300, TASK-304 | DONE |
 | 309 | Owner Runbook | 3 | cms | High | M | TASK-301, TASK-302, TASK-303, TASK-304, TASK-306, TASK-307, TASK-308 | DONE |
+
+---
+
+## Amendment 001 - Re-platform to Payload CMS + Skeleton Crew
+
+Build tasks (TASK-310..315) already complete + verified locally on branch
+`payload-migration`. See `AMENDMENTS/AMENDMENT-001.md`.
+
+| Task ID | Title | Phase | Agent | Priority | Effort | Dependencies | Status |
+|---|---|---|---|---|---|---|---|
+| 310 | Payload CMS schema | A-build | cms | High | L | none | DONE |
+| 311 | Node/Express backend | A-build | backend | High | L | none | DONE |
+| 312 | Frontend rewire to Payload | A-build | frontend | High | L | none | DONE |
+| 313 | Content seeder (verbatim) | A-build | backend | High | M | TASK-310 | DONE |
+| 314 | Platform wiring (compose/nginx/CLI) | A-build | devops | High | M | none | DONE |
+| 315 | Cross-layer adversarial review + fixes | A-build | qa | High | M | TASK-310..314 | DONE |
+| 316 | Provision on dev VPS (skeleton new + deploy) | B-deploy | devops | High | M | none | DONE |
+| 317 | Run seeder vs live Payload; validate Lexical shape | B-deploy | backend | High | S | TASK-316 | DONE |
+| 318 | E2E purchase journey (Stripe test -> order -> emails) | B-verify | qa | High | M | TASK-316,317 | Pending |
+| 319 | Editor-parity check vs CONTENT_INVENTORY.md | B-verify | cms | High | S | TASK-317 | Pending |
+| 320 | Accessibility audit (Lighthouse + pa11y, WCAG AA) + fixes | B-verify | frontend | High | M | TASK-316 | Pending |
+| 321 | Merge decision payload-migration -> master | B-verify | - | High | S | TASK-316..320 | Pending |

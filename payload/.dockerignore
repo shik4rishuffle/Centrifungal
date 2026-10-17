@@ -1,0 +1,20 @@
+# Secrets + local env files - never bake into an image.
+.env
+.env.*
+
+# Build outputs + dependency caches - rebuilt inside the container.
+node_modules
+.next
+
+# Runtime data - lives on a named volume, not in the image.
+media/
+
+# Noise.
+*.log
+.DS_Store
+.git
+.gitignore
+
+# Don't ship the build recipe itself into the build context.
+.dockerignore
+Dockerfile

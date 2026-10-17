@@ -1,18 +1,18 @@
 /**
  * Centrifungal - Checkout Module
- * Handles Stripe checkout initiation and post-checkout return flow.
+ * Posts the cart to the Node backend, which validates against Payload and
+ * returns a Stripe Checkout Session URL to redirect to.
  */
 
 import { getCart, clearCart } from './cart.js';
 
-function getApiUrl() { return window.__CENTRIFUNGAL.getApiUrl(); }
+function getApiUrl() {
+  return window.__CENTRIFUNGAL ? window.__CENTRIFUNGAL.getApiUrl() : '';
+}
 
 /**
- * Initiate checkout by posting cart items to the backend.
- * On success, redirects the browser to the Stripe checkout URL.
- * On failure, returns an error message string.
- *
- * @returns {Promise<string|undefined>} Error message on failure, undefined on redirect.
+ * Start checkout. Redirects to Stripe on success; returns an error string on failure.
+ * @returns {Promise<string|undefined>}
  */
 export async function initiateCheckout() {
   const items = getCart();
@@ -20,39 +20,32 @@ export async function initiateCheckout() {
     return 'Your cart is empty.';
   }
 
-  var payload = {
-    items: items.map(function (item) {
-      return { variantId: item.variantId, quantity: item.quantity };
-    })
+  const payload = {
+    items: items.map((item) => ({ slug: item.slug, sku: item.sku, quantity: item.quantity })),
   };
 
   try {
     const response = await fetch(getApiUrl() + '/api/checkout', {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Accept': 'application/json',
-      },
+      headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
       body: JSON.stringify(payload),
     });
 
     if (!response.ok) {
       const data = await response.json().catch(() => null);
-      const message = data?.message || data?.error;
-
-      if (response.status === 422) {
-        return message || 'There was a problem with your cart. Please review your items.';
+      if (response.status === 409) {
+        return 'Some items are no longer available. Please review your cart and try again.';
       }
+      const message = data && (data.message || data.error);
       return message || 'Something went wrong. Please try again.';
     }
 
     const data = await response.json();
-
-    if (!data.checkout_url) {
+    if (!data.sessionUrl) {
       return 'Unable to start checkout. Please try again.';
     }
 
-    window.location.href = data.checkout_url;
+    window.location.href = data.sessionUrl;
     return undefined;
   } catch (error) {
     console.error('Checkout: network error:', error);
@@ -60,10 +53,7 @@ export async function initiateCheckout() {
   }
 }
 
-/**
- * Handle return from Stripe checkout (success page).
- * Clears the local cart so the user starts fresh.
- */
+/** Clear the local cart on return from a successful checkout. */
 export function handleCheckoutReturn() {
   clearCart();
 }

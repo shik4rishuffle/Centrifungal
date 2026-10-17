@@ -1,79 +1,57 @@
 # Centrifungal
 
-Centrifungal is a mushroom grow log e-commerce site. Customers browse products, add items to a cart, and check out via Stripe. The site owner manages all content and products through the Statamic CMS control panel - no developer required for day-to-day operations.
+Mushroom grow-log e-commerce. Customers browse, add to a cart, and check out via
+Stripe; the owner manages everything through the CMS. Runs on the **Skeleton Crew
+platform**: a per-client Payload CMS + a static storefront + a small Node
+checkout backend, behind shared Traefik with shared Postgres.
+
+> Migrated from the original Laravel 13 + Statamic 6 stack on Railway. The old
+> code is archived under `_archive/` (reversible). See `DEPLOYMENT.md` for the
+> deploy runbook and the agency handbook for platform background.
 
 ## Architecture
 
-The project is split into three layers:
+- **`payload/`** - Payload CMS 3 (Next.js 15 + Postgres, Lexical). Products,
+  categories, pages (block builder), site settings, orders. Admin at
+  `cms.{domain}/admin`. Built + run by `skeleton new`.
+- **`backend/`** - Node/Express API on `/api` (:3001): Stripe checkout + webhook
+  -> order, contact form, Royal Mail dispatch/tracking + Stripe reconcile crons,
+  Resend transactional email.
+- **`frontend/src/`** - vanilla HTML/CSS/JS storefront (no framework). `build.sh`
+  copies it to `public/`, served by nginx. Content hydrates from the Payload REST
+  API (`cms.{domain}/api`); commerce hits the backend (`/api`, same origin).
+- **`docker-compose.yml`** + **`nginx/`** - the storefront pair (backend + static)
+  behind Traefik.
+- **`scripts/cms/seed.mjs`** - idempotent CMS seeder (categories, site settings,
+  pages).
 
-- **Backend** - Laravel 13 + Statamic 6 (PHP 8.5), deployed to Railway. Serves the JSON API and CMS control panel.
-- **Frontend** - Static HTML/CSS/JS, deployed to Netlify. API requests are proxied through Netlify to avoid CORS.
-- **Infrastructure** - Docker, Nginx, and Supervisor configs for local development and Railway deployment.
-
-External services: Stripe (payments), Resend (transactional email), Royal Mail Click & Drop (shipping), Cloudflare R2 (Litestream SQLite backups).
-
-## Tech Stack
+## Tech stack
 
 | Layer | Technology |
 |---|---|
-| Backend framework | Laravel 13, PHP 8.5 |
-| CMS | Statamic 6 (Core free tier) |
-| Database | SQLite (WAL mode) on persistent volume |
-| Payments | Stripe Checkout (redirect flow) |
+| CMS | Payload CMS 3 (Next.js 15, React 19) |
+| Database | PostgreSQL 16 (shared `skeleton-postgres`, per-client DB + role) |
+| Checkout/contact API | Node.js + Express |
+| Payments | Stripe Checkout (redirect) |
 | Email | Resend |
-| Shipping | Royal Mail Click & Drop API |
-| Frontend | Static HTML/CSS/JS (no build step) |
-| Frontend hosting | Netlify (free tier) |
-| Backend hosting | Railway (Hobby plan, ~USD 5/mo) |
-| DB backup | Litestream to Cloudflare R2 |
-| Testing | PHPUnit (backend), Vitest (frontend) |
+| Shipping | Royal Mail Click & Drop (weight-based) |
+| Frontend | Vanilla HTML/CSS/JS (no build step; `build.sh` -> `public/`) |
+| Reverse proxy / TLS | Traefik v3 (shared) |
+| Hosting | Hetzner VPS (Skeleton Crew platform) |
+| Testing | Vitest (frontend) |
 
-## Directory Structure
+## Local development
 
-```
-centrifungal/
-  backend/          Laravel 13 + Statamic 6 application
-  frontend/         Static HTML/CSS/JS site
-  infrastructure/   Dockerfile, Nginx, Supervisor, docker-compose
-  agents/           Architecture plans and agent outputs
-  data/             Local Docker volume mount (gitignored)
-  REQUIREMENTS.md   Project scope and constraints
-  BUILD_LOG.md      Build progress log
-```
+- **Payload:** `cd payload && npm install && npm run dev` (needs a Postgres and a
+  `.env` - copy `payload/.env.example`). Admin at `http://localhost:3000/admin`.
+- **Backend:** `cd backend && npm install && npm run dev` (copy `backend/.env.example`).
+- **Frontend:** `./build.sh` then serve `public/` (e.g. `python3 -m http.server -d public 8080`).
+  Add `<meta name="cms-api-base" content="http://localhost:3000/api">` and
+  `<meta name="api-base-url" content="http://localhost:3001">` for local wiring,
+  or point at a dev deploy.
 
-## Quick Start
+## Deploy
 
-Each layer has its own README with full setup instructions:
-
-- [Backend README](backend/README.md) - PHP API and CMS setup
-- [Frontend README](frontend/README.md) - Static site development
-- [Infrastructure README](infrastructure/README.md) - Docker and deployment
-
-## API Endpoints
-
-All endpoints are prefixed with `/api`.
-
-| Method | Endpoint | Description |
-|---|---|---|
-| GET | `/api/products` | List all products |
-| GET | `/api/products/categories` | List product categories |
-| GET | `/api/products/{slug}` | Get a single product by slug |
-| GET | `/api/cart` | Get the current cart |
-| POST | `/api/cart/items` | Add an item to the cart |
-| PATCH | `/api/cart/items/{id}` | Update a cart item quantity |
-| DELETE | `/api/cart/items/{id}` | Remove an item from the cart |
-| POST | `/api/checkout` | Create a Stripe Checkout session |
-| POST | `/api/contact` | Submit the contact form |
-
-Additionally, the backend handles a Stripe webhook at `POST /webhook/stripe` (not under `/api`).
-
-The Statamic CMS control panel is accessible at `/cp` on the backend.
-
-## Environments
-
-| Environment | Backend | Frontend |
-|---|---|---|
-| Local development | `docker-compose up` or `php artisan serve` on port 8080/8000 | Open HTML files directly or use a local server |
-| Production | Railway (auto-deploys from GitHub push to main) | Netlify (auto-deploys from GitHub push to main) |
-
-In production, the frontend proxies `/api/*` requests to the Railway backend URL via a Netlify redirect rule. The `RAILWAY_BACKEND_URL` environment variable must be set in the Netlify UI.
+See **`DEPLOYMENT.md`**. In short: `skeleton new` (Payload, pointed at the
+`payload/` subdir) -> create first admin + API key -> `node scripts/cms/seed.mjs`
+-> fill `.env` -> `./build.sh` -> `skeleton deploy` -> `skeleton promote` for prod.

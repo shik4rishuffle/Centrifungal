@@ -1,20 +1,17 @@
 /**
- * Homepage - CMS content loading, product cards, and interactions
+ * Homepage - hydrates hero/featured/story/USP/CTA from the Payload SiteSettings
+ * global, renders featured products, and wires header/nav UI. Falls back
+ * silently to the static HTML if the CMS is unavailable.
  */
 
 (function () {
   'use strict';
 
-  function getApiUrl() { return window.__CENTRIFUNGAL.getApiUrl(); }
+  var isLocalDev = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
 
-  /* ---------- Utility ---------- */
   function escapeHtml(str) {
-    if (!str) return '';
-    return String(str)
-      .replace(/&/g, '&amp;')
-      .replace(/</g, '&lt;')
-      .replace(/>/g, '&gt;')
-      .replace(/"/g, '&quot;');
+    if (str === null || str === undefined) return '';
+    return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
   }
 
   function setText(id, text) {
@@ -29,229 +26,140 @@
     if (href) el.setAttribute('href', href);
   }
 
-  /* ---------- CMS homepage content ---------- */
-  function loadHomepageContent() {
-    fetch(getApiUrl() + '/api/homepage')
-      .then(function (response) {
-        if (!response.ok) throw new Error('API returned ' + response.status);
-        return response.json();
-      })
-      .then(function (json) {
-        var data = json.data || json;
-        applyHomepageContent(data);
-      })
-      .catch(function (err) {
-        // Silently fall back to hardcoded HTML content
-        console.warn('Could not load homepage content from CMS.', err);
+  function productUrl(slug) {
+    return isLocalDev ? '/product.html?slug=' + encodeURIComponent(slug) : '/product/' + slug;
+  }
+
+  function paragraphs(text, cls) {
+    return String(text)
+      .split(/\n\s*\n/)
+      .map(function (p) { return p.trim(); })
+      .filter(Boolean)
+      .map(function (p) { return '<p class="' + cls + '">' + escapeHtml(p) + '</p>'; })
+      .join('');
+  }
+
+  /* ---------- Homepage content from SiteSettings ---------- */
+  function applyHomepage(s) {
+    setText('hero-eyebrow', s.heroEyebrow);
+    setText('hero-title', s.heroTitle);
+    setText('hero-text', s.heroText);
+    setLink('hero-cta-primary', s.heroCtaPrimaryText, s.heroCtaPrimaryLink);
+    setLink('hero-cta-secondary', s.heroCtaSecondaryText, s.heroCtaSecondaryLink);
+
+    var heroImg = CMS.imageURL(s.heroImage);
+    if (heroImg) {
+      var ph = document.querySelector('.hero__image-placeholder');
+      if (ph) {
+        ph.style.backgroundImage = 'url(' + heroImg + ')';
+        ph.style.backgroundSize = 'cover';
+        ph.style.backgroundPosition = 'center';
+        ph.classList.add('hero__image-placeholder--has-image');
+      }
+    }
+
+    setText('featured-heading', s.featuredHeading);
+    setText('featured-subtitle', s.featuredSubtitle);
+
+    setText('story-heading', s.storyHeading);
+    if (s.storyText) {
+      var st = document.getElementById('story-text');
+      if (st) st.innerHTML = paragraphs(s.storyText, 'brand-story__text');
+    }
+    setLink('story-cta', s.storyCtaText, s.storyCtaLink);
+    var storyImg = CMS.imageURL(s.storyImage);
+    if (storyImg) {
+      var si = document.getElementById('story-image');
+      if (si) {
+        var img = document.createElement('img');
+        img.src = storyImg;
+        img.alt = s.storyHeading || 'Brand story';
+        img.loading = 'lazy';
+        img.style.cssText = 'width:100%;border-radius:var(--radius-lg);';
+        si.innerHTML = '';
+        si.appendChild(img);
+        si.classList.remove('brand-story__image-placeholder');
+        si.classList.add('brand-story__image');
+      }
+    }
+
+    setText('usp-heading', s.uspHeading);
+    setText('usp-subtitle', s.uspSubtitle);
+    if (Array.isArray(s.uspCards)) {
+      var cards = document.querySelectorAll('#usp-cards .content-card');
+      s.uspCards.forEach(function (card, i) {
+        if (!cards[i]) return;
+        var titleEl = cards[i].querySelector('.content-card__title');
+        var textEl = cards[i].querySelector('.content-card__text');
+        var iconEl = cards[i].querySelector('.content-card__icon');
+        if (titleEl && card.title) titleEl.textContent = card.title;
+        if (textEl && card.text) textEl.textContent = card.text;
+        if (iconEl && card.icon) iconEl.textContent = card.icon;
       });
-  }
-
-  function applyHomepageContent(data) {
-    // Hero
-    if (data.hero) {
-      setText('hero-eyebrow', data.hero.eyebrow);
-      setText('hero-title', data.hero.title);
-      setText('hero-text', data.hero.text);
-      if (data.hero.cta_primary) {
-        setLink('hero-cta-primary', data.hero.cta_primary.text, data.hero.cta_primary.link);
-      }
-      if (data.hero.cta_secondary) {
-        setLink('hero-cta-secondary', data.hero.cta_secondary.text, data.hero.cta_secondary.link);
-      }
-      if (data.hero.image) {
-        var placeholder = document.querySelector('.hero__image-placeholder');
-        if (placeholder) {
-          placeholder.style.backgroundImage = 'url(' + data.hero.image + ')';
-          placeholder.style.backgroundSize = 'cover';
-          placeholder.style.backgroundPosition = 'center';
-          placeholder.classList.add('hero__image-placeholder--has-image');
-        }
-      }
     }
 
-    // Featured section headings
-    if (data.featured) {
-      setText('featured-heading', data.featured.heading);
-      setText('featured-subtitle', data.featured.subtitle);
-    }
+    setText('cta-heading', s.ctaHeading);
+    setText('cta-text', s.ctaText);
+    setLink('cta-button', s.ctaButtonText, s.ctaButtonLink);
 
-    // Brand story
-    if (data.story) {
-      setText('story-heading', data.story.heading);
-      if (data.story.text) {
-        var storyTextEl = document.getElementById('story-text');
-        if (storyTextEl) {
-          // Split on double newlines for paragraphs
-          var paragraphs = data.story.text.split(/\n\n+/);
-          storyTextEl.innerHTML = paragraphs.map(function (p) {
-            return '<p class="brand-story__text">' + escapeHtml(p.trim()) + '</p>';
-          }).join('');
-        }
-      }
-      if (data.story.cta) {
-        setLink('story-cta', data.story.cta.text, data.story.cta.link);
-      }
-      if (data.story.image) {
-        var storyImageEl = document.getElementById('story-image');
-        if (storyImageEl) {
-          var img = document.createElement('img');
-          img.src = data.story.image;
-          img.alt = data.story.heading || 'Brand story';
-          img.loading = 'lazy';
-          img.style.cssText = 'width:100%;border-radius:var(--radius-lg);';
-          storyImageEl.innerHTML = '';
-          storyImageEl.appendChild(img);
-          storyImageEl.classList.remove('brand-story__image-placeholder');
-          storyImageEl.classList.add('brand-story__image');
-        }
-      }
-    }
-
-    // USP cards
-    if (data.usps) {
-      setText('usp-heading', data.usps.heading);
-      setText('usp-subtitle', data.usps.subtitle);
-      if (data.usps.cards && data.usps.cards.length) {
-        var existingCards = document.querySelectorAll('#usp-cards .content-card');
-        data.usps.cards.forEach(function (card, i) {
-          if (!existingCards[i]) return;
-          var titleEl = existingCards[i].querySelector('.content-card__title');
-          var textEl = existingCards[i].querySelector('.content-card__text');
-          if (titleEl && card.title) titleEl.textContent = card.title;
-          if (textEl && card.text) textEl.textContent = card.text;
-        });
-      }
-    }
-
-    // CTA banner
-    if (data.cta) {
-      setText('cta-heading', data.cta.heading);
-      setText('cta-text', data.cta.text);
-      if (data.cta.button) {
-        setLink('cta-button', data.cta.button.text, data.cta.button.link);
-      }
-    }
-
-    // Meta
-    if (data.meta) {
-      if (data.meta.title) {
-        document.title = data.meta.title;
-      }
-      if (data.meta.description) {
-        var metaDesc = document.querySelector('meta[name="description"]');
-        if (metaDesc) metaDesc.setAttribute('content', data.meta.description);
-      }
+    if (s.defaultMetaTitle) document.title = s.defaultMetaTitle;
+    if (s.defaultMetaDescription) {
+      var meta = document.querySelector('meta[name="description"]');
+      if (meta) meta.setAttribute('content', s.defaultMetaDescription);
     }
   }
 
-  var CATEGORY_DISPLAY_NAMES = {
-    'grow-logs': 'Grow Logs',
-    'colonised-dowels': 'Colonised Dowels',
-    'diy-kits': 'DIY Kits',
-    'tinctures': 'Tinctures'
-  };
-
-  /**
-   * Format price from pence to pounds string
-   */
-  function formatPrice(pence) {
-    return '\u00A3' + (pence / 100).toFixed(2);
+  function loadHomepage() {
+    CMS.fetchSiteSettings()
+      .then(function (s) { if (s) applyHomepage(s); })
+      .catch(function (err) { console.warn('Could not load homepage content from CMS.', err); });
   }
 
-  /**
-   * Build a product card HTML string from product data
-   */
+  /* ---------- Featured products ---------- */
   function renderProductCard(product) {
-    var prices = (product.variants || []).map(function (v) { return v.price_pence; });
-    var lowestPrice = prices.length ? Math.min.apply(null, prices) : product.base_price_pence;
-    var price = formatPrice(lowestPrice);
-    var displayCategory = CATEGORY_DISPLAY_NAMES[product.category] || product.category;
-    var hasImage = product.images && product.images[0] && product.images[0].url;
-    var imageAlt = hasImage ? (product.images[0].alt || product.name) : product.name;
+    var prices = (product.variants || []).map(function (v) { return CMS.variantPrice(product, v); });
+    var low = prices.length ? Math.min.apply(null, prices) : (product.price || 0);
+    var cat = product.category && typeof product.category === 'object' ? product.category : null;
+    var img = CMS.mainImage(product);
+    var imgSrc = CMS.imageURL(img);
+    var name = escapeHtml(product.name);
+    var url = productUrl(product.slug);
 
-    return `
-      <article class="product-card">
-        <a href="/product/${product.slug}" class="product-card__image" aria-label="${product.name}">
-          ${hasImage
-            ? `<img src="${product.images[0].url}" alt="${imageAlt}" loading="lazy" class="product-card__img">`
-            : `<div class="product-card__placeholder" role="img" aria-label="${imageAlt}"></div>`}
-        </a>
-        <div class="product-card__body">
-          <span class="product-card__category">${displayCategory}</span>
-          <h3 class="product-card__title">
-            <a href="/product/${product.slug}">${product.name}</a>
-          </h3>
-          <span class="product-card__price">From ${price}</span>
-        </div>
-        <div class="product-card__footer">
-          <a href="/product/${product.slug}" class="btn btn-primary">View Product</a>
-        </div>
-      </article>
-    `;
+    return (
+      '<article class="product-card">' +
+        '<a href="' + url + '" class="product-card__image" aria-label="' + name + '">' +
+          (imgSrc
+            ? '<img src="' + imgSrc + '" alt="' + escapeHtml(CMS.imageAlt(img, product.name)) + '" loading="lazy" class="product-card__img">'
+            : '<div class="product-card__placeholder" role="img" aria-label="' + name + '"></div>') +
+        '</a>' +
+        '<div class="product-card__body">' +
+          (cat ? '<span class="product-card__category">' + escapeHtml(cat.name) + '</span>' : '') +
+          '<h3 class="product-card__title"><a href="' + url + '">' + name + '</a></h3>' +
+          '<span class="product-card__price">From ' + CMS.formatPrice(low) + '</span>' +
+        '</div>' +
+        '<div class="product-card__footer"><a href="' + url + '" class="btn btn-primary">View Product</a></div>' +
+      '</article>'
+    );
   }
 
-  /**
-   * Fetch products and render into the grid
-   */
-  async function loadFeaturedProducts() {
+  function loadFeaturedProducts() {
     var grid = document.getElementById('featured-products-grid');
     if (!grid) return;
-
-    try {
-      var response = await fetch(getApiUrl() + '/api/products');
-      if (!response.ok) throw new Error('Failed to load products');
-      var json = await response.json();
-      var products = json.data || [];
-
-      // Take up to 4 featured products
-      var featured = products.slice(0, 4);
-      grid.innerHTML = featured.map(renderProductCard).join('');
-    } catch (err) {
-      console.warn('Could not load products from API, using inline data.', err);
-    }
+    CMS.fetchProducts({ limit: 12, sort: 'sortOrder' })
+      .then(function (products) {
+        if (!products || !products.length) return;
+        var featured = products.filter(function (p) { return p.featured; });
+        var list = (featured.length ? featured : products).slice(0, 4);
+        grid.innerHTML = list.map(renderProductCard).join('');
+      })
+      .catch(function (err) { console.warn('Could not load featured products.', err); });
   }
 
-  /**
-   * Sticky header scroll effect
-   */
-  function initHeaderScroll() {
-    const header = document.querySelector('.site-header');
-    if (!header) return;
-
-    let ticking = false;
-    window.addEventListener('scroll', function () {
-      if (!ticking) {
-        window.requestAnimationFrame(function () {
-          header.classList.toggle('site-header--scrolled', window.scrollY > 10);
-          ticking = false;
-        });
-        ticking = true;
-      }
-    });
-  }
-
-  /**
-   * Mobile navigation toggle
-   */
-  function initMobileNav() {
-    const hamburger = document.querySelector('.site-header__hamburger');
-    const nav = document.querySelector('.site-header__nav');
-    if (!hamburger || !nav) return;
-
-    hamburger.addEventListener('click', function () {
-      const expanded = hamburger.getAttribute('aria-expanded') === 'true';
-      hamburger.setAttribute('aria-expanded', String(!expanded));
-      nav.classList.toggle('site-header__nav--open', !expanded);
-    });
-  }
-
-  /**
-   * Initialise everything on DOMContentLoaded
-   */
   document.addEventListener('DOMContentLoaded', function () {
-    loadHomepageContent();
-    loadFeaturedProducts();
-    initHeaderScroll();
-    initMobileNav();
+    if (typeof CMS !== 'undefined') {
+      loadHomepage();
+      loadFeaturedProducts();
+    }
+    // Header scroll + mobile-nav toggle + cart badge are handled globally by chrome.js.
   });
 })();

@@ -88,7 +88,7 @@
       </section>
 
       <section aria-labelledby="info-heading">
-        <h2 class="content-section__title" id="info-heading">Get in Touch</h2>
+        <h2 class="content-section__title" id="info-heading" data-cms-sidebar="contactSidebarHeading">Get in Touch</h2>
 
         <div class="contact-info">
           <div class="contact-info__item">
@@ -97,7 +97,7 @@
             </div>
             <div>
               <p class="contact-info__label">Email</p>
-              <p class="contact-info__value"><a href="mailto:hello@centrifungal.co.uk">hello@centrifungal.co.uk</a></p>
+              <p class="contact-info__value"><a href="mailto:hello@centrifungal.co.uk" data-cms-email>hello@centrifungal.co.uk</a></p>
             </div>
           </div>
 
@@ -106,8 +106,8 @@
               <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
             </div>
             <div>
-              <p class="contact-info__label">Response Time</p>
-              <p class="contact-info__value">We aim to reply within 24 hours on weekdays. If you message us over the weekend, we will get back to you on Monday.</p>
+              <p class="contact-info__label" data-cms-sidebar="responseTimeLabel">Response Time</p>
+              <p class="contact-info__value" data-cms-sidebar="responseTimeText">We aim to reply within 24 hours on weekdays. If you message us over the weekend, we will get back to you on Monday.</p>
             </div>
           </div>
 
@@ -116,8 +116,8 @@
               <svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
             </div>
             <div>
-              <p class="contact-info__label">Social Media</p>
-              <p class="contact-info__value">Follow us on Instagram for growing tips, harvest photos, and behind-the-scenes updates.</p>
+              <p class="contact-info__label" data-cms-sidebar="socialLabel">Social Media</p>
+              <p class="contact-info__value" data-cms-sidebar="socialText">Follow us on Instagram for growing tips, harvest photos, and behind-the-scenes updates.</p>
             </div>
           </div>
 
@@ -126,7 +126,7 @@
               <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 015.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
             </div>
             <div>
-              <p class="contact-info__label">Quick Help</p>
+              <p class="contact-info__label" data-cms-sidebar="quickHelpLabel">Quick Help</p>
               <p class="contact-info__value">Check our <a href="/faq">FAQ</a> and <a href="/care">Care Instructions</a> for answers to common questions.</p>
             </div>
           </div>
@@ -181,38 +181,9 @@
     </div>
   </footer>
 
-  <script>
-    (function() {
-      var hamburger = document.getElementById('hamburger-btn');
-      var nav = document.getElementById('main-nav');
-      if (hamburger && nav) {
-        hamburger.addEventListener('click', function() {
-          var expanded = hamburger.getAttribute('aria-expanded') === 'true';
-          hamburger.setAttribute('aria-expanded', !expanded);
-          nav.classList.toggle('site-header__nav--open');
-        });
-      }
-      var header = document.getElementById('site-header');
-      if (header) {
-        window.addEventListener('scroll', function() {
-          header.classList.toggle('site-header--scrolled', window.scrollY > 10);
-        }, { passive: true });
-      }
-      function updateHeaderCartCount() {
-        var badge = document.getElementById('header-cart-count');
-        if (!badge) return;
-        try {
-          var cart = JSON.parse(localStorage.getItem('centrifungal_cart') || '[]');
-          var count = cart.reduce(function(sum, item) { return sum + item.quantity; }, 0);
-          badge.textContent = count;
-          badge.style.display = count > 0 ? 'flex' : 'none';
-        } catch (e) { badge.style.display = 'none'; }
-      }
-      updateHeaderCartCount();
-      window.addEventListener('cart-updated', updateHeaderCartCount);
-    })();
-  </script>
+    <script src="/js/chrome.js"></script>
   <script src="/js/config.js"></script>
+  <script src="/js/cms-api.js"></script>
   <script src="/js/nav.js"></script>
   <script src="/js/footer.js"></script>
   <script src="/js/cms-content.js"></script>
