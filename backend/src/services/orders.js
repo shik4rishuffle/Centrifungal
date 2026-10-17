@@ -1,56 +1,48 @@
-import { findOrderByStripeSession, createOrder, getGlobal } from './payload.js';
+import { findOrderBySession, insertOrder } from './db.js';
+import { stripe } from './stripe.js';
 import { sendEmail } from './resend.js';
 import { orderConfirmation } from '../emails/orderConfirmation.js';
 import { orderNotification } from '../emails/orderNotification.js';
 import * as orderRef from '../utils/orderRef.js';
 import config from '../config.js';
 
-/** Map a Stripe address object onto our order's shippingAddress group. */
 function mapAddress(a = {}) {
-  return {
-    line1: a.line1 || '',
-    line2: a.line2 || '',
-    city: a.city || '',
-    county: a.state || '',
-    postcode: a.postal_code || '',
-  };
-}
-
-/** Resolve the owner alert recipient: env override, else CMS SiteSettings. */
-async function resolveOwnerEmail() {
-  if (config.contactRecipient) return config.contactRecipient;
-  const site = await getGlobal('site-settings').catch(() => ({}));
-  return site.contactEmail || '';
+  return { line1: a.line1 || '', line2: a.line2 || '', city: a.city || '', county: a.state || '', postcode: a.postal_code || '' };
 }
 
 /**
- * Create a Payload order from a completed Stripe Checkout Session.
- * Idempotent by stripeSessionId. Shared by the webhook and the reconcile cron.
- *
- * @param {Object} session - Stripe Checkout Session
- * @param {Object} [opts]
- * @param {boolean} [opts.sendEmails=true] - send confirmation + owner alert
- * @returns {Promise<{created: boolean, order: Object}>}
+ * Items come from Stripe's own line items (with the slug and sku we put on each product's
+ * metadata at checkout), not from a size-capped metadata blob. Shipping is the line flagged
+ * kind=shipping.
+ */
+async function lineItemsFor(session) {
+  const res = await stripe.checkout.sessions.listLineItems(session.id, { limit: 100, expand: ['data.price.product'] });
+  const items = [];
+  let shippingPence = 0;
+  for (const line of res.data) {
+    const meta = line.price?.product?.metadata || {};
+    if (meta.kind === 'shipping') {
+      shippingPence += line.amount_subtotal ?? 0;
+      continue;
+    }
+    items.push({ slug: meta.slug || '', sku: meta.sku || '', name: line.description || meta.name || 'Item', quantity: line.quantity || 1, price: line.price?.unit_amount ?? 0 });
+  }
+  return { items, shippingPence };
+}
+
+/**
+ * Record a completed Checkout Session in the ledger and send the emails.
+ * Idempotent by Stripe session id. Shared by the webhook and the reconcile cron.
  */
 export async function createOrderFromSession(session, { sendEmails = true } = {}) {
-  const existing = await findOrderByStripeSession(session.id);
+  const existing = findOrderBySession(session.id);
   if (existing) return { created: false, order: existing };
 
-  let items = [];
-  try {
-    items = JSON.parse(session.metadata?.items || '[]');
-  } catch {
-    console.error('[Orders] Could not parse items metadata for session', session.id);
-  }
+  const { items, shippingPence } = await lineItemsFor(session);
   const weightGrams = parseInt(session.metadata?.weight || '0', 10) || 0;
-
-  const shipping =
-    session.shipping_details || session.collected_information?.shipping_details || null;
-  const address = mapAddress(shipping?.address || session.customer_details?.address || {});
-
+  const shipping = session.shipping_details || session.collected_information?.shipping_details || null;
   const subtotalPence = items.reduce((sum, i) => sum + i.price * i.quantity, 0);
-  const totalPence = session.amount_total ?? subtotalPence;
-  const shippingPence = Math.max(0, totalPence - subtotalPence);
+  const totalPence = session.amount_total ?? subtotalPence + shippingPence;
 
   const orderData = {
     orderRef: orderRef.generate(),
@@ -61,15 +53,14 @@ export async function createOrderFromSession(session, { sendEmails = true } = {}
     shippingPence,
     totalPence,
     weightGrams,
-    shippingAddress: address,
+    shippingAddress: mapAddress(shipping?.address || session.customer_details?.address || {}),
     stripeSessionId: session.id,
-    stripePaymentIntentId:
-      typeof session.payment_intent === 'string' ? session.payment_intent : '',
+    stripePaymentIntentId: typeof session.payment_intent === 'string' ? session.payment_intent : '',
     stripePaymentStatus: session.payment_status || 'paid',
     fulfilmentStatus: 'paid',
   };
 
-  const order = await createOrder(orderData);
+  const order = insertOrder(orderData);
 
   if (sendEmails) {
     try {
@@ -78,12 +69,10 @@ export async function createOrderFromSession(session, { sendEmails = true } = {}
       console.error('[Orders] confirmation email failed:', e.message);
     }
     try {
-      const owner = await resolveOwnerEmail();
-      if (owner) await sendEmail(orderNotification(orderData, owner));
+      await sendEmail(orderNotification(orderData, config.contactRecipient));
     } catch (e) {
       console.error('[Orders] owner notification email failed:', e.message);
     }
   }
-
   return { created: true, order };
 }

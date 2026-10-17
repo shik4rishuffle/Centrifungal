@@ -7,7 +7,7 @@ const stripe = new Stripe(config.stripeSecretKey);
  * Create a Stripe Checkout Session (payment mode).
  *
  * @param {Object} options
- * @param {Array} options.lineItems - [{ name, unitAmount (pence), quantity }]
+ * @param {Array} options.lineItems - [{ name, unitAmount (pence), quantity, metadata }]
  * @param {Object} options.metadata - string key/value pairs
  * @param {string} options.successUrl
  * @param {string} options.cancelUrl
@@ -20,7 +20,7 @@ export async function createCheckoutSession({ lineItems, metadata, successUrl, c
       line_items: lineItems.map((item) => ({
         price_data: {
           currency: 'gbp',
-          product_data: { name: item.name },
+          product_data: { name: item.name, metadata: item.metadata || {} },
           unit_amount: item.unitAmount,
         },
         quantity: item.quantity,

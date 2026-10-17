@@ -1,8 +1,7 @@
 import { isConfigured, pushOrder, getTrackingStatus } from './services/royalmail.js';
-import { findOrders, updateOrder } from './services/payload.js';
+import { findOrdersByStatus, updateOrder, findOrderBySession } from './services/db.js';
 import { stripe } from './services/stripe.js';
 import { createOrderFromSession } from './services/orders.js';
-import { findOrderByStripeSession } from './services/payload.js';
 import { sendEmail } from './services/resend.js';
 import { shippingNotification } from './emails/shippingNotification.js';
 
@@ -21,15 +20,12 @@ export async function pollRoyalMailTracking() {
   }
 
   // 1. Auto-dispatch paid, not-yet-dispatched orders.
-  const paid = await findOrders({ fulfilmentStatus: { equals: 'paid' } }).catch(() => []);
+  const paid = findOrdersByStatus('paid');
   for (const order of paid) {
     if (order.royalMailOrderId) continue;
     const result = await pushOrder(order);
     if (result.ok) {
-      await updateOrder(order.id, {
-        royalMailOrderId: result.orderReference,
-        fulfilmentStatus: 'fulfilled',
-      }).catch((e) => console.error('[RoyalMail] update after dispatch failed:', e.message));
+      updateOrder(order.stripeSessionId, { royalMailOrderId: result.orderReference, fulfilmentStatus: 'fulfilled' });
       console.log(`[RoyalMail] dispatched ${order.orderRef} -> ${result.orderReference}`);
     } else {
       console.error(`[RoyalMail] dispatch failed for ${order.orderRef}: ${result.error}`);
@@ -37,8 +33,8 @@ export async function pollRoyalMailTracking() {
   }
 
   // 2. Poll tracking for dispatched orders.
-  const fulfilled = await findOrders({ fulfilmentStatus: { equals: 'fulfilled' } }).catch(() => []);
-  const shipped = await findOrders({ fulfilmentStatus: { equals: 'shipped' } }).catch(() => []);
+  const fulfilled = findOrdersByStatus('fulfilled');
+  const shipped = findOrdersByStatus('shipped');
   let consecutiveErrors = 0;
 
   for (const order of [...fulfilled, ...shipped]) {
@@ -57,7 +53,7 @@ export async function pollRoyalMailTracking() {
       consecutiveErrors = 0;
 
       if (t.status === 'shipped' && order.fulfilmentStatus !== 'shipped') {
-        await updateOrder(order.id, {
+        updateOrder(order.stripeSessionId, {
           fulfilmentStatus: 'shipped',
           trackingNumber: t.trackingNumber,
           trackingUrl: t.trackingUrl,
@@ -78,7 +74,7 @@ export async function pollRoyalMailTracking() {
         }
         console.log(`[RoyalMail] ${order.orderRef} -> shipped`);
       } else if (t.status === 'delivered' && order.fulfilmentStatus !== 'delivered') {
-        await updateOrder(order.id, {
+        updateOrder(order.stripeSessionId, {
           fulfilmentStatus: 'delivered',
           trackingNumber: t.trackingNumber,
           trackingUrl: t.trackingUrl,
@@ -95,7 +91,7 @@ export async function pollRoyalMailTracking() {
 
 /**
  * Stripe reconcile (runs hourly). Safety net for webhooks Stripe never
- * delivered: create Payload orders for completed sessions that have none.
+ * delivered: record completed sessions the ledger has not seen.
  * No emails (avoids late/duplicate sends). Ported from ReconcileStripePayments.
  */
 export async function reconcileStripePayments() {
@@ -105,7 +101,7 @@ export async function reconcileStripePayments() {
 
     for (const session of sessions.data) {
       if (session.payment_status !== 'paid') continue;
-      const existing = await findOrderByStripeSession(session.id);
+      const existing = findOrderBySession(session.id);
       if (existing) continue;
 
       const { created } = await createOrderFromSession(session, { sendEmails: false });

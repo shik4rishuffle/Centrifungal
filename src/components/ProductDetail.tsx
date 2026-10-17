@@ -3,6 +3,7 @@ import { useMemo, useState } from "react";
 import { TinaMarkdown } from "tinacms/dist/rich-text";
 import { formatPrice, categoryNameOf, type Product, type ProductVariant } from "@skeleton-crew/blocks";
 import { addToCart } from "@/lib/cart";
+import { isLineSoldOut, useSoldOut } from "@/lib/stock";
 
 type Props = { product: Product & { description?: any }; categories: { slug: string; name: string }[] };
 
@@ -11,9 +12,11 @@ export default function ProductDetail({ product, categories }: Props) {
   const [sku, setSku] = useState<string>(variants.find((v) => v.inStock !== false)?.sku || variants[0]?.sku || product.sku || product.slug);
   const [qty, setQty] = useState(1);
   const [added, setAdded] = useState(false);
+  const soldOut = useSoldOut();
+  const lineOut = (s?: string | null) => !!s && isLineSoldOut(soldOut, product.slug, s);
   const variant = variants.find((v) => v.sku === sku);
   const price = variant?.pricePence ?? product.pricePence;
-  const available = product.inStock !== false && (variants.length === 0 || variant?.inStock !== false);
+  const available = product.inStock !== false && (variants.length === 0 ? !lineOut(product.sku || product.slug) : variant?.inStock !== false && !lineOut(variant?.sku));
   const images = (product.images ?? []).filter(Boolean) as { image?: string | null; alt?: string | null }[];
   const [current, setCurrent] = useState(0);
   const category = categoryNameOf(product, categories as never);
@@ -46,9 +49,9 @@ export default function ProductDetail({ product, categories }: Props) {
               <fieldset className="product__variants">
                 <legend>Options</legend>
                 {variants.map((v) => (
-                  <label key={v.sku!} className={`product__variant${v.sku === sku ? " is-selected" : ""}${v.inStock === false ? " is-out" : ""}`}>
-                    <input type="radio" name="variant" value={v.sku!} checked={v.sku === sku} onChange={() => setSku(v.sku!)} disabled={v.inStock === false} />
-                    <span>{v.name}</span><span className="product__variant-price">{formatPrice(v.pricePence ?? product.pricePence)}</span>{v.inStock === false && <span className="product__variant-out">Sold out</span>}
+                  <label key={v.sku!} className={`product__variant${v.sku === sku ? " is-selected" : ""}${v.inStock === false || lineOut(v.sku) ? " is-out" : ""}`}>
+                    <input type="radio" name="variant" value={v.sku!} checked={v.sku === sku} onChange={() => setSku(v.sku!)} disabled={v.inStock === false || lineOut(v.sku)} />
+                    <span>{v.name}</span><span className="product__variant-price">{formatPrice(v.pricePence ?? product.pricePence)}</span>{(v.inStock === false || lineOut(v.sku)) && <span className="product__variant-out">Sold out</span>}
                   </label>
                 ))}
               </fieldset>

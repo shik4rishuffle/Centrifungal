@@ -1,0 +1,10 @@
+{
+  "generatedAt": "2026-10-17T00:00:00.000Z",
+  "categories": [{ "slug": "grow-logs", "name": "Grow Logs", "sortOrder": 1 }],
+  "products": [
+    { "slug": "blue-oyster-grow-log", "name": "Blue Oyster Grow Log", "sku": "prod_001", "pricePence": 2499, "inStock": true, "featured": true, "weightGrams": 1000, "category": "grow-logs",
+      "variants": [{ "name": "Small (1kg)", "sku": "var_001a", "pricePence": 2499, "inStock": true }, { "name": "Large (2.5kg)", "sku": "var_001b", "pricePence": 3999, "inStock": false }] },
+    { "slug": "reishi-tincture", "name": "Reishi Tincture", "sku": "prod_010", "pricePence": 1800, "inStock": true, "featured": false, "weightGrams": 120, "category": "tinctures", "variants": [] },
+    { "slug": "retired-kit", "name": "Retired Kit", "sku": "prod_099", "pricePence": 999, "inStock": false, "featured": false, "weightGrams": 500, "category": "diy-kits", "variants": [] }
+  ]
+}

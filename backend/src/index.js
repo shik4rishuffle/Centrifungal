@@ -7,6 +7,9 @@ import checkoutRouter from './routes/checkout.js';
 import webhookRouter from './routes/webhook.js';
 import contactRouter from './routes/contact.js';
 import shippingRouter from './routes/shipping.js';
+import stockRouter from './routes/stock.js';
+import { getDb } from './services/db.js';
+import { loadCatalogue } from './services/catalogue.js';
 import { startSchedulers } from './scheduler.js';
 
 const app = express();
@@ -25,9 +28,9 @@ app.use((req, res, next) => {
 // CORS - storefront origin + local dev
 app.use(
   cors({
-    origin: [config.siteUrl, 'http://localhost:8080'],
+    origin: [config.siteUrl, 'http://localhost:3300', 'http://localhost:8080'],
     methods: ['GET', 'POST'],
-    allowedHeaders: ['Content-Type'],
+    allowedHeaders: ['Content-Type', 'Authorization'],
   })
 );
 
@@ -50,9 +53,13 @@ app.use('/api', checkoutRouter);
 app.use('/api', webhookRouter);
 app.use('/api', contactRouter);
 app.use('/api', shippingRouter);
+app.use('/api', stockRouter);
 
 // Global error handler - after all routes
 app.use(errorHandler);
+
+getDb();
+loadCatalogue().then((c) => console.log(`[Catalogue] ${c.products.length} products loaded`)).catch(() => {});
 
 app.listen(config.port, () => {
   console.log(`Centrifungal backend listening on port ${config.port}`);

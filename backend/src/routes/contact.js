@@ -1,7 +1,6 @@
 import { Router } from 'express';
 import { createRateLimiter } from '../middleware/rateLimiter.js';
 import { validateContactBody, sanitiseString } from '../utils/validate.js';
-import { getGlobal } from '../services/payload.js';
 import { sendEmail } from '../services/resend.js';
 import { contactRelay } from '../emails/contactRelay.js';
 import config from '../config.js';
@@ -17,7 +16,7 @@ router.post('/contact', rateLimiter, async (req, res, next) => {
   try {
     // Honeypot: silently succeed if the hidden field is filled (bot). Accept the
     // form's field name (phone_confirm) or a generic _honeypot.
-    const honeypot = req.body.phone_confirm || req.body._honeypot;
+    const honeypot = req.body.phone_confirm || req.body._honeypot || req.body.botcheck;
     if (honeypot && honeypot !== '') {
       return res.json({ success: true });
     }
@@ -34,18 +33,7 @@ router.post('/contact', rateLimiter, async (req, res, next) => {
     const email = sanitiseString(req.body.email);
     const message = sanitiseString(req.body.message);
 
-    let ownerEmail = config.contactRecipient;
-    if (!ownerEmail) {
-      const site = await getGlobal('site-settings').catch(() => ({}));
-      ownerEmail = site.contactEmail;
-    }
-    if (!ownerEmail) {
-      const err = new Error('No contact recipient configured');
-      err.statusCode = 500;
-      throw err;
-    }
-
-    await sendEmail(contactRelay({ name, email, message }, ownerEmail));
+    await sendEmail(contactRelay({ name, email, message }, config.contactRecipient));
     res.json({ success: true });
   } catch (err) {
     next(err);

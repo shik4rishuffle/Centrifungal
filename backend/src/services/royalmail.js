@@ -59,7 +59,7 @@ async function rmFetch(path, { method = 'GET', body } = {}) {
   return { ok: false, status: 0, body: {} };
 }
 
-/** Build the Click & Drop order payload from a Payload order. */
+/** Build the Click & Drop order payload from a ledger order. */
 function buildOrderPayload(order) {
   const addr = order.shippingAddress || {};
   const items = (order.items || []).map((item) => ({

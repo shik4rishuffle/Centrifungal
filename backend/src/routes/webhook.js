@@ -6,8 +6,8 @@ const router = Router();
 
 /**
  * POST /api/webhooks/stripe
- * Raw body supplied by index.js. On checkout.session.completed, create the
- * Payload order (idempotent) and send emails. Always 200 after signature
+ * Raw body supplied by index.js. On checkout.session.completed, record the
+ * order in the ledger (idempotent) and send emails. Always 200 after signature
  * verification so Stripe stops retrying; a missed one is caught by the
  * hourly reconcile cron.
  */

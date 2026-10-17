@@ -1,4 +1,4 @@
-FROM node:22.14-alpine3.21
+FROM node:22-alpine
 
 WORKDIR /app
 
@@ -7,8 +7,11 @@ RUN npm ci --omit=dev || npm install --omit=dev
 
 COPY src/ src/
 
-RUN addgroup -S appgroup && adduser -S appuser -G appgroup
+# SQLite ledger lives on a volume. node:sqlite is built in, no native module to compile.
+RUN mkdir -p /data && addgroup -S appgroup && adduser -S appuser -G appgroup && chown appuser:appgroup /data
 USER appuser
+VOLUME ["/data"]
+ENV DB_PATH=/data/centrifungal.sqlite
 
 EXPOSE 3001
 

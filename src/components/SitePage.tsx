@@ -4,6 +4,7 @@ import { Blocks, pick, useScrollEffects } from "@skeleton-crew/blocks";
 import { blockNames } from "../../site.blocks";
 import Nav from "./Nav";
 import Footer from "./Footer";
+import StockSync from "./StockSync";
 
 const site = pick(blockNames);
 type TinaProps<T> = { data: T; query: string; variables: Record<string, unknown> };
@@ -20,6 +21,7 @@ export default function SitePage({ page, globals, products = [], categories = []
         <Blocks blocks={data.page.blocks} components={site.components} context={{ globals: g.globals, products, categories, productPathPrefix: PRODUCT_PATH }} />
       </main>
       <Footer globals={g.globals} />
+      <StockSync products={products} />
     </>
   );
 }

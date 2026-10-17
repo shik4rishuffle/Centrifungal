@@ -5,7 +5,8 @@
   "main": "src/index.js",
   "scripts": {
     "start": "node src/index.js",
-    "dev": "node --watch src/index.js"
+    "dev": "node --watch src/index.js",
+    "test": "node --test test/*.test.mjs"
   },
   "dependencies": {
     "cors": "^2.8.5",
@@ -14,5 +15,8 @@
     "node-cron": "^3.0.3",
     "resend": "^4.1.2",
     "stripe": "^17.5.0"
+  },
+  "engines": {
+    "node": ">=22.13"
   }
 }
